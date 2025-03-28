@@ -1,16 +1,16 @@
-import type { VerifiableCredential } from '../index'; // Import base type from barrel file
+import type { VerifiableCredential } from '@digitalcredentials/vc-data-model';
 import type { OpenBadgeCredentialSubject } from './OpenBadgeCredentialSubject';
 
 /**
  * Represents an Open Badge v3 Credential.
- * Combines the base W3C Verifiable Credential with OBv3 specifics.
+ * Defines the specific shape for an OBv3 object, which is a type of Verifiable Credential.
  * @see https://www.imsglobal.org/spec/ob/v3p0/#credentials
  */
 export type OpenBadgeCredential = VerifiableCredential & {
     /**
      * The type(s) of the object. Must include `"VerifiableCredential"` and `"OpenBadgeCredential"`.
      * REQUIRED.
-     * Overrides the base `type`.
+     * Overrides the base `type` (which could be string[] or string).
      */
     type: ["VerifiableCredential", "OpenBadgeCredential", ...string[]];
 
@@ -21,6 +21,7 @@ export type OpenBadgeCredential = VerifiableCredential & {
      */
     credentialSubject: OpenBadgeCredentialSubject | OpenBadgeCredentialSubject[];
 
-    // Note: Properties like id, issuer, issuanceDate, proof are inherited via the intersection.
-    // Constraints like `proof` being REQUIRED must be ensured by implementers based on OBv3 spec.
+    // Note: Other properties (id, issuer, etc.) are technically part of the intersection
+    // with the object form (`VCDIVerifiableCredential`) within the VerifiableCredential union.
+    // Accessing them requires type narrowing.
 }; 
