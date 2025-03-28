@@ -82,7 +82,7 @@ export interface Achievement {
    * Human workforce demand for this achievement. OPTIONAL.
    * @see https://www.imsglobal.org/spec/ob/v3p0/#humanworkforcedemand
    */
-  humanWorkforceDemand?: any[]; // Define specific type later if needed
+  humanWorkforceDemand?: unknown[]; // Changed from any[] to unknown[] for better type safety
 
   /**
    * Results associated with the achievement. OPTIONAL.
