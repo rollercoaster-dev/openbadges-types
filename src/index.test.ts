@@ -1,6 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import type * as OBv2 from './v2';
 import type * as OBv3 from './v3';
+import type { VerifiableCredential } from '@digitalcredentials/vc-data-model'; // Import base union type
+
+// --- Helper Type Guard ---
+function isVCDataObject(cred: VerifiableCredential): cred is Exclude<VerifiableCredential, string> {
+    return typeof cred === 'object' && cred !== null;
+}
 
 // --- Placeholder Examples --- 
 // TODO: Replace these with actual official examples from the Open Badges specs
@@ -40,10 +46,8 @@ const exampleAssertionV2: OBv2.Assertion = {
     // expires: "2025-08-15T12:00:00Z" // Optional
 };
 
-// Cast to any temporarily to bypass strict assignment checks for the placeholder
-// This allows the rest of the test logic to be written, assuming the structure is correct.
-// The TODO reminds us to fix this with real examples and potentially adjusted types.
-const exampleCredentialV3: any = {
+// Cast to any temporarily for placeholder assignment
+const exampleCredentialV3Any: any = {
     "@context": [
         "https://www.w3.org/ns/credentials/v2",
         "https://purl.imsglobal.org/spec/ob/v3p0/context-3.0.3.json"
@@ -51,13 +55,13 @@ const exampleCredentialV3: any = {
     id: "urn:uuid:ebf3f6e4-0913-4b66-8ae9-ca49c889d3d8",
     type: ["VerifiableCredential", "OpenBadgeCredential"],
     issuer: {
-        id: "did:example:issuer123", // Typically a DID
+        id: "did:example:issuer123",
         type: "Profile",
         name: "Example University"
     },
     issuanceDate: "2024-01-10T10:00:00Z",
     credentialSubject: {
-        id: "did:example:recipient456", // Recipient DID
+        id: "did:example:recipient456",
         type: "AchievementSubject",
         achievement: {
             id: "https://example.edu/achievements/digital-literacy-101",
@@ -74,7 +78,7 @@ const exampleCredentialV3: any = {
         }
     },
     proof: {
-        type: "DataIntegrityProof", // Example proof type
+        type: "DataIntegrityProof",
         created: "2024-01-10T10:00:00Z",
         verificationMethod: "did:example:issuer123#key1",
         proofPurpose: "assertionMethod",
@@ -96,31 +100,52 @@ describe('Open Badges Type Compliance', () => {
         }
     });
 
-    it('should allow assignment of a valid v3 OpenBadgeCredential example', () => {
-        // Cast the example (still `any` for now) to the specific type *within* the test
-        const credential = exampleCredentialV3 as OBv3.OpenBadgeCredential;
+    it('should allow assignment of a valid v3 OpenBadgeCredential example and access properties', () => {
+        // Cast the example to the specific intersection type *within* the test
+        const credential = exampleCredentialV3Any as OBv3.OpenBadgeCredential;
         
-        // Test inherited properties (should now be accessible via intersection)
-        expect(credential['@context']).toEqual(exampleCredentialV3['@context']); 
-        expect(credential.id).toBe(exampleCredentialV3.id);
-        expect(credential.issuer).toEqual(exampleCredentialV3.issuer);
-        expect(credential.issuanceDate).toBe(exampleCredentialV3.issuanceDate);
-        expect(credential.proof).toBeDefined();
+        // Use type guard to ensure we're dealing with the object form
+        if (isVCDataObject(credential)) {
+            // Test properties from the base VC object structure
+            expect(credential['@context']).toEqual(exampleCredentialV3Any['@context']);
 
-        // Test overridden properties
-        expect(credential.type).toContain("VerifiableCredential");
-        expect(credential.type).toContain("OpenBadgeCredential");
-        
-        // Test credentialSubject safely (assuming it's not an array in this example)
-        if (!Array.isArray(credential.credentialSubject)) {
-            expect(credential.credentialSubject.id).toBe("did:example:recipient456");
-            expect(credential.credentialSubject.type).toBe("AchievementSubject");
-            // Check achievement type safely
-            if (typeof credential.credentialSubject.achievement !== 'string') {
-                 expect(credential.credentialSubject.achievement.type).toContain("Achievement");
+            // Check for optional id before asserting
+            if (credential.id) {
+                expect(credential.id).toBe(exampleCredentialV3Any.id);
+            } else {
+                expect.fail("Credential ID was expected but not found.");
+            }
+
+            expect(credential.issuer).toEqual(exampleCredentialV3Any.issuer);
+            expect(credential.issuanceDate).toBe(exampleCredentialV3Any.issuanceDate);
+
+            // Check for optional proof before asserting
+            if (credential.proof) {
+                expect(credential.proof).toBeDefined();
+                // Optionally, add more specific checks for proof properties here
+            } else {
+                expect.fail("Credential proof was expected but not found.");
+            }
+
+            // Test overridden properties
+            expect(credential.type).toContain("VerifiableCredential");
+            expect(credential.type).toContain("OpenBadgeCredential");
+            
+            // Test credentialSubject safely
+            if (!Array.isArray(credential.credentialSubject)) {
+                expect(credential.credentialSubject.id).toBe("did:example:recipient456");
+                expect(credential.credentialSubject.type).toBe("AchievementSubject");
+                // Check achievement type safely
+                if (typeof credential.credentialSubject.achievement !== 'string') {
+                    expect(credential.credentialSubject.achievement.type).toContain("Achievement");
+                }
+            } else {
+                expect(credential.credentialSubject.length).toBeGreaterThan(0);
             }
         } else {
-            expect(credential.credentialSubject.length).toBeGreaterThan(0);
+            // If it's a string (CompactJWT), this specific test structure doesn't apply
+            // We might add other tests for JWT handling if needed
+            expect.fail("Test example was expected to be an object, not a JWT string.");
         }
     });
 
