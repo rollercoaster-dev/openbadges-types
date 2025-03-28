@@ -4,28 +4,29 @@ import type { Image } from '../../common/types/Image';
 import type { Telephone } from '../../common/types/Telephone';
 
 /**
- * Represents the issuer of a badge, typically an organization or entity.
- * In OB 2.0, this is modeled as a Profile.
- * @see https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html#Profile
+ * Represents the issuer of a badge in Open Badges 3.0.
+ * Aligns with the Verifiable Credentials Issuer definition.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#issuer-profile
+ * @see https://www.w3.org/TR/vc-data-model-2.0/#issuer
  */
 export interface Profile {
     /**
-     * The unique URI identifying the issuer profile.
-     * Required.
+     * The unique URI identifying the issuer profile (e.g., a DID).
+     * REQUIRED.
      */
     id: URI;
 
     /**
-     * The type of the object. Must be `"Profile"`.
-     * Required.
+     * The type(s) of the object. Should include "Profile".
+     * REQUIRED.
      */
-    type: "Profile" | "Issuer" | ("Profile" | "Issuer")[]; // OBv2 uses Profile, Issuer is common in VC contexts
+    type: string | string[]; // e.g., ["Profile", "Issuer"]
 
     /**
-     * The name of the issuing organization.
-     * Required.
+     * The name of the issuing organization or entity.
+     * Recommended.
      */
-    name: string;
+    name?: string;
 
     /**
      * A description of the issuer.
@@ -34,16 +35,16 @@ export interface Profile {
     description?: string;
 
     /**
-     * A URI for the issuer's official website.
-     * Required.
+     * A URI for the issuer's official website or landing page.
+     * Recommended.
      */
-    url: URI;
+    url?: URI;
 
     /**
      * An email address for contacting the issuer.
-     * Required.
+     * Optional.
      */
-    email: Email;
+    email?: Email;
 
     /**
      * A URI pointing to an image representing the issuer (logo).
@@ -58,10 +59,10 @@ export interface Profile {
     telephone?: Telephone;
 
     /**
-     * A URI pointing to a Revocation List for badges issued by this profile.
+     * A URI pointing to a Revocation List registry for credentials issued by this profile.
      * Optional.
      */
-    revocationList?: URI;
+    revocationList?: URI; // Note: OBv3 often uses credentialStatus in the VC itself
 
     /**
      * Allows for extensions using JSON-LD.

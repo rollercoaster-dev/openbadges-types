@@ -2,22 +2,23 @@ import type { URI } from '../../common/types/URI';
 import type { Markdown } from '../../common/types/Markdown';
 
 /**
- * Represents evidence supporting an Assertion, specific to the award instance.
- * @see https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html#Evidence
+ * Represents evidence supporting an OpenBadgeCredential in OBv3.
+ * Often included within the credentialSubject.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#evidence
  */
 export interface Evidence {
     /**
      * The unique URI for this evidence item.
-     * Optional.
+     * REQUIRED if embedded.
      */
-    id?: URI;
+    id: URI;
 
     /**
      * Type indicator for the evidence.
-     * Must be the string `"Evidence"`.
-     * Optional in OB 2.0 spec, but recommended.
+     * Should include `"Evidence"`.
+     * Recommended.
      */
-    type?: "Evidence";
+    type?: string | string[];
 
     /**
      * A narrative describing the evidence in Markdown.

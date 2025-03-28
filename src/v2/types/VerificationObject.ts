@@ -1,4 +1,4 @@
-import type { URI } from '../types/URI';
+import type { URI } from '../../common/types/URI';
 
 /**
  * Represents information about verifying an Assertion.

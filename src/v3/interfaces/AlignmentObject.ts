@@ -1,19 +1,19 @@
 import type { URI } from '../../common/types/URI';
 
 /**
- * Represents an alignment to an external standard, framework, or competency.
- * @see https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html#AlignmentObject
+ * Represents an alignment to an external standard, framework, or competency in Open Badges 3.0.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#alignmentobject
  */
 export interface AlignmentObject {
     /**
      * The name of the alignment target.
-     * Required.
+     * REQUIRED.
      */
     targetName: string;
 
     /**
      * The URL of the alignment target.
-     * Required.
+     * REQUIRED.
      */
     targetUrl: URI;
 

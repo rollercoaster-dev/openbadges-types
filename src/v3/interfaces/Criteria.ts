@@ -2,8 +2,8 @@ import type { URI } from '../../common/types/URI';
 import type { Markdown } from '../../common/types/Markdown';
 
 /**
- * Describes the criteria for awarding a badge.
- * @see https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html#Criteria
+ * Describes the criteria for earning an achievement in Open Badges 3.0.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#criteria
  */
 export interface Criteria {
     /**
@@ -14,10 +14,10 @@ export interface Criteria {
 
     /**
      * Type indicator for the criteria.
-     * Must be the string `"Criteria"`.
-     * Optional in OB 2.0 spec, but recommended.
+     * Should include `"Criteria"`.
+     * Recommended.
      */
-    type?: "Criteria";
+    type?: string | string[]; // e.g., "Criteria"
 
     /**
      * A narrative description of the criteria in Markdown.

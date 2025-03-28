@@ -1,10 +1,10 @@
 // Type Aliases
-export type { URI } from './types/URI';
-export type { DateTime } from './types/DateTime';
-export type { Markdown } from './types/Markdown';
-export type { Email } from './types/Email';
-export type { Telephone } from './types/Telephone';
-export type { Image } from './types/Image';
+// export type { URI } from './types/URI'; // Moved to common
+// export type { DateTime } from './types/DateTime'; // Moved to common
+// export type { Markdown } from './types/Markdown'; // Moved to common
+// export type { Email } from './types/Email'; // Moved to common
+// export type { Telephone } from './types/Telephone'; // Moved to common
+// export type { Image } from './types/Image'; // Moved to common
 export type { VerificationObject } from './types/VerificationObject';
 
 // Interfaces

@@ -1,5 +1,5 @@
-import type { URI } from '../types/URI';
-import type { Image } from '../types/Image';
+import type { URI } from '../../common/types/URI';
+import type { Image } from '../../common/types/Image';
 import type { Criteria } from './Criteria';
 import type { Profile } from './Profile';
 import type { AlignmentObject } from './AlignmentObject';

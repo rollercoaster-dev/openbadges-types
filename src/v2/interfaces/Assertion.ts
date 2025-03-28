@@ -1,7 +1,7 @@
-import type { URI } from '../types/URI';
-import type { DateTime } from '../types/DateTime';
-import type { Image } from '../types/Image';
-import type { Markdown } from '../types/Markdown';
+import type { URI } from '../../common/types/URI';
+import type { DateTime } from '../../common/types/DateTime';
+import type { Image } from '../../common/types/Image';
+import type { Markdown } from '../../common/types/Markdown';
 import type { VerificationObject } from '../types/VerificationObject';
 import type { BadgeClass } from './BadgeClass';
 import type { Evidence } from './Evidence';

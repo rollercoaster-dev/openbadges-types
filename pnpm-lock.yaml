@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@digitalcredentials/vc-data-model':
+        specifier: ^2.0.0
+        version: 2.0.0
     devDependencies:
       tsup:
         specifier: ^8.4.0
@@ -19,6 +23,10 @@ importers:
         version: 3.0.9
 
 packages:
+
+  '@digitalcredentials/vc-data-model@2.0.0':
+    resolution: {integrity: sha512-Riofv1ZE+G+Sz+SDPGetzL/4wtx5BruK5gBMhVw9qzhc09ilWjXVKoxlZCIsZR7k5XWGeE4J3q/SV88/FlkQfA==}
+    engines: {node: '>=16.0'}
 
   '@esbuild/aix-ppc64@0.25.1':
     resolution: {integrity: sha512-kfYGy8IdzTGy+z0vFGvExZtxkFlA4zAxgKEahG9KE1ScBjpQnFsNOX8KTU5ojNru5ed5CVoJYXFtoxaq5nFbjQ==}
@@ -798,6 +806,8 @@ packages:
     engines: {node: '>=12'}
 
 snapshots:
+
+  '@digitalcredentials/vc-data-model@2.0.0': {}
 
   '@esbuild/aix-ppc64@0.25.1':
     optional: true
