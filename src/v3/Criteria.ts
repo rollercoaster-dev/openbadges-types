@@ -15,5 +15,5 @@ export interface Criteria {
   narrative: Markdown;
 
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }

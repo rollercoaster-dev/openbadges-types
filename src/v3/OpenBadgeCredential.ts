@@ -1,10 +1,14 @@
 import type {
-  VCDIVerifiableCredential,
-  CredentialSubject,
-  IssuerObject,
+  // Use the exported union type and Extract the object part
+  VerifiableCredential,
+  // CredentialSubject, // Unused import removed
+  // IssuerObject, // Unused import removed
 } from '@digitalcredentials/vc-data-model';
-import type { AchievementSubject } from './AchievementSubject'; // Placeholder
-import type { Type, URI } from '../common';
+import type { AchievementSubject } from './AchievementSubject.ts'; // Added .ts extension
+// import type { Type, URI } from '../common'; // Unused imports removed
+
+// Define the object part of the base VC type
+type BaseVCObject = Extract<VerifiableCredential, object>;
 
 /**
  * Represents an Open Badge v3.0 Credential.
@@ -15,12 +19,14 @@ import type { Type, URI } from '../common';
  * @see https://www.imsglobal.org/spec/ob/v3p0/#openbadgecredential
  */
 export interface OpenBadgeCredential
-  extends Omit<VCDIVerifiableCredential, 'type' | 'credentialSubject'> {
+  // Extend the extracted object type
+  extends Omit<BaseVCObject, 'type' | 'credentialSubject'> {
   /**
    * The JSON-LD context. MUST include the OBv3 context URL.
    * Inherited from VCDIVerifiableCredential, but crucial for OBv3.
    */
-  '@context': any; // Simplified to 'any' for now to avoid redundancy error
+  // Use a more specific type for context, allowing strings or objects in the array
+  '@context': string | (string | Record<string, unknown>)[];
 
   /**
    * The type. MUST include "VerifiableCredential" and "OpenBadgeCredential".

@@ -12,5 +12,5 @@ export interface Tag {
   name: string;
 
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }

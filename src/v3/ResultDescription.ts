@@ -13,5 +13,5 @@ export interface ResultDescription {
   // ... other potential properties like resultDescription, achievementDate
 
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }

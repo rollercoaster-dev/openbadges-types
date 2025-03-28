@@ -29,5 +29,5 @@ export interface Criteria {
    * Allows for extensions using JSON-LD.
    * Optional.
    */
-  [key: string]: any; // Allows for extensions
+  [key: string]: unknown; // Changed from any
 }

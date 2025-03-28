@@ -15,5 +15,5 @@ export interface AlignmentObject {
   targetCode?: string;
 
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }

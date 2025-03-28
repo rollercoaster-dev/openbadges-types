@@ -79,5 +79,5 @@ export interface BadgeClass {
   related?: BadgeClass[]; // Recursive relationship
 
   // Allow additional properties as per JSON-LD flexibility
-  [key: string]: any;
+  [key: string]: unknown;
 }

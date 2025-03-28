@@ -78,5 +78,8 @@ export interface BadgeClass {
    * Allows for extensions using JSON-LD.
    * Optional.
    */
-  [key: string]: any; // Allows for extensions
+  related?: BadgeClass[]; // Recursive relationship
+
+  // Allow additional properties as per JSON-LD flexibility
+  [key: string]: unknown; // Changed from any
 }

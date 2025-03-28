@@ -1,14 +1,21 @@
-import type { CredentialSubject } from '@digitalcredentials/vc-data-model';
+// import type { LinkedDataObject } from '@digitalcredentials/vc-data-model'; // Cannot import this directly
 import type { Achievement } from './Achievement';
-import type { Type, URI } from '../common';
+import type { URI } from '../common';
 
 /**
  * Represents the subject of an Open Badge v3.0 Credential.
  *
- * This extends the base CredentialSubject, requiring an 'achievement' property.
+ * Defines properties directly as base types (like CredentialSubject)
+ * are not directly exported from the vc-data-model package.
  * @see https://www.imsglobal.org/spec/ob/v3p0/#achievementsubject
  */
-export interface AchievementSubject extends CredentialSubject {
+export interface AchievementSubject {
+  /**
+   * The unique identifier for the subject (e.g., a DID).
+   * Optional in base CredentialSubject, but often present.
+   */
+  id?: URI;
+
   /**
    * The type. MUST include "AchievementSubject".
    */
@@ -19,7 +26,9 @@ export interface AchievementSubject extends CredentialSubject {
    */
   achievement: Achievement | URI; // Can be embedded or a URI reference
 
-  // Inherits id, potentially other properties from CredentialSubject
+  // Other potential properties inherited conceptually from CredentialSubject/LinkedDataObject
+  // like name, description, image could be added if needed by the spec for AchievementSubject
+
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }

@@ -19,5 +19,5 @@ export interface IssuerProfile {
   // ... other potential Profile properties
 
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }

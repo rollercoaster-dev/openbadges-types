@@ -67,5 +67,8 @@ export interface Profile {
    * Allows for extensions using JSON-LD.
    * Optional.
    */
-  [key: string]: any; // Allows for extensions
+  publicKey?: URI;
+
+  // Allow additional properties
+  [key: string]: unknown; // Changed from any
 }

@@ -34,5 +34,8 @@ export type VerificationObject = {
    * Allows for extensions using JSON-LD.
    * Optional.
    */
-  [key: string]: any; // Allows for extensions
+  startsWith?: URI;
+
+  // Allow additional properties
+  [key: string]: unknown; // Changed from any
 };
