@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Package Manager = Pnpm 
+
+- Only use pnpm for this project
+

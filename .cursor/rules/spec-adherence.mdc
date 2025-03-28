@@ -1,0 +1,12 @@
+---
+description: Ensure type definitions strictly adhere to the official Open Badges specifications (v2.0 and v3.0).
+globs: ["src/**/*.ts"]
+alwaysApply: true
+---
+
+# Open Badges Specification Adherence
+
+- **Accuracy:** All type definitions MUST accurately reflect the properties, types, and required/optional status defined in the relevant Open Badges specification (v2.0 or v3.0).
+- **Reference:** When defining or modifying types, consult the research summary (`docs/openbadges_research.md`) and, if necessary, the official specification documents.
+- **Discrepancies:** If ambiguities or potential discrepancies are found in the specification, note them and ask for clarification before proceeding.
+- **Required vs. Optional:** Pay close attention to which properties are required and which are optional according to the spec. Use the `?` modifier appropriately in interfaces/types. 

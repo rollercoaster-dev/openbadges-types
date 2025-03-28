@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitAny": true,
+
+    /* Bundler */
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+
+    /* Library */
+    "declaration": true,
+    // "declarationMap": true, // Optional: Creates source maps for declaration files
+    // "sourceMap": true, // Optional: Creates source maps for JS files
+    "lib": ["ES2022"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+} 

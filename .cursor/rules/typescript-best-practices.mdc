@@ -1,0 +1,14 @@
+---
+description: Enforce TypeScript best practices for clarity, maintainability, and documentation.
+globs: ["src/**/*.ts"]
+alwaysApply: true
+---
+
+# TypeScript Best Practices
+
+- **Strict Typing:** Always use specific types. Avoid `any` unless absolutely necessary and provide justification.
+- **Clarity:** Use clear and descriptive names for interfaces, types, and properties.
+- **Readability:** Format code consistently. Prefer interfaces for objects and type aliases for primitives, unions, or intersections where appropriate.
+- **TSDoc:** Add comprehensive TSDoc comments to all exported types, interfaces, and properties. Explain the purpose and link to relevant parts of the Open Badges specification where applicable (e.g., `@see https://...`).
+- **Immutability:** Assume types should represent immutable data structures unless specified otherwise.
+- **Index Signatures:** Only use index signatures (`[key: string]: any`) when the specification explicitly allows for arbitrary additional properties. Clearly document their purpose. 

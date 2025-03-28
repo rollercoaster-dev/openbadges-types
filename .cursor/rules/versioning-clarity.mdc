@@ -1,0 +1,12 @@
+---
+description: Maintain clear separation between Open Badges v2.0 and v3.0 types.
+globs: ["src/**/*.ts"]
+alwaysApply: true
+---
+
+# Versioning Clarity (v2 vs. v3)
+
+- **Directory Structure:** Keep v2 types under `src/v2/` and v3 types under `src/v3/`. Shared types can go in `src/common/`.
+- **Naming:** Use distinct names if necessary, especially for core types that differ significantly (e.g., `Assertion` vs. `OpenBadgeCredential`).
+- **Exports:** Ensure the main `src/index.ts` exports types in a way that makes the version clear (e.g., using namespaces like `v2.Assertion` or distinct top-level names like `AssertionV2`).
+- **Compatibility:** If creating compatibility layers or helper functions, clearly document their purpose and limitations. 

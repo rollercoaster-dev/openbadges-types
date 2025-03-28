@@ -1,0 +1,11 @@
+---
+description: Remind AI about key JSON-LD structural elements relevant to Open Badges.
+globs: ["src/**/*.ts"]
+alwaysApply: true
+---
+
+# JSON-LD Structure Considerations
+
+- **`@context`:** Remember that Open Badges are JSON-LD. Most top-level types (Assertion, BadgeClass, OpenBadgeCredential) will have a `@context` property. Ensure the type reflects this, typically as `string | (string | object)[]`.
+- **`id`:** Most Open Badges objects have an `id` property, which is typically a URI (string). Ensure this is included and typed correctly.
+- **`type`:** Most Open Badges objects have a `type` property, often a string or an array of strings indicating the object's class. Ensure this is included and typed correctly (often using string literals for known types). 

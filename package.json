@@ -1,0 +1,42 @@
+{
+  "name": "@openbadges/types",
+  "version": "0.1.0",
+  "description": "TypeScript type definitions for Open Badges 2.0 and 3.0 specifications.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "vitest",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "openbadges",
+    "open badges",
+    "typescript",
+    "types",
+    "verifiable credentials",
+    "vc",
+    "credentials",
+    "badges"
+  ],
+  "author": "Your Name <you@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/openbadges-types.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/openbadges-types/issues"
+  },
+  "homepage": "https://github.com/your-username/openbadges-types#readme",
+  "packageManager": "pnpm@10.4.1",
+  "devDependencies": {
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
+  }
+}
