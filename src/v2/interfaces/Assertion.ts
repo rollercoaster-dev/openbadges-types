@@ -13,91 +13,91 @@ import type { IdentityObject } from './IdentityObject';
  * @see https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html#Assertion
  */
 export interface Assertion {
-    /**
-     * The unique URI identifying the Assertion.
-     * Required.
-     */
-    id: URI;
+  /**
+   * The unique URI identifying the Assertion.
+   * Required.
+   */
+  id: URI;
 
-    /**
-     * The type of the object. Must be `"Assertion"`.
-     * Required.
-     */
-    type: "Assertion" | ("Assertion" | string)[]; // Allow for extension types
+  /**
+   * The type of the object. Must be `"Assertion"`.
+   * Required.
+   */
+  type: 'Assertion' | ['Assertion', ...string[]]; // Must be "Assertion" or array starting with "Assertion"
 
-    /**
-     * The recipient of the badge.
-     * Required.
-     */
-    recipient: IdentityObject;
+  /**
+   * The recipient of the badge.
+   * Required.
+   */
+  recipient: IdentityObject;
 
-    /**
-     * The definition of the badge being awarded.
-     * Can be a URI pointing to a BadgeClass or an embedded BadgeClass object.
-     * Required.
-     */
-    badge: URI | BadgeClass;
+  /**
+   * The definition of the badge being awarded.
+   * Can be a URI pointing to a BadgeClass or an embedded BadgeClass object.
+   * Required.
+   */
+  badge: URI | BadgeClass;
 
-    /**
-     * Information on how to verify this assertion.
-     * Required.
-     */
-    verification: VerificationObject;
+  /**
+   * Information on how to verify this assertion.
+   * Required.
+   */
+  verification: VerificationObject;
 
-    /**
-     * The date and time the badge was issued.
-     * Required.
-     */
-    issuedOn: DateTime;
+  /**
+   * The date and time the badge was issued.
+   * Required.
+   */
+  issuedOn: DateTime;
 
-    /**
-     * An image representing the assertion, if different from the BadgeClass image.
-     * Often used for baked badges.
-     * Optional.
-     */
-    image?: Image;
+  /**
+   * An image representing the assertion, if different from the BadgeClass image.
+   * Often used for baked badges.
+   * Optional.
+   */
+  image?: Image;
 
-    /**
-     * Evidence supporting this specific assertion instance.
-     * Can be a URI or an embedded Evidence object.
-     * Optional.
-     */
-    evidence?: URI | Evidence | (URI | Evidence)[];
+  /**
+   * Evidence supporting this specific assertion instance.
+   * Can be a URI or an embedded Evidence object.
+   * Optional.
+   */
+  evidence?: URI | Evidence | (URI | Evidence)[];
 
-    /**
-     * The date and time when the assertion expires.
-     * Optional.
-     */
-    expires?: DateTime;
+  /**
+   * The date and time when the assertion expires.
+   * Optional.
+   */
+  expires?: DateTime;
 
-    /**
-     * A narrative describing the achievement specifically for this assertion instance.
-     * Optional.
-     */
-    narrative?: Markdown;
+  /**
+   * A narrative describing the achievement specifically for this assertion instance.
+   * Optional.
+   */
+  narrative?: Markdown;
 
-    /**
-     * Indicates whether the assertion has been revoked.
-     * Optional.
-     */
-    revoked?: boolean;
+  /**
+   * Indicates whether the assertion has been revoked.
+   * Optional.
+   */
+  revoked?: boolean;
 
-    /**
-     * If revoked, the reason for revocation.
-     * Optional (Required if `revoked` is true, though spec implies optional).
-     */
-    revocationReason?: string;
+  /**
+   * If revoked, the reason for revocation.
+   * Optional (Required if `revoked` is true, though spec implies optional).
+   */
+  revocationReason?: string;
 
-    /**
-     * The `@context` property required for JSON-LD.
-     * Should typically be "https://w3id.org/openbadges/v2".
-     * Recommended.
-     */
-    "@context"?: string | (string | object)[];
+  /**
+   * The `@context` property required for JSON-LD.
+   * Should typically be "https://w3id.org/openbadges/v2".
+   * Recommended.
+   */
+  '@context'?: string | (string | object)[];
 
-    /**
-     * Allows for extensions using JSON-LD.
-     * Optional.
-     */
-    [key: string]: any; // Allows for extensions
-} 
+  /**
+   * Allows for extensions using JSON-LD.
+   * Optional.
+   */
+  [key: string]: any; // Allows for extensions
+}

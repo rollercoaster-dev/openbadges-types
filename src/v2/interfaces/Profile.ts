@@ -9,63 +9,63 @@ import type { Telephone } from '../../common/types/Telephone';
  * @see https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html#Profile
  */
 export interface Profile {
-    /**
-     * The unique URI identifying the issuer profile.
-     * Required.
-     */
-    id: URI;
+  /**
+   * The unique URI identifying the issuer profile.
+   * Required.
+   */
+  id: URI;
 
-    /**
-     * The type of the object. Must be `"Profile"`.
-     * Required.
-     */
-    type: "Profile" | "Issuer" | ("Profile" | "Issuer")[]; // OBv2 uses Profile, Issuer is common in VC contexts
+  /**
+   * The type of the object. Must be `"Profile"`.
+   * Required.
+   */
+  type: 'Profile' | 'Issuer' | ('Profile' | 'Issuer')[]; // OBv2 uses Profile, Issuer is common in VC contexts
 
-    /**
-     * The name of the issuing organization.
-     * Required.
-     */
-    name: string;
+  /**
+   * The name of the issuing organization.
+   * Required.
+   */
+  name: string;
 
-    /**
-     * A description of the issuer.
-     * Optional.
-     */
-    description?: string;
+  /**
+   * A description of the issuer.
+   * Optional.
+   */
+  description?: string;
 
-    /**
-     * A URI for the issuer's official website.
-     * Required.
-     */
-    url: URI;
+  /**
+   * A URI for the issuer's official website.
+   * Required.
+   */
+  url: URI;
 
-    /**
-     * An email address for contacting the issuer.
-     * Required.
-     */
-    email: Email;
+  /**
+   * An email address for contacting the issuer.
+   * Required.
+   */
+  email: Email;
 
-    /**
-     * A URI pointing to an image representing the issuer (logo).
-     * Optional.
-     */
-    image?: Image;
+  /**
+   * A URI pointing to an image representing the issuer (logo).
+   * Optional.
+   */
+  image?: Image;
 
-    /**
-     * A telephone number for the issuer.
-     * Optional.
-     */
-    telephone?: Telephone;
+  /**
+   * A telephone number for the issuer.
+   * Optional.
+   */
+  telephone?: Telephone;
 
-    /**
-     * A URI pointing to a Revocation List for badges issued by this profile.
-     * Optional.
-     */
-    revocationList?: URI;
+  /**
+   * A URI pointing to a Revocation List for badges issued by this profile.
+   * Optional.
+   */
+  revocationList?: URI;
 
-    /**
-     * Allows for extensions using JSON-LD.
-     * Optional.
-     */
-    [key: string]: any; // Allows for extensions
-} 
+  /**
+   * Allows for extensions using JSON-LD.
+   * Optional.
+   */
+  [key: string]: any; // Allows for extensions
+}

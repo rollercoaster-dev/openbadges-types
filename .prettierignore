@@ -1,0 +1,10 @@
+# Ignore artifacts:
+node_modules
+dist
+coverage
+
+# Ignore configuration files handled elsewhere (like package.json formatting):
+pnpm-lock.yaml
+
+# Ignore generated files or large data files if any
+# .env 

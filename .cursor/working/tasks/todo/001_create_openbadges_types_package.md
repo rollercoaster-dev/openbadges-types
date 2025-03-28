@@ -21,38 +21,38 @@ Create a well-structured, versioned, and documented TypeScript types library for
 **Phase 1: Project Setup & Basic Structure (Est: 1 hour)**
 
 1.  **Initialize NPM Package:**
-    *   Run `npm init` (or equivalent with `yarn` or `pnpm`).
-    *   Configure `package.json` (name, version, description, keywords, license, repository, entry points, types field).
+    - Run `npm init` (or equivalent with `yarn` or `pnpm`).
+    - Configure `package.json` (name, version, description, keywords, license, repository, entry points, types field).
 2.  **Install Dependencies:**
-    *   `typescript` (dev dependency)
-    *   Build/bundling tools if desired (e.g., `tsup`, `tsc`, or similar - TBD)
-    *   Testing framework (e.g., `vitest`, `jest` - TBD)
+    - `typescript` (dev dependency)
+    - Build/bundling tools if desired (e.g., `tsup`, `tsc`, or similar - TBD)
+    - Testing framework (e.g., `vitest`, `jest` - TBD)
 3.  **Configure TypeScript:**
-    *   Create `tsconfig.json` with appropriate settings (target, module, declaration, strictness, etc.).
+    - Create `tsconfig.json` with appropriate settings (target, module, declaration, strictness, etc.).
 4.  **Basic Directory Structure:**
-    *   `src/`: Main source code directory.
-    *   `src/v2/`: Types specific to Open Badges 2.0.
-    *   `src/v3/`: Types specific to Open Badges 3.0.
-    *   `src/common/`: Shared types (if any).
-    *   `src/index.ts`: Main package export file.
-    *   `tests/`: Directory for unit/integration tests.
+    - `src/`: Main source code directory.
+    - `src/v2/`: Types specific to Open Badges 2.0.
+    - `src/v3/`: Types specific to Open Badges 3.0.
+    - `src/common/`: Shared types (if any).
+    - `src/index.ts`: Main package export file.
+    - `tests/`: Directory for unit/integration tests.
 
 **Phase 2: Define Open Badges 2.0 Types (Est: 1.5 hours)**
 
 1.  **Core Types:** Define interfaces/types for `Assertion`, `BadgeClass`, `Profile`, `IdentityObject`, `VerificationObject`, `Criteria`, `Evidence`, `AlignmentObject`, `Image`, etc., based on the 2.0 spec.
-    *   Pay attention to required vs. optional fields.
-    *   Handle `id` (URI) and `type` properties consistently.
-    *   Address extensibility (e.g., index signatures or generics).
-    *   Define types for specific formats (e.g., `DateTime`, `URL`, `Email`).
+    - Pay attention to required vs. optional fields.
+    - Handle `id` (URI) and `type` properties consistently.
+    - Address extensibility (e.g., index signatures or generics).
+    - Define types for specific formats (e.g., `DateTime`, `URL`, `Email`).
 2.  **Helper Types/Enums:** Create enums or literal types for fields with fixed values (e.g., `VerificationObject.type`).
 3.  **Structure Exports:** Export types clearly from `src/v2/index.ts`.
 
 **Phase 3: Define Open Badges 3.0 Types (Est: 2 hours)**
 
 1.  **Core Types:** Define interfaces/types for `OpenBadgeCredential`, `Achievement`, `Issuer` (VC style), `EndorsementCredential`, etc., based on the 3.0 spec and VC Data Model.
-    *   Incorporate VC base types if helpful (e.g., `VerifiableCredential`, `CredentialSubject`). Consider importing from existing VC type libraries if appropriate, or defining necessary subsets.
-    *   Reuse/extend types from `src/common/` or `src/v2/` if applicable (e.g., `Image`, `Criteria` might be similar).
-    *   Handle the `@context` property correctly.
+    - Incorporate VC base types if helpful (e.g., `VerifiableCredential`, `CredentialSubject`). Consider importing from existing VC type libraries if appropriate, or defining necessary subsets.
+    - Reuse/extend types from `src/common/` or `src/v2/` if applicable (e.g., `Image`, `Criteria` might be similar).
+    - Handle the `@context` property correctly.
 2.  **Refined/New Types:** Adapt or create types for identity, verification, evidence, etc., as per v3.0 changes.
 3.  **Structure Exports:** Export types clearly from `src/v3/index.ts`.
 
@@ -60,12 +60,12 @@ Create a well-structured, versioned, and documented TypeScript types library for
 
 1.  **Main Exports:** Configure `src/index.ts` to export v2 and v3 types clearly, perhaps under namespaces (e.g., `OpenBadges.v2.Assertion`, `OpenBadges.v3.OpenBadgeCredential`).
 2.  **README:** Create a comprehensive `README.md`.
-    *   Explain the package's purpose.
-    *   Installation instructions.
-    *   Usage examples for both v2 and v3 types.
-    *   Link to official Open Badges specifications.
-    *   Versioning strategy.
-    *   Contribution guidelines (optional).
+    - Explain the package's purpose.
+    - Installation instructions.
+    - Usage examples for both v2 and v3 types.
+    - Link to official Open Badges specifications.
+    - Versioning strategy.
+    - Contribution guidelines (optional).
 3.  **TSDoc Comments:** Add TSDoc comments to exported types and interfaces for better editor integration and potential automated documentation generation.
 
 **Phase 5: Testing & Refinement (Est: Optional/Ongoing)**
@@ -80,8 +80,8 @@ Create a well-structured, versioned, and documented TypeScript types library for
 
 ## Potential Challenges / Considerations
 
-*   **Complexity of Specs:** The specifications are detailed; ensuring accurate representation in types requires care.
-*   **JSON-LD Contexts:** Handling the `@context` field and potential variations.
-*   **Extensibility:** Balancing strong typing with the need for extensions.
-*   **VC Integration (v3):** Accurately reflecting the Verifiable Credentials model might require referencing its spec or existing libraries.
-*   **Embedded vs. Linked Objects:** Designing types to handle both cases elegantly (e.g., an `issuer` property could be a `string` URL or an embedded `Profile`/`Issuer` object). Union types are likely needed. 
+- **Complexity of Specs:** The specifications are detailed; ensuring accurate representation in types requires care.
+- **JSON-LD Contexts:** Handling the `@context` field and potential variations.
+- **Extensibility:** Balancing strong typing with the need for extensions.
+- **VC Integration (v3):** Accurately reflecting the Verifiable Credentials model might require referencing its spec or existing libraries.
+- **Embedded vs. Linked Objects:** Designing types to handle both cases elegantly (e.g., an `issuer` property could be a `string` URL or an embedded `Profile`/`Issuer` object). Union types are likely needed.

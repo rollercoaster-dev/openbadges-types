@@ -9,42 +9,42 @@ import type { Evidence } from './Evidence';
  * @see https://www.imsglobal.org/spec/ob/v3p0/#credentials V3 Credential structure
  */
 export interface OpenBadgeCredentialSubject {
-    /**
-     * The unique identifier for the subject (recipient) of the credential.
-     * REQUIRED. Often a DID URI.
-     */
-    id: URI;
+  /**
+   * The unique identifier for the subject (recipient) of the credential.
+   * REQUIRED. Often a DID URI.
+   */
+  id: URI;
 
-    /**
-     * The type(s) of the credential subject.
-     * Should include `"AchievementSubject"`.
-     * Recommended.
-     */
-    type?: string | string[]; // e.g., "AchievementSubject"
+  /**
+   * The type(s) of the credential subject.
+   * Should include `"AchievementSubject"`.
+   * Recommended.
+   */
+  type?: string | string[]; // e.g., "AchievementSubject"
 
-    /**
-     * The achievement being awarded.
-     * Can be a URI or an embedded Achievement object.
-     * REQUIRED.
-     */
-    achievement: URI | Achievement;
+  /**
+   * The achievement being awarded.
+   * Can be a URI or an embedded Achievement object.
+   * REQUIRED.
+   */
+  achievement: URI | Achievement;
 
-    /**
-     * Evidence supporting this specific credential instance.
-     * Can be a URI or an embedded Evidence object(s).
-     * Optional.
-     */
-    evidence?: URI | Evidence | (URI | Evidence)[];
+  /**
+   * Evidence supporting this specific credential instance.
+   * Can be a URI or an embedded Evidence object(s).
+   * Optional.
+   */
+  evidence?: URI | Evidence | (URI | Evidence)[];
 
-    /**
-     * A narrative describing the achievement specifically for this credential instance.
-     * Optional.
-     */
-    narrative?: Markdown;
+  /**
+   * A narrative describing the achievement specifically for this credential instance.
+   * Optional.
+   */
+  narrative?: Markdown;
 
-    /**
-     * Additional claims about the subject relevant to the achievement.
-     * Allows for extensions.
-     */
-    [key: string]: any;
-} 
+  /**
+   * Additional claims about the subject relevant to the achievement.
+   * Allows for extensions.
+   */
+  [key: string]: any;
+}
