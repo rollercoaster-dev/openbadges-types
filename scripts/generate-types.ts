@@ -61,7 +61,8 @@ async function generateTypes(schemaDir: string, outputDir: string, specVersion: 
   }
 
   console.log(`[${specVersion.toUpperCase()}] Generating types into ${outputDir}...`);
-  const generatedFiles: string[] = [];
+  // Store both filename and calculated typeName
+  const generatedFiles: { fileName: string; typeName: string }[] = [];
 
   for (const schemaFile of schemaFiles) {
     const schemaPath = path.join(schemaDir, schemaFile);
@@ -69,12 +70,13 @@ async function generateTypes(schemaDir: string, outputDir: string, specVersion: 
     const outputFileName = `${typeName}.ts`;
     const outputFilePath = path.join(outputDir, outputFileName);
 
-    console.log(`  Generating ${typeName} from ${schemaFile}...`);
-
+    // Wrap individual file processing in try-catch
     try {
+      console.log(`  Generating ${typeName} from ${schemaFile}...`);
+
       let tsContent = await compileFromFile(schemaPath, {
         bannerComment: '', // Don't add the default banner comment
-        cwd: schemaDir, // Important for resolving $refs within the schema directory
+        // cwd: schemaDir, // Setting CWD doesn't seem to reliably fix $ref issue
         declareExternallyReferenced: true, // Attempt to declare types for external $refs
         style: { singleQuote: true }, // Match prettier config
       });
@@ -114,25 +116,73 @@ async function generateTypes(schemaDir: string, outputDir: string, specVersion: 
        // Prepend module doc
        tsContent = moduleDoc + tsContent;
 
+      // --- Post-processing for specific files ---
+      if (specVersion === 'v3' && typeName === 'Profile') {
+        console.log(`    Applying post-processing to remove duplicate Profile interface...`);
+        let firstInterfaceEnd = tsContent.indexOf('} // End of first interface marker (heuristic)');
+        if (firstInterfaceEnd === -1) {
+            // Add a marker if not present (heuristic based on typical interface structure)
+            tsContent = tsContent.replace(/^(export interface Profile \{[\s\S]*?)(\n\}\n)/m, '$1$2 // End of first interface marker (heuristic)');
+            firstInterfaceEnd = tsContent.indexOf('} // End of first interface marker (heuristic)');
+        }
+
+        if (firstInterfaceEnd !== -1) {
+            const secondInterfaceStart = tsContent.indexOf('export interface Profile {', firstInterfaceEnd);
+            if (secondInterfaceStart !== -1) {
+                // Find the matching closing brace for the second interface
+                let braceLevel = 0;
+                let secondInterfaceEnd = -1;
+                for (let i = secondInterfaceStart; i < tsContent.length; i++) {
+                    if (tsContent[i] === '{') braceLevel++;
+                    else if (tsContent[i] === '}') braceLevel--;
+                    if (braceLevel === 0 && tsContent[i] === '}') {
+                        secondInterfaceEnd = i + 1;
+                        break;
+                    }
+                }
+
+                if (secondInterfaceEnd !== -1) {
+                    tsContent = tsContent.substring(0, secondInterfaceStart) + tsContent.substring(secondInterfaceEnd);
+                    console.log(`    -> Removed duplicate Profile interface.`);
+                } else {
+                     console.warn(`    -> Could not find matching end brace for duplicate Profile interface.`);
+                }
+            } else {
+                console.log(`    -> No duplicate Profile interface found (expected one).`);
+            }
+        } else {
+             console.warn(`    -> Could not find end of first Profile interface for duplicate removal.`);
+        }
+      }
+
       // --- Write File ---
       fs.writeFileSync(outputFilePath, tsContent);
       console.log(`    -> Wrote ${outputFilePath}`);
-      generatedFiles.push(outputFileName);
+      // Add to list only if successful
+      generatedFiles.push({ fileName: outputFileName, typeName: typeName });
     } catch (error) {
-      console.error(`Error generating type for ${schemaFile}:`, error);
+      // Log error but continue with the next file
+      console.error(`\n---> ERROR generating type for ${schemaFile}: Skipping this file.`);
+      console.error(error);
+      console.error('---> Resuming generation...');
     }
   }
 
-  // Create an index.ts file in the output directory
+  // Create an index.ts file in the output directory (based on successfully generated files)
   if (generatedFiles.length > 0) {
-    const indexContent = generatedFiles.map(fileName => {
-      const moduleName = path.basename(fileName, '.ts');
-      // Use .js extension for ESM module compatibility when importing
-      return `export * from './${moduleName}.js';`;
+    // Explicitly export only the main type from each file
+    const indexContent = generatedFiles.map(generated => {
+      const moduleName = path.basename(generated.fileName, '.ts');
+      // Use the stored typeName for the export
+      return `export type { ${generated.typeName} } from './${moduleName}.js';`;
     }).join('\n') + '\n';
+
+    // TODO: Ideally, identify common types and export them explicitly too
+    // Example: export type { Image, Address, Profile } from './CommonV3.js';
+
     const indexFilePath = path.join(outputDir, 'index.ts');
     fs.writeFileSync(indexFilePath, indexContent);
-    console.log(`  -> Wrote ${specVersion.toUpperCase()} index file: ${indexFilePath}`);
+    console.log(`  -> Wrote ${specVersion.toUpperCase()} index file (explicit exports): ${indexFilePath}`);
   }
 
   console.log(`[${specVersion.toUpperCase()}] Type generation complete.`);
