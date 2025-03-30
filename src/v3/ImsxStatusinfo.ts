@@ -1,15 +1,25 @@
 /**
+ * @module
+ * @description Defines the TypeScript interface for the Open Badges V3 ImsxStatusinfo
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#imsxstatusinfo
+ */
+
+/**
  * This is the container for the status code and associated information returned within the HTTP messages received from the Service Provider.
  */
-export interface JSONSchemaForTheImsx_StatusInfoClass {
+/**
+ * Represents the ImsxStatusinfo structure in Open Badges V3.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#imsxstatusinfo
+ */
+export interface ImsxStatusinfo {
   /**
    * The code major value (from the corresponding enumerated vocabulary).
    */
-  imsx_codeMajor: "failure" | "processing" | "success" | "unsupported";
+  imsx_codeMajor: 'failure' | 'processing' | 'success' | 'unsupported';
   /**
    * The severity value (from the corresponding enumerated vocabulary).
    */
-  imsx_severity: "error" | "status" | "warning";
+  imsx_severity: 'error' | 'status' | 'warning';
   /**
    * A human readable description supplied by the entity creating the status code information.
    */
@@ -37,17 +47,17 @@ export interface Imsx_CodeMinorField {
    * The code minor status code (this is a value from the corresponding enumerated vocabulary).
    */
   imsx_codeMinorFieldValue:
-    | "forbidden"
-    | "fullsuccess"
-    | "internal_server_error"
-    | "invalid_data"
-    | "invalid_query_parameter"
-    | "misdirected_request"
-    | "not_acceptable"
-    | "not_allowed"
-    | "not_found"
-    | "not_modified"
-    | "server_busy"
-    | "unauthorizedrequest"
-    | "unknown";
+    | 'forbidden'
+    | 'fullsuccess'
+    | 'internal_server_error'
+    | 'invalid_data'
+    | 'invalid_query_parameter'
+    | 'misdirected_request'
+    | 'not_acceptable'
+    | 'not_allowed'
+    | 'not_found'
+    | 'not_modified'
+    | 'server_busy'
+    | 'unauthorizedrequest'
+    | 'unknown';
 }

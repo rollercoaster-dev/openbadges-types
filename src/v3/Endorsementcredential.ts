@@ -1,4 +1,10 @@
 /**
+ * @module
+ * @description Defines the TypeScript interface for the Open Badges V3 Endorsementcredential
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#endorsementcredential
+ */
+
+/**
  * JSON-LD Context. Either a URI with the context definition or a Map with a local context definition MUST be supplied.
  */
 export type Context =
@@ -14,11 +20,15 @@ export type ProfileRef = string | Profile;
 /**
  * A verifiable credential that asserts a claim about an entity. As described in [[[#data-integrity]]], at least one proof mechanism, and the details necessary to evaluate that proof, MUST be expressed for a credential to be a verifiable credential. In the case of an embedded proof, the credential MUST append the proof in the `proof` property.
  */
-export interface JSONSchemaForTheEndorsementCredentialClass {
+/**
+ * Represents the Endorsementcredential structure in Open Badges V3.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#endorsementcredential
+ */
+export interface Endorsementcredential {
   /**
    * @minItems 2
    */
-  "@context": ["https://www.w3.org/ns/credentials/v2", string, ...Context[]];
+  '@context': ['https://www.w3.org/ns/credentials/v2', string, ...Context[]];
   type: [string, ...string[]];
   /**
    * Unambiguous reference to the credential.
@@ -154,7 +164,7 @@ export interface EndorsementCredential {
   /**
    * @minItems 2
    */
-  "@context": ["https://www.w3.org/ns/credentials/v2", string, ...Context[]];
+  '@context': ['https://www.w3.org/ns/credentials/v2', string, ...Context[]];
   type: [string, ...string[]];
   /**
    * Unambiguous reference to the credential.
@@ -298,7 +308,7 @@ export interface Image {
   /**
    * MUST be the IRI 'Image'.
    */
-  type: "Image";
+  type: 'Image';
   /**
    * The caption for the image.
    */
@@ -350,7 +360,7 @@ export interface GeoCoordinates {
   /**
    * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'GeoCoordinates'.
    */
-  type: "GeoCoordinates";
+  type: 'GeoCoordinates';
   /**
    * The latitude of the location [[WGS84]].
    */
@@ -368,7 +378,7 @@ export interface IdentifierEntry {
   /**
    * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'IdentifierEntry'.
    */
-  type: "IdentifierEntry";
+  type: 'IdentifierEntry';
   /**
    * An identifier.
    */
@@ -378,25 +388,25 @@ export interface IdentifierEntry {
    */
   identifierType:
     | (
-        | "name"
-        | "sourcedId"
-        | "systemId"
-        | "productId"
-        | "userName"
-        | "accountId"
-        | "emailAddress"
-        | "nationalIdentityNumber"
-        | "isbn"
-        | "issn"
-        | "lisSourcedId"
-        | "oneRosterSourcedId"
-        | "sisSourcedId"
-        | "ltiContextId"
-        | "ltiDeploymentId"
-        | "ltiToolId"
-        | "ltiPlatformId"
-        | "ltiUserId"
-        | "identifier"
+        | 'name'
+        | 'sourcedId'
+        | 'systemId'
+        | 'productId'
+        | 'userName'
+        | 'accountId'
+        | 'emailAddress'
+        | 'nationalIdentityNumber'
+        | 'isbn'
+        | 'issn'
+        | 'lisSourcedId'
+        | 'oneRosterSourcedId'
+        | 'sisSourcedId'
+        | 'ltiContextId'
+        | 'ltiDeploymentId'
+        | 'ltiToolId'
+        | 'ltiPlatformId'
+        | 'ltiUserId'
+        | 'identifier'
       )
     | string;
 }

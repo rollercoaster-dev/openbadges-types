@@ -1,4 +1,10 @@
 /**
+ * @module
+ * @description Defines the TypeScript interface for the Open Badges V3 Getopenbadgecredentialsresponse
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#getopenbadgecredentialsresponse
+ */
+
+/**
  * JSON-LD Context. Either a URI with the context definition or a Map with a local context definition MUST be supplied.
  */
 export type Context =
@@ -14,7 +20,11 @@ export type ProfileRef = string | Profile;
 /**
  * No description supplied.
  */
-export interface JSONSchemaForTheGetOpenBadgeCredentialsResponseClass {
+/**
+ * Represents the Getopenbadgecredentialsresponse structure in Open Badges V3.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#getopenbadgecredentialsresponse
+ */
+export interface Getopenbadgecredentialsresponse {
   credential?: AchievementCredential[];
   compactJwsString?: string[];
 }
@@ -25,7 +35,7 @@ export interface AchievementCredential {
   /**
    * @minItems 2
    */
-  "@context": ["https://www.w3.org/ns/credentials/v2", string, ...Context[]];
+  '@context': ['https://www.w3.org/ns/credentials/v2', string, ...Context[]];
   /**
    * Unambiguous reference to the credential.
    */
@@ -75,7 +85,7 @@ export interface Image {
   /**
    * MUST be the IRI 'Image'.
    */
-  type: "Image";
+  type: 'Image';
   /**
    * The caption for the image.
    */
@@ -146,37 +156,37 @@ export interface Achievement {
    */
   achievementType?:
     | (
-        | "Achievement"
-        | "ApprenticeshipCertificate"
-        | "Assessment"
-        | "Assignment"
-        | "AssociateDegree"
-        | "Award"
-        | "Badge"
-        | "BachelorDegree"
-        | "Certificate"
-        | "CertificateOfCompletion"
-        | "Certification"
-        | "CommunityService"
-        | "Competency"
-        | "Course"
-        | "CoCurricular"
-        | "Degree"
-        | "Diploma"
-        | "DoctoralDegree"
-        | "Fieldwork"
-        | "GeneralEducationDevelopment"
-        | "JourneymanCertificate"
-        | "LearningProgram"
-        | "License"
-        | "Membership"
-        | "ProfessionalDoctorate"
-        | "QualityAssuranceCredential"
-        | "MasterCertificate"
-        | "MasterDegree"
-        | "MicroCredential"
-        | "ResearchDoctorate"
-        | "SecondarySchoolDiploma"
+        | 'Achievement'
+        | 'ApprenticeshipCertificate'
+        | 'Assessment'
+        | 'Assignment'
+        | 'AssociateDegree'
+        | 'Award'
+        | 'Badge'
+        | 'BachelorDegree'
+        | 'Certificate'
+        | 'CertificateOfCompletion'
+        | 'Certification'
+        | 'CommunityService'
+        | 'Competency'
+        | 'Course'
+        | 'CoCurricular'
+        | 'Degree'
+        | 'Diploma'
+        | 'DoctoralDegree'
+        | 'Fieldwork'
+        | 'GeneralEducationDevelopment'
+        | 'JourneymanCertificate'
+        | 'LearningProgram'
+        | 'License'
+        | 'Membership'
+        | 'ProfessionalDoctorate'
+        | 'QualityAssuranceCredential'
+        | 'MasterCertificate'
+        | 'MasterDegree'
+        | 'MicroCredential'
+        | 'ResearchDoctorate'
+        | 'SecondarySchoolDiploma'
       )
     | string;
   creator?: Profile;
@@ -251,13 +261,13 @@ export interface Alignment {
    */
   targetType?:
     | (
-        | "ceasn:Competency"
-        | "ceterms:Credential"
-        | "CFItem"
-        | "CFRubric"
-        | "CFRubricCriterion"
-        | "CFRubricCriterionLevel"
-        | "CTDL"
+        | 'ceasn:Competency'
+        | 'ceterms:Credential'
+        | 'CFItem'
+        | 'CFRubric'
+        | 'CFRubricCriterion'
+        | 'CFRubricCriterionLevel'
+        | 'CTDL'
       )
     | string;
   /**
@@ -349,7 +359,7 @@ export interface EndorsementCredential {
   /**
    * @minItems 2
    */
-  "@context": ["https://www.w3.org/ns/credentials/v2", string, ...Context[]];
+  '@context': ['https://www.w3.org/ns/credentials/v2', string, ...Context[]];
   type: [string, ...string[]];
   /**
    * Unambiguous reference to the credential.
@@ -546,7 +556,7 @@ export interface GeoCoordinates {
   /**
    * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'GeoCoordinates'.
    */
-  type: "GeoCoordinates";
+  type: 'GeoCoordinates';
   /**
    * The latitude of the location [[WGS84]].
    */
@@ -564,7 +574,7 @@ export interface IdentifierEntry {
   /**
    * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'IdentifierEntry'.
    */
-  type: "IdentifierEntry";
+  type: 'IdentifierEntry';
   /**
    * An identifier.
    */
@@ -574,25 +584,25 @@ export interface IdentifierEntry {
    */
   identifierType:
     | (
-        | "name"
-        | "sourcedId"
-        | "systemId"
-        | "productId"
-        | "userName"
-        | "accountId"
-        | "emailAddress"
-        | "nationalIdentityNumber"
-        | "isbn"
-        | "issn"
-        | "lisSourcedId"
-        | "oneRosterSourcedId"
-        | "sisSourcedId"
-        | "ltiContextId"
-        | "ltiDeploymentId"
-        | "ltiToolId"
-        | "ltiPlatformId"
-        | "ltiUserId"
-        | "identifier"
+        | 'name'
+        | 'sourcedId'
+        | 'systemId'
+        | 'productId'
+        | 'userName'
+        | 'accountId'
+        | 'emailAddress'
+        | 'nationalIdentityNumber'
+        | 'isbn'
+        | 'issn'
+        | 'lisSourcedId'
+        | 'oneRosterSourcedId'
+        | 'sisSourcedId'
+        | 'ltiContextId'
+        | 'ltiDeploymentId'
+        | 'ltiToolId'
+        | 'ltiPlatformId'
+        | 'ltiUserId'
+        | 'identifier'
       )
     | string;
 }
@@ -663,18 +673,18 @@ export interface ResultDescription {
    */
   resultType:
     | (
-        | "GradePointAverage"
-        | "LetterGrade"
-        | "Percent"
-        | "PerformanceLevel"
-        | "PredictedScore"
-        | "RawScore"
-        | "Result"
-        | "RubricCriterion"
-        | "RubricCriterionLevel"
-        | "RubricScore"
-        | "ScaledScore"
-        | "Status"
+        | 'GradePointAverage'
+        | 'LetterGrade'
+        | 'Percent'
+        | 'PerformanceLevel'
+        | 'PredictedScore'
+        | 'RawScore'
+        | 'Result'
+        | 'RubricCriterion'
+        | 'RubricCriterionLevel'
+        | 'RubricScore'
+        | 'ScaledScore'
+        | 'Status'
       )
     | string;
   rubricCriterionLevel?: RubricCriterionLevel[];
@@ -726,7 +736,7 @@ export interface IdentityObject {
   /**
    * MUST be the IRI 'IdentityObject'.
    */
-  type: "IdentityObject";
+  type: 'IdentityObject';
   /**
    * Whether or not the `identityHash` value is hashed.
    */
@@ -740,25 +750,25 @@ export interface IdentityObject {
    */
   identityType:
     | (
-        | "name"
-        | "sourcedId"
-        | "systemId"
-        | "productId"
-        | "userName"
-        | "accountId"
-        | "emailAddress"
-        | "nationalIdentityNumber"
-        | "isbn"
-        | "issn"
-        | "lisSourcedId"
-        | "oneRosterSourcedId"
-        | "sisSourcedId"
-        | "ltiContextId"
-        | "ltiDeploymentId"
-        | "ltiToolId"
-        | "ltiPlatformId"
-        | "ltiUserId"
-        | "identifier"
+        | 'name'
+        | 'sourcedId'
+        | 'systemId'
+        | 'productId'
+        | 'userName'
+        | 'accountId'
+        | 'emailAddress'
+        | 'nationalIdentityNumber'
+        | 'isbn'
+        | 'issn'
+        | 'lisSourcedId'
+        | 'oneRosterSourcedId'
+        | 'sisSourcedId'
+        | 'ltiContextId'
+        | 'ltiDeploymentId'
+        | 'ltiToolId'
+        | 'ltiPlatformId'
+        | 'ltiUserId'
+        | 'identifier'
       )
     | string;
   /**
@@ -786,7 +796,7 @@ export interface Result {
   /**
    * The status of the achievement. Required if `resultType` of the linked ResultDescription is Status.
    */
-  status?: "Completed" | "Enrolled" | "Failed" | "InProgress" | "OnHold" | "Provisional" | "Withdrew";
+  status?: 'Completed' | 'Enrolled' | 'Failed' | 'InProgress' | 'OnHold' | 'Provisional' | 'Withdrew';
   /**
    * A string representing the result of the performance, or demonstration, of the achievement. For example, 'A' if the recipient received an A grade in class.
    */

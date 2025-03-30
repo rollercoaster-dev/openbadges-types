@@ -1,4 +1,10 @@
 /**
+ * @module
+ * @description Defines the TypeScript interface for the Open Badges V3 Profile
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#profile
+ */
+
+/**
  * JSON-LD Context. Either a URI with the context definition or a Map with a local context definition MUST be supplied.
  */
 export type Context =
@@ -14,7 +20,11 @@ export type ProfileRef = string | Profile;
 /**
  * A Profile is a collection of information that describes the entity or organization using Open Badges. Issuers must be represented as Profiles, and endorsers, or other entities may also be represented using this vocabulary. Each Profile that represents an Issuer may be referenced in many BadgeClasses that it has defined. Anyone can create and host an Issuer file to start issuing Open Badges. Issuers may also serve as recipients of Open Badges, often identified within an Assertion by specific properties, like their url or contact email address.
  */
-export interface JSONSchemaForTheProfileClass {
+/**
+ * Represents the Profile structure in Open Badges V3.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#profile
+ */
+export interface Profile {
   /**
    * Unique URI for the Issuer/Profile file.
    */
@@ -94,7 +104,7 @@ export interface EndorsementCredential {
   /**
    * @minItems 2
    */
-  "@context": ["https://www.w3.org/ns/credentials/v2", string, ...Context[]];
+  '@context': ['https://www.w3.org/ns/credentials/v2', string, ...Context[]];
   type: [string, ...string[]];
   /**
    * Unambiguous reference to the credential.
@@ -234,7 +244,7 @@ export interface Image {
   /**
    * MUST be the IRI 'Image'.
    */
-  type: "Image";
+  type: 'Image';
   /**
    * The caption for the image.
    */
@@ -286,7 +296,7 @@ export interface GeoCoordinates {
   /**
    * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'GeoCoordinates'.
    */
-  type: "GeoCoordinates";
+  type: 'GeoCoordinates';
   /**
    * The latitude of the location [[WGS84]].
    */
@@ -304,7 +314,7 @@ export interface IdentifierEntry {
   /**
    * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'IdentifierEntry'.
    */
-  type: "IdentifierEntry";
+  type: 'IdentifierEntry';
   /**
    * An identifier.
    */
@@ -314,25 +324,25 @@ export interface IdentifierEntry {
    */
   identifierType:
     | (
-        | "name"
-        | "sourcedId"
-        | "systemId"
-        | "productId"
-        | "userName"
-        | "accountId"
-        | "emailAddress"
-        | "nationalIdentityNumber"
-        | "isbn"
-        | "issn"
-        | "lisSourcedId"
-        | "oneRosterSourcedId"
-        | "sisSourcedId"
-        | "ltiContextId"
-        | "ltiDeploymentId"
-        | "ltiToolId"
-        | "ltiPlatformId"
-        | "ltiUserId"
-        | "identifier"
+        | 'name'
+        | 'sourcedId'
+        | 'systemId'
+        | 'productId'
+        | 'userName'
+        | 'accountId'
+        | 'emailAddress'
+        | 'nationalIdentityNumber'
+        | 'isbn'
+        | 'issn'
+        | 'lisSourcedId'
+        | 'oneRosterSourcedId'
+        | 'sisSourcedId'
+        | 'ltiContextId'
+        | 'ltiDeploymentId'
+        | 'ltiToolId'
+        | 'ltiPlatformId'
+        | 'ltiUserId'
+        | 'identifier'
       )
     | string;
 }
