@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import type { Profile } from '../../src/v3/index.js';
+// Import main type directly from its source file
+import type { Profile } from '../../src/v3/Profile.js';
+// Import nested types directly if needed (example)
+// import type { Address, Image } from '../../src/v3/Profile.js';
 
 // Minimal Zod schema for v3 Profile
 const profileSchema = z.object({

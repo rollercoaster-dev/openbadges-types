@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import type { Assertion } from '../../src/v2/index.js';
+// Import main type directly from its source file
+import type { Assertion } from '../../src/v2/Assertion.js';
+// Import nested types directly if needed
+// import type { BadgeIdentityObject } from '../../src/v2/Assertion.js';
 
 // Minimal Zod schema for v2 Assertion
 const assertionSchema = z.object({
