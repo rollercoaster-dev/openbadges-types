@@ -23,18 +23,40 @@ function capitalize(str: string): string {
 }
 
 function generateTypeName(schemaFile: string, specVersion: 'v2' | 'v3'): string {
+  let baseName = '';
   if (specVersion === 'v3') {
-    const match = schemaFile.match(/ob_v3p0_([a-z0-9_]+)_schema\.json$/i);
-    return match ? match[1].split('_').map(capitalize).join('') : capitalize(path.basename(schemaFile, '_schema.json'));
+    // 1. Get base name (remove .json)
+    const baseFileName = path.basename(schemaFile, '.json'); // e.g., "achievement_credential"
+
+    // 2. Split by underscore
+    const parts = baseFileName.split('_'); // e.g., ["achievement", "credential"]
+
+    // 3. Capitalize each part
+    const capitalizedParts = parts.map(part => capitalize(part)); // e.g., ["Achievement", "Credential"]
+
+    // 4. Join to form PascalCase
+    baseName = capitalizedParts.join(''); // e.g., "AchievementCredential"
+
+    // 5. Apply specific replacements (optional but good for robustness)
+    baseName = baseName.replace(/Openbadge/g, 'OpenBadge');
+    baseName = baseName.replace(/Im sx/g, 'Imsx'); // Handle potential space if split resulted in 'im sx'
+    baseName = baseName.replace(/Statusinfo/g, 'StatusInfo');
+    // These might be redundant now but don't harm.
+    baseName = baseName.replace(/credential/gi, 'Credential');
+    baseName = baseName.replace(/response/gi, 'Response');
+
   } else if (specVersion === 'v2') {
     // Simple case for v2 assertion
-    if (schemaFile === 'assertion.json') {
-      return 'Assertion';
-    }
-    // Add logic here if more v2 schemas are included later
-    return capitalize(path.basename(schemaFile, '.json'));
+     if (schemaFile === 'assertion.json') {
+       baseName = 'Assertion';
+     } else {
+       // Add logic here if more v2 schemas are included later
+       baseName = capitalize(path.basename(schemaFile, '.json'));
+     }
+  } else {
+     baseName = 'UnknownType';
   }
-  return 'UnknownType';
+  return baseName;
 }
 
 function createSpecLink(baseUrl: string, typeName: string, specVersion: 'v2' | 'v3'): string {
@@ -117,17 +139,18 @@ async function generateTypes(schemaDir: string, outputDir: string, specVersion: 
        tsContent = moduleDoc + tsContent;
 
       // --- Post-processing for specific files ---
-      if (specVersion === 'v3' && typeName === 'Profile') {
-        console.log(`    Applying post-processing to remove duplicate Profile interface...`);
-        let firstInterfaceEnd = tsContent.indexOf('} // End of first interface marker (heuristic)');
+      if (specVersion === 'v3' && (typeName === 'Profile' || typeName === 'EndorsementCredential')) {
+        const interfaceNameToRemove = typeName; // Name might be different if nested, but likely the same here
+        console.log(`    Applying post-processing to remove duplicate ${interfaceNameToRemove} interface...`);
+        let firstInterfaceEnd = tsContent.indexOf(`} // End of first interface marker (heuristic)`);
         if (firstInterfaceEnd === -1) {
             // Add a marker if not present (heuristic based on typical interface structure)
-            tsContent = tsContent.replace(/^(export interface Profile \{[\s\S]*?)(\n\}\n)/m, '$1$2 // End of first interface marker (heuristic)');
-            firstInterfaceEnd = tsContent.indexOf('} // End of first interface marker (heuristic)');
+            tsContent = tsContent.replace(new RegExp(`^(export interface ${interfaceNameToRemove} \{[\s\S]*?)(\n\}\n)`, 'm'), '$1$2 // End of first interface marker (heuristic)');
+            firstInterfaceEnd = tsContent.indexOf(`} // End of first interface marker (heuristic)`);
         }
 
         if (firstInterfaceEnd !== -1) {
-            const secondInterfaceStart = tsContent.indexOf('export interface Profile {', firstInterfaceEnd);
+            const secondInterfaceStart = tsContent.indexOf(`export interface ${interfaceNameToRemove} {`, firstInterfaceEnd);
             if (secondInterfaceStart !== -1) {
                 // Find the matching closing brace for the second interface
                 let braceLevel = 0;
@@ -143,15 +166,18 @@ async function generateTypes(schemaDir: string, outputDir: string, specVersion: 
 
                 if (secondInterfaceEnd !== -1) {
                     tsContent = tsContent.substring(0, secondInterfaceStart) + tsContent.substring(secondInterfaceEnd);
-                    console.log(`    -> Removed duplicate Profile interface.`);
+                    console.log(`    -> Removed duplicate ${interfaceNameToRemove} interface.`);
                 } else {
-                     console.warn(`    -> Could not find matching end brace for duplicate Profile interface.`);
+                     console.warn(`    -> Could not find matching end brace for duplicate ${interfaceNameToRemove} interface.`);
                 }
             } else {
-                console.log(`    -> No duplicate Profile interface found (expected one).`);
+                // It's okay if Profile doesn't have a duplicate if generation failed, but EndorsementCredential should
+                if (interfaceNameToRemove === 'EndorsementCredential') {
+                     console.log(`    -> No duplicate ${interfaceNameToRemove} interface found (unexpected).`);
+                }
             }
         } else {
-             console.warn(`    -> Could not find end of first Profile interface for duplicate removal.`);
+             console.warn(`    -> Could not find end of first ${interfaceNameToRemove} interface for duplicate removal.`);
         }
       }
 

@@ -1,17 +1,17 @@
 /**
  * @module
- * @description Defines the TypeScript interface for the Open Badges V3 ImsxStatusInfo
- * @see https://www.imsglobal.org/spec/ob/v3p0/#imsxstatusinfo
+ * @description Defines the TypeScript interface for the Open Badges V3 Imsx_StatusInfo
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#imsx_statusinfo
  */
 
 /**
  * This is the container for the status code and associated information returned within the HTTP messages received from the Service Provider.
  */
 /**
- * Represents the ImsxStatusInfo structure in Open Badges V3.
- * @see https://www.imsglobal.org/spec/ob/v3p0/#imsxstatusinfo
+ * Represents the Imsx_StatusInfo structure in Open Badges V3.
+ * @see https://www.imsglobal.org/spec/ob/v3p0/#imsx_statusinfo
  */
-export interface ImsxStatusInfo {
+export interface Imsx_StatusInfo {
   /**
    * The code major value (from the corresponding enumerated vocabulary).
    */

@@ -1,6 +1,6 @@
 /**
  * @module
- * @description Defines the TypeScript interface for the Open Badges V3 Achievementcredential
+ * @description Defines the TypeScript interface for the Open Badges V3 AchievementCredential
  * @see https://www.imsglobal.org/spec/ob/v3p0/#achievementcredential
  */
 
@@ -21,10 +21,10 @@ export type ProfileRef = string | Profile;
  * AchievementCredentials are representations of an awarded achievement, used to share information about a achievement belonging to one earner. Maps to a Verifiable Credential as defined in the [[VC-DATA-MODEL-2.0]]. As described in [[[#data-integrity]]], at least one proof mechanism, and the details necessary to evaluate that proof, MUST be expressed for a credential to be a verifiable credential. In the case of an embedded proof, the credential MUST append the proof in the `proof` property.
  */
 /**
- * Represents the Achievementcredential structure in Open Badges V3.
+ * Represents the AchievementCredential structure in Open Badges V3.
  * @see https://www.imsglobal.org/spec/ob/v3p0/#achievementcredential
  */
-export interface Achievementcredential {
+export interface AchievementCredential {
   /**
    * @minItems 2
    */

@@ -1,6 +1,6 @@
 /**
  * @module
- * @description Defines the TypeScript interface for the Open Badges V3 Getopenbadgecredentialsresponse
+ * @description Defines the TypeScript interface for the Open Badges V3 GetOpenBadgeCredentialsResponse
  * @see https://www.imsglobal.org/spec/ob/v3p0/#getopenbadgecredentialsresponse
  */
 
@@ -21,10 +21,10 @@ export type ProfileRef = string | Profile;
  * No description supplied.
  */
 /**
- * Represents the Getopenbadgecredentialsresponse structure in Open Badges V3.
+ * Represents the GetOpenBadgeCredentialsResponse structure in Open Badges V3.
  * @see https://www.imsglobal.org/spec/ob/v3p0/#getopenbadgecredentialsresponse
  */
-export interface Getopenbadgecredentialsresponse {
+export interface GetOpenBadgeCredentialsResponse {
   credential?: AchievementCredential[];
   compactJwsString?: string[];
 }

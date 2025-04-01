@@ -1,4 +1,5 @@
-export type { Achievementcredential } from './Achievementcredential.js';
-export type { Endorsementcredential } from './Endorsementcredential.js';
-export type { Getopenbadgecredentialsresponse } from './Getopenbadgecredentialsresponse.js';
-export type { ImsxStatusinfo } from './ImsxStatusinfo.js';
+export type { AchievementCredential } from './AchievementCredential.js';
+export type { EndorsementCredential } from './EndorsementCredential.js';
+export type { GetOpenBadgeCredentialsResponse } from './GetOpenBadgeCredentialsResponse.js';
+export type { ImsxStatusInfo } from './ImsxStatusInfo.js';
+export type { Profile } from './Profile.js';

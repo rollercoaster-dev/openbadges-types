@@ -1,34 +1,20 @@
-# Open Badges TypeScript Types (`@openbadges/types`)
+# @openbadges/types
 
-[![npm version](https://badge.fury.io/js/%40openbadges%2Ftypes.svg)](https://badge.fury.io/js/%40openbadges%2Ftypes) <!-- Placeholder -->
-
-This package provides TypeScript type definitions for the [Open Badges Specification](https://www.imsglobal.org/spec/ob/v3p0/) versions 2.0 and 3.0.
-
-The types are automatically generated from the official JSON schemas published by 1EdTech, ensuring alignment with the standards.
+TypeScript type definitions for Open Badges v2.0 and v3.0, generated from official schemas.
 
 ## Installation
 
-Using pnpm:
-
 ```bash
 pnpm add @openbadges/types
-```
-
-Using npm:
-
-```bash
+# or
 npm install @openbadges/types
-```
-
-Using yarn:
-
-```bash
+# or
 yarn add @openbadges/types
 ```
 
 ## Usage
 
-The types are namespaced by specification version (`v2` and `v3`).
+Types are namespaced under `v2` and `v3`.
 
 ### Open Badges v3.0 Example
 
@@ -42,27 +28,24 @@ const myCredential: v3.AchievementCredential = {
   ],
   id: 'urn:uuid:example-credential',
   type: ['VerifiableCredential', 'AchievementCredential'],
-  issuer: {
-    id: 'https://example.org/issuer',
-    type: ['Profile'],
-    name: 'Example Issuer'
-  },
+  issuer: 'https://example.org/issuer', // Can also be a Profile object
   validFrom: new Date().toISOString(),
   credentialSubject: {
     type: ['AchievementSubject'],
     achievement: {
-      id: 'https://example.org/achievements/example',
+      id: 'https://example.org/achievements/1',
       type: ['Achievement'],
       name: 'Example Achievement',
-      description: 'Awarded for demonstrating example usage.',
-      criteria: { narrative: 'Create a valid example credential.' }
+      description: 'Awarded for demonstrating examples.',
+      criteria: {
+        narrative: 'Complete the usage example.'
+      }
     }
   }
 };
 
-function processCredential(cred: v3.AchievementCredential) {
-  console.log(`Processing credential: ${cred.id}`);
-  console.log(`Achievement Name: ${cred.credentialSubject.achievement.name}`);
+function processCredential(credential: v3.AchievementCredential) {
+  console.log(`Credential Name: ${credential.credentialSubject.achievement.name}`);
 }
 
 processCredential(myCredential);
@@ -74,35 +57,32 @@ processCredential(myCredential);
 import type { v2 } from '@openbadges/types';
 
 const myAssertion: v2.Assertion = {
-  '@context': 'https://w3id.org/openbadges/v2',
-  type: ['Assertion'],
-  id: 'https://example.org/assertions/123',
-  uid: 'assertion-uid-123',
+  '@context': 'https://openbadgespec.org/v2/context.json',
+  id: 'https://example.org/assertions/1',
+  type: 'Assertion',
   recipient: {
     type: 'email',
-    identity: 'sha256$abcdef123...', // Hashed recipient identifier
-    hashed: true
+    hashed: false,
+    identity: 'recipient@example.org'
   },
-  badge: 'https://example.org/badges/class/1', // URL to BadgeClass
-  verify: {
-    type: 'hosted',
-    url: 'https://example.org/assertions/123'
-  },
-  issuedOn: new Date().toISOString()
+  issuedOn: new Date().toISOString(),
+  badge: 'https://example.org/badges/1', // URI to BadgeClass
+  verification: {
+    type: 'hosted'
+  }
 };
 
 function processAssertion(assertion: v2.Assertion) {
-  console.log(`Processing assertion: ${assertion.id}`);
-  console.log(`Badge Class URL: ${assertion.badge}`);
+  console.log(`Assertion issued on: ${assertion.issuedOn}`);
 }
 
 processAssertion(myAssertion);
 ```
 
-## Contributing
-
-This package is automatically generated. Please report issues or suggest improvements via the [GitHub repository issues](https://github.com/your-repo-link-here). <!-- TODO: Update link -->
-
 ## License
 
-[ISC](./LICENSE) <!-- TODO: Add LICENSE file --> 
+ISC
+
+## Contributing
+
+(TODO: Add contribution guidelines) 

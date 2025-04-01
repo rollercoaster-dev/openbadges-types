@@ -5,19 +5,6 @@
  */
 
 /**
- * JSON-LD Context. Either a URI with the context definition or a Map with a local context definition MUST be supplied.
- */
-export type Context =
-  | string
-  | {
-      [k: string]: unknown;
-    };
-/**
- * A description of the individual, entity, or organization that issued the credential. Either a URI with the Unique URI for the Issuer/Profile file, or a Profile object MUST be supplied.
- */
-export type ProfileRef = string | Profile;
-
-/**
  * A Profile is a collection of information that describes the entity or organization using Open Badges. Issuers must be represented as Profiles, and endorsers, or other entities may also be represented using this vocabulary. Each Profile that represents an Issuer may be referenced in many BadgeClasses that it has defined. Anyone can create and host an Issuer file to start issuing Open Badges. Issuers may also serve as recipients of Open Badges, often identified within an Assertion by specific properties, like their url or contact email address.
  */
 /**
@@ -49,20 +36,306 @@ export interface Profile {
    * A short description of the issuer entity or organization.
    */
   description?: string;
-  endorsement?: EndorsementCredential[];
+  endorsement?: {
+    /**
+     * @minItems 2
+     */
+    '@context': [
+      'https://www.w3.org/ns/credentials/v2',
+      string,
+      ...(
+        | string
+        | {
+            [k: string]: unknown;
+          }
+      )[]
+    ];
+    type: [string, ...string[]];
+    /**
+     * Unambiguous reference to the credential.
+     */
+    id: string;
+    /**
+     * The name of the credential for display purposes in wallets. For example, in a list of credentials and in detail views.
+     */
+    name: string;
+    /**
+     * The short description of the credential for display purposes in wallets.
+     */
+    description?: string;
+    /**
+     * A collection of information about the subject of the endorsement.
+     */
+    credentialSubject: {
+      /**
+       * The identifier of the individual, entity, ... that is endorsed.
+       */
+      id: string;
+      /**
+       * @minItems 1
+       */
+      type: [string, ...string[]];
+      /**
+       * Allows endorsers to make a simple claim...
+       */
+      endorsementComment?: string;
+      [k: string]: unknown;
+    };
+    /**
+     * Timestamp of when the credential was awarded. `validFrom` is used to determine the most recent version of a Credential in conjunction with `issuer` and `id`. Consequently, the only way to update a Credental is to update the `validFrom`, losing the date when the Credential was originally awarded. `awardedDate` is meant to keep this original date.
+     */
+    awardedDate?: string;
+    /**
+     * A description of the individual, entity, or organization that issued the credential. Either a URI or a simplified Profile object MUST be supplied.
+     */
+    issuer:
+      | string
+      | {
+          /**
+           * Unique URI for the Issuer/Profile file.
+           */
+          id: string;
+          /**
+           * @minItems 1
+           */
+          type: [string, ...string[]];
+          name?: string;
+          [k: string]: unknown;
+        };
+    /**
+     * Timestamp of when the credential becomes valid.
+     */
+    validFrom: string;
+    /**
+     * If the credential has some notion of validity period, this indicates a timestamp when a credential should no longer be considered valid. After this time, the credential should be considered invalid.
+     */
+    validUntil?: string;
+    proof?: {
+      /**
+       * Signature suite used to produce proof.
+       */
+      type: string;
+      /**
+       * Date the proof was created.
+       */
+      created?: string;
+      /**
+       * The suite used to create the proof.
+       */
+      cryptosuite?: string;
+      /**
+       * A value chosen by the verifier to mitigate authentication proof replay attacks.
+       */
+      challenge?: string;
+      /**
+       * The domain of the proof to restrict its use to a particular target.
+       */
+      domain?: string;
+      /**
+       * A value chosen by the creator of proof to randomize proof values for privacy purposes.
+       */
+      nonce?: string;
+      /**
+       * The purpose of the proof to be used with `verificationMethod`. MUST be 'assertionMethod'.
+       */
+      proofPurpose?: string;
+      /**
+       * Value of the proof.
+       */
+      proofValue?: string;
+      /**
+       * The URL of the public key that can verify the signature.
+       */
+      verificationMethod?: string;
+      [k: string]: unknown;
+    }[];
+    credentialSchema?: {
+      /**
+       * The value MUST be a URI identifying the schema file. One instance of `CredentialSchema` MUST have an `id` that is the URL of the JSON Schema for this credential defined by this specification.
+       */
+      id: string;
+      /**
+       * The value MUST identify the type of data schema validation. One instance of `CredentialSchema` MUST have a `type` of 'JsonSchemaValidator2019'.
+       */
+      type: string;
+      [k: string]: unknown;
+    }[];
+    /**
+     * The information in CredentialStatus is used to discover information about the current status of a verifiable credential, such as whether it is suspended or revoked.
+     */
+    credentialStatus?: {
+      /**
+       * The value MUST be the URL of the issuer's credential status method.
+       */
+      id: string;
+      /**
+       * The name of the credential status method.
+       */
+      type: string;
+      [k: string]: unknown;
+    };
+    /**
+     * The information in RefreshService is used to refresh the verifiable credential.
+     */
+    refreshService?: {
+      /**
+       * The value MUST be the URL of the issuer's refresh service.
+       */
+      id: string;
+      /**
+       * The name of the refresh service method.
+       */
+      type: string;
+      [k: string]: unknown;
+    };
+    termsOfUse?: {
+      /**
+       * The value MUST be a URI identifying the term of use.
+       */
+      id?: string;
+      /**
+       * The value MUST identify the type of the terms of use.
+       */
+      type: string;
+      [k: string]: unknown;
+    }[];
+    [k: string]: unknown;
+  }[];
   endorsementJwt?: string[];
-  image?: Image;
+  /**
+   * Metadata about images that represent assertions...
+   */
+  image?: {
+    /**
+     * The URI or Data URI of the image.
+     */
+    id: string;
+    /**
+     * MUST be the IRI 'Image'.
+     */
+    type: 'Image';
+    /**
+     * The caption for the image.
+     */
+    caption?: string;
+  };
   /**
    * An email address.
    */
   email?: string;
-  address?: Address;
-  otherIdentifier?: IdentifierEntry[];
+  /**
+   * An address for the described entity.
+   */
+  address?: {
+    /**
+     * @minItems 1
+     */
+    type: [string, ...string[]];
+    /**
+     * A country.
+     */
+    addressCountry?: string;
+    /**
+     * A country code. The value must be a ISO 3166-1 alpha-2 country code [[ISO3166-1]].
+     */
+    addressCountryCode?: string;
+    /**
+     * A region within the country.
+     */
+    addressRegion?: string;
+    /**
+     * A locality within the region.
+     */
+    addressLocality?: string;
+    /**
+     * A street address within the locality.
+     */
+    streetAddress?: string;
+    /**
+     * A post office box number for PO box addresses.
+     */
+    postOfficeBoxNumber?: string;
+    /**
+     * A postal code.
+     */
+    postalCode?: string;
+    /**
+     * The geographic coordinates of a location.
+     */
+    geo?: {
+      /**
+       * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'GeoCoordinates'.
+       */
+      type: 'GeoCoordinates';
+      /**
+       * The latitude of the location [[WGS84]].
+       */
+      latitude: number;
+      /**
+       * The longitude of the location [[WGS84]].
+       */
+      longitude: number;
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
+  };
+  otherIdentifier?: {
+    /**
+     * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'IdentifierEntry'.
+     */
+    type: 'IdentifierEntry';
+    /**
+     * An identifier.
+     */
+    identifier: string;
+    /**
+     * The identifier type.
+     */
+    identifierType:
+      | (
+          | 'name'
+          | 'sourcedId'
+          | 'systemId'
+          | 'productId'
+          | 'userName'
+          | 'accountId'
+          | 'emailAddress'
+          | 'nationalIdentityNumber'
+          | 'isbn'
+          | 'issn'
+          | 'lisSourcedId'
+          | 'oneRosterSourcedId'
+          | 'sisSourcedId'
+          | 'ltiContextId'
+          | 'ltiDeploymentId'
+          | 'ltiToolId'
+          | 'ltiPlatformId'
+          | 'ltiUserId'
+          | 'identifier'
+        )
+      | string;
+  }[];
   /**
    * If the entity is an organization, `official` is the name of an authorized official of the organization.
    */
   official?: string;
-  parentOrg?: Profile;
+  /**
+   * A description of the individual, entity, or organization that issued the credential...
+   */
+  parentOrg?:
+    | string
+    | {
+        /**
+         * ...
+         */
+        id: string;
+        /**
+         * @minItems 1
+         */
+        type: [string, ...string[]];
+        name?: string;
+        [k: string]: unknown;
+      };
   /**
    * Family name. In the western world, often referred to as the 'last name' of a person.
    */
@@ -95,276 +368,5 @@ export interface Profile {
    * Birthdate of the person.
    */
   dateOfBirth?: string;
-  [k: string]: unknown;
-}
-/**
- * A verifiable credential that asserts a claim about an entity. As described in [[[#data-integrity]]], at least one proof mechanism, and the details necessary to evaluate that proof, MUST be expressed for a credential to be a verifiable credential. In the case of an embedded proof, the credential MUST append the proof in the `proof` property.
- */
-export interface EndorsementCredential {
-  /**
-   * @minItems 2
-   */
-  '@context': ['https://www.w3.org/ns/credentials/v2', string, ...Context[]];
-  type: [string, ...string[]];
-  /**
-   * Unambiguous reference to the credential.
-   */
-  id: string;
-  /**
-   * The name of the credential for display purposes in wallets. For example, in a list of credentials and in detail views.
-   */
-  name: string;
-  /**
-   * The short description of the credential for display purposes in wallets.
-   */
-  description?: string;
-  credentialSubject: EndorsementSubject;
-  /**
-   * Timestamp of when the credential was awarded. `validFrom` is used to determine the most recent version of a Credential in conjunction with `issuer` and `id`. Consequently, the only way to update a Credental is to update the `validFrom`, losing the date when the Credential was originally awarded. `awardedDate` is meant to keep this original date.
-   */
-  awardedDate?: string;
-  issuer: ProfileRef;
-  /**
-   * Timestamp of when the credential becomes valid.
-   */
-  validFrom: string;
-  /**
-   * If the credential has some notion of validity period, this indicates a timestamp when a credential should no longer be considered valid. After this time, the credential should be considered invalid.
-   */
-  validUntil?: string;
-  proof?: Proof[];
-  credentialSchema?: CredentialSchema[];
-  credentialStatus?: CredentialStatus;
-  refreshService?: RefreshService;
-  termsOfUse?: TermsOfUse[];
-  [k: string]: unknown;
-}
-/**
- * A collection of information about the subject of the endorsement.
- */
-export interface EndorsementSubject {
-  /**
-   * The identifier of the individual, entity, organization, assertion, or achievement that is endorsed.
-   */
-  id: string;
-  /**
-   * @minItems 1
-   */
-  type: [string, ...string[]];
-  /**
-   * Allows endorsers to make a simple claim in writing about the entity.
-   */
-  endorsementComment?: string;
-  [k: string]: unknown;
-}
-/**
- * Metadata about images that represent assertions, achieve or profiles. These properties can typically be represented as just the id string of the image, but using a fleshed-out document allows for including captions and other applicable metadata.
- */
-export interface Image {
-  /**
-   * The URI or Data URI of the image.
-   */
-  id: string;
-  /**
-   * MUST be the IRI 'Image'.
-   */
-  type: 'Image';
-  /**
-   * The caption for the image.
-   */
-  caption?: string;
-}
-/**
- * An address for the described entity.
- */
-export interface Address {
-  /**
-   * @minItems 1
-   */
-  type: [string, ...string[]];
-  /**
-   * A country.
-   */
-  addressCountry?: string;
-  /**
-   * A country code. The value must be a ISO 3166-1 alpha-2 country code [[ISO3166-1]].
-   */
-  addressCountryCode?: string;
-  /**
-   * A region within the country.
-   */
-  addressRegion?: string;
-  /**
-   * A locality within the region.
-   */
-  addressLocality?: string;
-  /**
-   * A street address within the locality.
-   */
-  streetAddress?: string;
-  /**
-   * A post office box number for PO box addresses.
-   */
-  postOfficeBoxNumber?: string;
-  /**
-   * A postal code.
-   */
-  postalCode?: string;
-  geo?: GeoCoordinates;
-  [k: string]: unknown;
-}
-/**
- * The geographic coordinates of a location.
- */
-export interface GeoCoordinates {
-  /**
-   * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'GeoCoordinates'.
-   */
-  type: 'GeoCoordinates';
-  /**
-   * The latitude of the location [[WGS84]].
-   */
-  latitude: number;
-  /**
-   * The longitude of the location [[WGS84]].
-   */
-  longitude: number;
-  [k: string]: unknown;
-}
-/**
- * No description supplied.
- */
-export interface IdentifierEntry {
-  /**
-   * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'IdentifierEntry'.
-   */
-  type: 'IdentifierEntry';
-  /**
-   * An identifier.
-   */
-  identifier: string;
-  /**
-   * The identifier type.
-   */
-  identifierType:
-    | (
-        | 'name'
-        | 'sourcedId'
-        | 'systemId'
-        | 'productId'
-        | 'userName'
-        | 'accountId'
-        | 'emailAddress'
-        | 'nationalIdentityNumber'
-        | 'isbn'
-        | 'issn'
-        | 'lisSourcedId'
-        | 'oneRosterSourcedId'
-        | 'sisSourcedId'
-        | 'ltiContextId'
-        | 'ltiDeploymentId'
-        | 'ltiToolId'
-        | 'ltiPlatformId'
-        | 'ltiUserId'
-        | 'identifier'
-      )
-    | string;
-}
-/**
- * A JSON-LD Linked Data proof.
- */
-export interface Proof {
-  /**
-   * Signature suite used to produce proof.
-   */
-  type: string;
-  /**
-   * Date the proof was created.
-   */
-  created?: string;
-  /**
-   * The suite used to create the proof.
-   */
-  cryptosuite?: string;
-  /**
-   * A value chosen by the verifier to mitigate authentication proof replay attacks.
-   */
-  challenge?: string;
-  /**
-   * The domain of the proof to restrict its use to a particular target.
-   */
-  domain?: string;
-  /**
-   * A value chosen by the creator of proof to randomize proof values for privacy purposes.
-   */
-  nonce?: string;
-  /**
-   * The purpose of the proof to be used with `verificationMethod`. MUST be 'assertionMethod'.
-   */
-  proofPurpose?: string;
-  /**
-   * Value of the proof.
-   */
-  proofValue?: string;
-  /**
-   * The URL of the public key that can verify the signature.
-   */
-  verificationMethod?: string;
-  [k: string]: unknown;
-}
-/**
- * Identify the type and location of a data schema.
- */
-export interface CredentialSchema {
-  /**
-   * The value MUST be a URI identifying the schema file. One instance of `CredentialSchema` MUST have an `id` that is the URL of the JSON Schema for this credential defined by this specification.
-   */
-  id: string;
-  /**
-   * The value MUST identify the type of data schema validation. One instance of `CredentialSchema` MUST have a `type` of 'JsonSchemaValidator2019'.
-   */
-  type: string;
-  [k: string]: unknown;
-}
-/**
- * The information in CredentialStatus is used to discover information about the current status of a verifiable credential, such as whether it is suspended or revoked.
- */
-export interface CredentialStatus {
-  /**
-   * The value MUST be the URL of the issuer's credential status method.
-   */
-  id: string;
-  /**
-   * The name of the credential status method.
-   */
-  type: string;
-  [k: string]: unknown;
-}
-/**
- * The information in RefreshService is used to refresh the verifiable credential.
- */
-export interface RefreshService {
-  /**
-   * The value MUST be the URL of the issuer's refresh service.
-   */
-  id: string;
-  /**
-   * The name of the refresh service method.
-   */
-  type: string;
-  [k: string]: unknown;
-}
-/**
- * Terms of use can be utilized by an issuer or a holder to communicate the terms under which a verifiable credential or verifiable presentation was issued
- */
-export interface TermsOfUse {
-  /**
-   * The value MUST be a URI identifying the term of use.
-   */
-  id?: string;
-  /**
-   * The value MUST identify the type of the terms of use.
-   */
-  type: string;
   [k: string]: unknown;
 }

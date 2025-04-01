@@ -17,9 +17,26 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts"
   },
-  "keywords": [],
+  "keywords": [
+    "openbadges",
+    "typescript",
+    "types",
+    "credentials",
+    "verifiable credentials",
+    "digital badges",
+    "obv2",
+    "obv3"
+  ],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
   "packageManager": "pnpm@10.4.1",
   "devDependencies": {
     "@types/jest": "^29.5.14",

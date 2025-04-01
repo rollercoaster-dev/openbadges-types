@@ -1,10 +1,13 @@
 import { expectType, expectError } from 'tsd';
-import * as obv3 from '../src/v3/index.js';
+// Import main types directly from source files as index is simplified
+import type { AchievementCredential } from '../src/v3/AchievementCredential.js';
+import type { Profile } from '../src/v3/Profile.js';
+// Import other used types if necessary (may not be needed if only testing main types)
 
 // --- AchievementCredential Basic Tests ---
 
 // Test basic assignability
-const minimalValidCredential: obv3.AchievementCredential = {
+const minimalValidCredential: AchievementCredential = {
     '@context': [
         'https://www.w3.org/ns/credentials/v2',
         'https://purl.imsglobal.org/spec/ob/v3p0/context.json'
@@ -26,10 +29,10 @@ const minimalValidCredential: obv3.AchievementCredential = {
         }
     }
 };
-expectType<obv3.AchievementCredential>(minimalValidCredential);
+expectType<AchievementCredential>(minimalValidCredential);
 
 // Test that required fields cause errors if missing or wrong type
-expectError<obv3.AchievementCredential>({ // Missing issuer
+expectError<AchievementCredential>({ // Missing issuer
     '@context': [
         'https://www.w3.org/ns/credentials/v2',
         'https://purl.imsglobal.org/spec/ob/v3p0/context.json'
@@ -49,7 +52,7 @@ expectError<obv3.AchievementCredential>({ // Missing issuer
     }
 });
 
-expectError<obv3.AchievementCredential>({ // issuer has wrong type
+expectError<AchievementCredential>({ // issuer has wrong type
     '@context': [
         'https://www.w3.org/ns/credentials/v2',
         'https://purl.imsglobal.org/spec/ob/v3p0/context.json'
@@ -72,14 +75,14 @@ expectError<obv3.AchievementCredential>({ // issuer has wrong type
 
 // --- Profile Basic Tests ---
 
-const minimalValidProfile: obv3.Profile = {
+const minimalValidProfile: Profile = {
     id: 'https://example.org/issuer',
     type: ['Profile'],
     name: 'Example Issuer'
 };
-expectType<obv3.Profile>(minimalValidProfile);
+expectType<Profile>(minimalValidProfile);
 
-expectError<obv3.Profile>({ // Missing id (provide other required fields, make id wrong type)
+expectError<Profile>({ // Missing id (provide other required fields, make id wrong type)
     type: ['Profile'],
     id: null // Intentionally wrong type to satisfy structure but fail assignability
 });

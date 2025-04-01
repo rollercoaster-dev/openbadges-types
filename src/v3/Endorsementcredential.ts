@@ -1,6 +1,6 @@
 /**
  * @module
- * @description Defines the TypeScript interface for the Open Badges V3 Endorsementcredential
+ * @description Defines the TypeScript interface for the Open Badges V3 EndorsementCredential
  * @see https://www.imsglobal.org/spec/ob/v3p0/#endorsementcredential
  */
 
@@ -13,18 +13,31 @@ export type Context =
       [k: string]: unknown;
     };
 /**
- * A description of the individual, entity, or organization that issued the credential. Either a URI with the Unique URI for the Issuer/Profile file, or a Profile object MUST be supplied.
+ * A description of the individual, entity, or organization that issued the credential. Either a URI or a simplified Profile object MUST be supplied.
  */
-export type ProfileRef = string | Profile;
+export type ProfileRef =
+  | string
+  | {
+      /**
+       * Unique URI for the Issuer/Profile file.
+       */
+      id: string;
+      /**
+       * @minItems 1
+       */
+      type: [string, ...string[]];
+      name?: string;
+      [k: string]: unknown;
+    };
 
 /**
  * A verifiable credential that asserts a claim about an entity. As described in [[[#data-integrity]]], at least one proof mechanism, and the details necessary to evaluate that proof, MUST be expressed for a credential to be a verifiable credential. In the case of an embedded proof, the credential MUST append the proof in the `proof` property.
  */
 /**
- * Represents the Endorsementcredential structure in Open Badges V3.
+ * Represents the EndorsementCredential structure in Open Badges V3.
  * @see https://www.imsglobal.org/spec/ob/v3p0/#endorsementcredential
  */
-export interface Endorsementcredential {
+export interface EndorsementCredential {
   /**
    * @minItems 2
    */
@@ -79,124 +92,6 @@ export interface EndorsementSubject {
    * Allows endorsers to make a simple claim in writing about the entity.
    */
   endorsementComment?: string;
-  [k: string]: unknown;
-}
-/**
- * A Profile is a collection of information that describes the entity or organization using Open Badges. Issuers must be represented as Profiles, and endorsers, or other entities may also be represented using this vocabulary. Each Profile that represents an Issuer may be referenced in many BadgeClasses that it has defined. Anyone can create and host an Issuer file to start issuing Open Badges. Issuers may also serve as recipients of Open Badges, often identified within an Assertion by specific properties, like their url or contact email address.
- */
-export interface Profile {
-  /**
-   * Unique URI for the Issuer/Profile file.
-   */
-  id: string;
-  /**
-   * @minItems 1
-   */
-  type: [string, ...string[]];
-  /**
-   * The name of the entity or organization.
-   */
-  name?: string;
-  /**
-   * The homepage or social media profile of the entity, whether individual or institutional. Should be a URL/URI Accessible via HTTP.
-   */
-  url?: string;
-  /**
-   * A phone number.
-   */
-  phone?: string;
-  /**
-   * A short description of the issuer entity or organization.
-   */
-  description?: string;
-  endorsement?: EndorsementCredential[];
-  endorsementJwt?: string[];
-  image?: Image;
-  /**
-   * An email address.
-   */
-  email?: string;
-  address?: Address;
-  otherIdentifier?: IdentifierEntry[];
-  /**
-   * If the entity is an organization, `official` is the name of an authorized official of the organization.
-   */
-  official?: string;
-  parentOrg?: Profile;
-  /**
-   * Family name. In the western world, often referred to as the 'last name' of a person.
-   */
-  familyName?: string;
-  /**
-   * Given name. In the western world, often referred to as the 'first name' of a person.
-   */
-  givenName?: string;
-  /**
-   * Additional name. Includes what is often referred to as 'middle name' in the western world.
-   */
-  additionalName?: string;
-  /**
-   * Patronymic name.
-   */
-  patronymicName?: string;
-  /**
-   * Honorific prefix(es) preceding a person's name (e.g. 'Dr', 'Mrs' or 'Mr').
-   */
-  honorificPrefix?: string;
-  /**
-   * Honorific suffix(es) following a person's name (e.g. 'M.D, PhD').
-   */
-  honorificSuffix?: string;
-  /**
-   * Family name prefix. As used in some locales, this is the leading part of a family name (e.g. 'de' in the name 'de Boer').
-   */
-  familyNamePrefix?: string;
-  /**
-   * Birthdate of the person.
-   */
-  dateOfBirth?: string;
-  [k: string]: unknown;
-}
-/**
- * A verifiable credential that asserts a claim about an entity. As described in [[[#data-integrity]]], at least one proof mechanism, and the details necessary to evaluate that proof, MUST be expressed for a credential to be a verifiable credential. In the case of an embedded proof, the credential MUST append the proof in the `proof` property.
- */
-export interface EndorsementCredential {
-  /**
-   * @minItems 2
-   */
-  '@context': ['https://www.w3.org/ns/credentials/v2', string, ...Context[]];
-  type: [string, ...string[]];
-  /**
-   * Unambiguous reference to the credential.
-   */
-  id: string;
-  /**
-   * The name of the credential for display purposes in wallets. For example, in a list of credentials and in detail views.
-   */
-  name: string;
-  /**
-   * The short description of the credential for display purposes in wallets.
-   */
-  description?: string;
-  credentialSubject: EndorsementSubject;
-  /**
-   * Timestamp of when the credential was awarded. `validFrom` is used to determine the most recent version of a Credential in conjunction with `issuer` and `id`. Consequently, the only way to update a Credental is to update the `validFrom`, losing the date when the Credential was originally awarded. `awardedDate` is meant to keep this original date.
-   */
-  awardedDate?: string;
-  issuer: ProfileRef;
-  /**
-   * Timestamp of when the credential becomes valid.
-   */
-  validFrom: string;
-  /**
-   * If the credential has some notion of validity period, this indicates a timestamp when a credential should no longer be considered valid. After this time, the credential should be considered invalid.
-   */
-  validUntil?: string;
-  proof?: Proof[];
-  credentialSchema?: CredentialSchema[];
-  credentialStatus?: CredentialStatus;
-  refreshService?: RefreshService;
-  termsOfUse?: TermsOfUse[];
   [k: string]: unknown;
 }
 /**
@@ -296,117 +191,4 @@ export interface TermsOfUse {
    */
   type: string;
   [k: string]: unknown;
-}
-/**
- * Metadata about images that represent assertions, achieve or profiles. These properties can typically be represented as just the id string of the image, but using a fleshed-out document allows for including captions and other applicable metadata.
- */
-export interface Image {
-  /**
-   * The URI or Data URI of the image.
-   */
-  id: string;
-  /**
-   * MUST be the IRI 'Image'.
-   */
-  type: 'Image';
-  /**
-   * The caption for the image.
-   */
-  caption?: string;
-}
-/**
- * An address for the described entity.
- */
-export interface Address {
-  /**
-   * @minItems 1
-   */
-  type: [string, ...string[]];
-  /**
-   * A country.
-   */
-  addressCountry?: string;
-  /**
-   * A country code. The value must be a ISO 3166-1 alpha-2 country code [[ISO3166-1]].
-   */
-  addressCountryCode?: string;
-  /**
-   * A region within the country.
-   */
-  addressRegion?: string;
-  /**
-   * A locality within the region.
-   */
-  addressLocality?: string;
-  /**
-   * A street address within the locality.
-   */
-  streetAddress?: string;
-  /**
-   * A post office box number for PO box addresses.
-   */
-  postOfficeBoxNumber?: string;
-  /**
-   * A postal code.
-   */
-  postalCode?: string;
-  geo?: GeoCoordinates;
-  [k: string]: unknown;
-}
-/**
- * The geographic coordinates of a location.
- */
-export interface GeoCoordinates {
-  /**
-   * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'GeoCoordinates'.
-   */
-  type: 'GeoCoordinates';
-  /**
-   * The latitude of the location [[WGS84]].
-   */
-  latitude: number;
-  /**
-   * The longitude of the location [[WGS84]].
-   */
-  longitude: number;
-  [k: string]: unknown;
-}
-/**
- * No description supplied.
- */
-export interface IdentifierEntry {
-  /**
-   * The value of the type property MUST be an unordered set. One of the items MUST be the IRI 'IdentifierEntry'.
-   */
-  type: 'IdentifierEntry';
-  /**
-   * An identifier.
-   */
-  identifier: string;
-  /**
-   * The identifier type.
-   */
-  identifierType:
-    | (
-        | 'name'
-        | 'sourcedId'
-        | 'systemId'
-        | 'productId'
-        | 'userName'
-        | 'accountId'
-        | 'emailAddress'
-        | 'nationalIdentityNumber'
-        | 'isbn'
-        | 'issn'
-        | 'lisSourcedId'
-        | 'oneRosterSourcedId'
-        | 'sisSourcedId'
-        | 'ltiContextId'
-        | 'ltiDeploymentId'
-        | 'ltiToolId'
-        | 'ltiPlatformId'
-        | 'ltiUserId'
-        | 'identifier'
-      )
-    | string;
 }

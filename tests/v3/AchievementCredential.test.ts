@@ -1,8 +1,8 @@
 import { z } from 'zod';
 // Import the main type from the index
-import type { Achievementcredential } from '../../src/v3/index.js';
+import type { AchievementCredential } from '../../src/v3/index.js';
 // Import nested types directly from their defining files
-import type { Image, Evidence, Proof } from '../../src/v3/Achievementcredential.js';
+import type { Image, Evidence, Proof } from '../../src/v3/AchievementCredential.js';
 import type { Profile } from '../../src/v3/Profile.js';
 
 // --- Zod Schemas ---
@@ -103,7 +103,7 @@ const validFromDate = new Date();
 const validUntilDate = new Date();
 validUntilDate.setFullYear(validFromDate.getFullYear() + 1);
 
-const minimalValidCredential: Achievementcredential = {
+const minimalValidCredential: AchievementCredential = {
   '@context': [
     'https://www.w3.org/ns/credentials/v2',
     'https://purl.imsglobal.org/spec/ob/v3p0/context.json'
@@ -126,7 +126,7 @@ const minimalValidCredential: Achievementcredential = {
   }
 };
 
-const credentialWithOptionalFields: Achievementcredential = {
+const credentialWithOptionalFields: AchievementCredential = {
     ...minimalValidCredential,
     name: 'Full Achievement Credential',
     description: 'This credential includes optional fields.',
@@ -138,7 +138,7 @@ const credentialWithOptionalFields: Achievementcredential = {
 };
 
 // New test data
-const credentialWithObjectIssuerAndEvidence: Achievementcredential = {
+const credentialWithObjectIssuerAndEvidence: AchievementCredential = {
   ...minimalValidCredential, // Start with minimal valid structure
   issuer: { // Use Profile object for issuer
     id: 'https://example.org/issuer',
