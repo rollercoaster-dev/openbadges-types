@@ -1,5 +1,5 @@
-import { isJsonLdObject, hasJsonLdType, OB3Context, VCContext, hasJsonLdContext } from '../shared';
-import { 
+import { isJsonLdObject, hasJsonLdType } from '../shared';
+import {
   VerifiableCredential,
   Issuer,
   CredentialSubject,
@@ -12,7 +12,7 @@ import {
   Results,
   CredentialStatus,
   RefreshService,
-  TermsOfUse
+  TermsOfUse,
 } from './index';
 
 /**
@@ -24,16 +24,18 @@ export function isVerifiableCredential(value: unknown): value is VerifiableCrede
   if (!isJsonLdObject(value)) {
     return false;
   }
-  
+
   // Check for required properties
   if (!hasJsonLdType(value, 'VerifiableCredential')) {
     return false;
   }
-  
-  return !(!('id' in value) || !('issuer' in value) || !('issuanceDate' in value) ||
-      !('credentialSubject' in value));
-  
 
+  return !(
+    !('id' in value) ||
+    !('issuer' in value) ||
+    !('issuanceDate' in value) ||
+    !('credentialSubject' in value)
+  );
 }
 
 /**
@@ -45,11 +47,9 @@ export function isIssuer(value: unknown): value is Issuer {
   if (!isJsonLdObject(value)) {
     return false;
   }
-  
+
   // Check for required properties
   return 'id' in value;
-  
-
 }
 
 /**
@@ -61,11 +61,9 @@ export function isCredentialSubject(value: unknown): value is CredentialSubject 
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // Check for required properties
   return 'achievement' in value;
-  
-
 }
 
 /**
@@ -77,11 +75,9 @@ export function isAchievement(value: unknown): value is Achievement {
   if (!isJsonLdObject(value)) {
     return false;
   }
-  
+
   // Check for required properties
   return 'name' in value;
-  
-
 }
 
 /**
@@ -93,12 +89,14 @@ export function isProof(value: unknown): value is Proof {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
-  // Check for required properties
-  return !(!('type' in value) || !('created' in value) ||
-      !('verificationMethod' in value) || !('proofPurpose' in value));
-  
 
+  // Check for required properties
+  return !(
+    !('type' in value) ||
+    !('created' in value) ||
+    !('verificationMethod' in value) ||
+    !('proofPurpose' in value)
+  );
 }
 
 /**
@@ -110,7 +108,7 @@ export function isEvidence(value: unknown): value is Evidence {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // No specific required properties for Evidence
   return true;
 }
@@ -124,7 +122,7 @@ export function isCriteria(value: unknown): value is Criteria {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // No specific required properties for Criteria
   return true;
 }
@@ -138,11 +136,9 @@ export function isAlignment(value: unknown): value is Alignment {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // Check for required properties
   return !(!('targetName' in value) || !('targetUrl' in value));
-  
-
 }
 
 /**
@@ -154,7 +150,7 @@ export function isResultDescription(value: unknown): value is ResultDescription 
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // No specific required properties for ResultDescription
   return true;
 }
@@ -168,7 +164,7 @@ export function isResults(value: unknown): value is Results {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // No specific required properties for Results
   return true;
 }
@@ -182,11 +178,9 @@ export function isCredentialStatus(value: unknown): value is CredentialStatus {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // Check for required properties
   return !(!('id' in value) || !('type' in value));
-  
-
 }
 
 /**
@@ -198,11 +192,9 @@ export function isRefreshService(value: unknown): value is RefreshService {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // Check for required properties
   return !(!('id' in value) || !('type' in value));
-  
-
 }
 
 /**
@@ -214,9 +206,7 @@ export function isTermsOfUse(value: unknown): value is TermsOfUse {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
-  
+
   // Check for required properties
   return 'type' in value;
-  
-
 }
