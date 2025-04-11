@@ -1,0 +1,30 @@
+# Source files
+src/
+
+# Development files
+.github/
+.vscode/
+.editorconfig
+.eslintrc.js
+.eslintignore
+.prettierrc
+.gitignore
+jest.config.js
+tsconfig.json
+
+# Test files
+test/
+coverage/
+*.test.ts
+*.spec.ts
+
+# Documentation files that don't need to be published
+CONTRIBUTING.md
+DEVELOPMENT.md
+research/
+examples/
+
+# Misc
+.DS_Store
+*.log
+.cursor/

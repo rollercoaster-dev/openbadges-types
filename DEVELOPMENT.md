@@ -170,10 +170,51 @@ If tests are failing:
 
 ## Release Process
 
-The release process is handled by the maintainers. If you're a maintainer:
+This project uses conventional commits and automated releases. The release process is handled by the maintainers.
+
+### Commit Message Format
+
+This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification. Commit messages should be structured as follows:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+Types include:
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Changes to the build process or auxiliary tools
+
+### Creating a Release
+
+If you're a maintainer:
 
 1. Ensure all tests pass and the build is successful
-2. Update the version in `package.json` according to semantic versioning
-3. Update the CHANGELOG.md file
-4. Create a new release on GitHub
-5. Publish to npm using `npm publish`
+2. Run one of the following commands based on the type of release:
+   ```bash
+   # Automatic version bump based on commit messages
+   npm run release
+
+   # Specific version bumps
+   npm run release:patch  # For bug fixes
+   npm run release:minor  # For new features
+   npm run release:major  # For breaking changes
+
+   # Pre-releases
+   npm run release:alpha  # Alpha release
+   npm run release:beta   # Beta release
+   ```
+3. Push the changes and tags to GitHub:
+   ```bash
+   git push --follow-tags origin main
+   ```
+4. The GitHub Actions workflow will automatically create a GitHub Release and publish to npm
