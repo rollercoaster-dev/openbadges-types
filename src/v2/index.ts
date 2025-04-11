@@ -1,4 +1,4 @@
-import { IRI, DateTime, MarkdownText, JsonLdObject, JsonLdArray  } from '../shared';
+import { IRI, DateTime, MarkdownText, JsonLdObject, JsonLdArray } from '../shared';
 
 // Export all type guards
 export * from './guards';

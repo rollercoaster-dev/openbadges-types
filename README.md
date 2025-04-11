@@ -201,6 +201,8 @@ function processBadge<T extends OpenBadgesVersion>(
 
 ## Development
 
+For detailed development instructions, see [DEVELOPMENT.md](DEVELOPMENT.md).
+
 ### Testing
 
 This package uses Jest for testing. The tests verify that the type definitions correctly match the OpenBadges 2.0 and 3.0 specifications.
@@ -223,6 +225,30 @@ To build the package:
 
 ```bash
 npm run build
+```
+
+### Linting and Formatting
+
+This package uses ESLint for linting and Prettier for code formatting.
+
+To lint the code:
+
+```bash
+npm run lint
+```
+
+To format the code:
+
+```bash
+npm run format
+```
+
+### Validation
+
+To validate the codebase (lint, format check, and test):
+
+```bash
+npm run validate
 ```
 
 ## Version Compatibility

@@ -19,7 +19,7 @@ export function validateBadge(badge: unknown): ValidationResult {
   const result: ValidationResult = {
     isValid: false,
     errors: [],
-    warnings: []
+    warnings: [],
   };
 
   // Check if the badge is an object
@@ -38,10 +38,10 @@ export function validateBadge(badge: unknown): ValidationResult {
   if (OB2.isAssertion(badge)) {
     result.isValid = true;
     result.version = 'OB2';
-    
+
     // Validate required properties according to the OB2 specification
     validateOB2Assertion(badge, result);
-    
+
     return result;
   }
 
@@ -49,10 +49,10 @@ export function validateBadge(badge: unknown): ValidationResult {
   if (OB3.isVerifiableCredential(badge)) {
     result.isValid = true;
     result.version = 'OB3';
-    
+
     // Validate required properties according to the OB3 specification
     validateOB3VerifiableCredential(badge, result);
-    
+
     return result;
   }
 
@@ -100,8 +100,14 @@ function validateOB2Assertion(assertion: OB2.Assertion, result: ValidationResult
   }
 
   // Validate optional properties
-  if (assertion.evidence && !Array.isArray(assertion.evidence) && !OB2.isEvidence(assertion.evidence)) {
-    result.warnings.push('Assertion evidence should be a valid Evidence object or array of Evidence objects');
+  if (
+    assertion.evidence &&
+    !Array.isArray(assertion.evidence) &&
+    !OB2.isEvidence(assertion.evidence)
+  ) {
+    result.warnings.push(
+      'Assertion evidence should be a valid Evidence object or array of Evidence objects'
+    );
   }
 
   if (assertion.expires && !Shared.isDateTime(assertion.expires)) {
@@ -155,8 +161,14 @@ function validateOB2BadgeClass(badgeClass: OB2.BadgeClass, result: ValidationRes
   }
 
   // Validate optional properties
-  if (badgeClass.alignment && !Array.isArray(badgeClass.alignment) && !OB2.isAlignmentObject(badgeClass.alignment)) {
-    result.warnings.push('BadgeClass alignment should be a valid AlignmentObject or array of AlignmentObjects');
+  if (
+    badgeClass.alignment &&
+    !Array.isArray(badgeClass.alignment) &&
+    !OB2.isAlignmentObject(badgeClass.alignment)
+  ) {
+    result.warnings.push(
+      'BadgeClass alignment should be a valid AlignmentObject or array of AlignmentObjects'
+    );
   }
 }
 
@@ -179,7 +191,10 @@ function validateOB2Profile(profile: OB2.Profile, result: ValidationResult): voi
   }
 
   // For issuers, additional properties are required
-  if (profile.type === 'Issuer' || (Array.isArray(profile.type) && profile.type.includes('Issuer'))) {
+  if (
+    profile.type === 'Issuer' ||
+    (Array.isArray(profile.type) && profile.type.includes('Issuer'))
+  ) {
     // Validate url
     if (!profile.url || !Shared.isIRI(profile.url)) {
       result.errors.push('Issuer Profile url must be a valid IRI');
@@ -199,7 +214,10 @@ function validateOB2Profile(profile: OB2.Profile, result: ValidationResult): voi
  * @param credential The VerifiableCredential to validate
  * @param result The validation result to update
  */
-function validateOB3VerifiableCredential(credential: OB3.VerifiableCredential, result: ValidationResult): void {
+function validateOB3VerifiableCredential(
+  credential: OB3.VerifiableCredential,
+  result: ValidationResult
+): void {
   // Validate id
   if (!Shared.isIRI(credential.id)) {
     result.errors.push('VerifiableCredential id must be a valid IRI');
@@ -208,7 +226,9 @@ function validateOB3VerifiableCredential(credential: OB3.VerifiableCredential, r
 
   // Validate issuanceDate
   if (!Shared.isDateTime(credential.issuanceDate)) {
-    result.errors.push('VerifiableCredential issuanceDate must be a valid DateTime in ISO 8601 format');
+    result.errors.push(
+      'VerifiableCredential issuanceDate must be a valid DateTime in ISO 8601 format'
+    );
     result.isValid = false;
   }
 

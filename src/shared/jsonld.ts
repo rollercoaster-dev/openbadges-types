@@ -31,7 +31,7 @@ export function isJsonLdObject(value: unknown): value is JsonLdObject {
   }
 
   // According to the Open Badges specification, a valid JSON-LD object must have both @context and type
-  return ('@context' in value) && ('type' in value);
+  return '@context' in value && 'type' in value;
 }
 
 /**
@@ -40,7 +40,10 @@ export function isJsonLdObject(value: unknown): value is JsonLdObject {
  * @param itemGuard Optional type guard function to check each item in the array
  * @returns True if the value is a valid JSON-LD array, false otherwise
  */
-export function isJsonLdArray<T>(value: unknown, itemGuard?: (item: unknown) => item is T): value is JsonLdArray<T> {
+export function isJsonLdArray<T>(
+  value: unknown,
+  itemGuard?: (item: unknown) => item is T
+): value is JsonLdArray<T> {
   if (Array.isArray(value)) {
     return itemGuard ? value.every(item => itemGuard(item)) : true;
   }

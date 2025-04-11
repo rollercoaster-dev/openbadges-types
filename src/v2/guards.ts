@@ -1,4 +1,4 @@
-import { isJsonLdObject, hasJsonLdType, OB2Context, hasJsonLdContext } from '../shared';
+import { isJsonLdObject, hasJsonLdType } from '../shared';
 import {
   Assertion,
   BadgeClass,
@@ -10,7 +10,7 @@ import {
   Image,
   Criteria,
   RevocationList,
-  CryptographicKey
+  CryptographicKey,
 } from './index';
 
 /**
@@ -28,10 +28,13 @@ export function isAssertion(value: unknown): value is Assertion {
     return false;
   }
 
-  return !(!('id' in value) || !('recipient' in value) || !('badge' in value) ||
-      !('verification' in value) || !('issuedOn' in value));
-
-
+  return !(
+    !('id' in value) ||
+    !('recipient' in value) ||
+    !('badge' in value) ||
+    !('verification' in value) ||
+    !('issuedOn' in value)
+  );
 }
 
 /**
@@ -47,15 +50,21 @@ export function isBadgeClass(value: unknown): value is BadgeClass {
   // Check for required properties
   // For embedded BadgeClass objects, they might not have @context,
   // but they should have type property
-  if (!('type' in value) || (Array.isArray(value.type) ?
-      !value.type.includes('BadgeClass') : value.type !== 'BadgeClass')) {
+  if (
+    !('type' in value) ||
+    (Array.isArray(value.type) ? !value.type.includes('BadgeClass') : value.type !== 'BadgeClass')
+  ) {
     return false;
   }
 
-  return !(!('id' in value) || !('name' in value) || !('description' in value) ||
-      !('image' in value) || !('criteria' in value) || !('issuer' in value));
-
-
+  return !(
+    !('id' in value) ||
+    !('name' in value) ||
+    !('description' in value) ||
+    !('image' in value) ||
+    !('criteria' in value) ||
+    !('issuer' in value)
+  );
 }
 
 /**
@@ -77,17 +86,15 @@ export function isProfile(value: unknown): value is Profile {
 
   // Check if type is Profile or Issuer
   const type = value.type;
-  const isProfileType = Array.isArray(type) ?
-    (type.includes('Profile') || type.includes('Issuer')) :
-    (type === 'Profile' || type === 'Issuer');
+  const isProfileType = Array.isArray(type)
+    ? type.includes('Profile') || type.includes('Issuer')
+    : type === 'Profile' || type === 'Issuer';
 
   if (!isProfileType) {
     return false;
   }
 
   return !(!('id' in value) || !('name' in value));
-
-
 }
 
 /**
@@ -102,8 +109,6 @@ export function isIdentityObject(value: unknown): value is IdentityObject {
 
   // Check for required properties
   return !(!('type' in value) || !('identity' in value));
-
-
 }
 
 /**
@@ -118,8 +123,6 @@ export function isVerificationObject(value: unknown): value is VerificationObjec
 
   // Check for required properties
   return 'type' in value;
-
-
 }
 
 /**
@@ -148,8 +151,6 @@ export function isAlignmentObject(value: unknown): value is AlignmentObject {
 
   // Check for required properties
   return !(!('targetName' in value) || !('targetUrl' in value));
-
-
 }
 
 /**
@@ -196,8 +197,6 @@ export function isRevocationList(value: unknown): value is RevocationList {
   }
 
   return !(!('id' in value) || !('revokedAssertions' in value));
-
-
 }
 
 /**
@@ -216,6 +215,4 @@ export function isCryptographicKey(value: unknown): value is CryptographicKey {
   }
 
   return !(!('id' in value) || !('owner' in value));
-
-
 }
