@@ -39,7 +39,7 @@ jobs:
       run: pnpm format:check
 
     - name: Type check
-      run: pnpm build --dry-run
+      run: pnpm exec tsc --noEmit
 
     - name: Test
       run: pnpm test
