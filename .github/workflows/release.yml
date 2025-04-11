@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -39,17 +43,18 @@ jobs:
         run: pnpm exec standard-version --skip.bump --skip.commit --skip.tag
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          VERSION=${TAG_NAME#v}
+          CHANGELOG_CONTENT=$(cat CHANGELOG.md)
+          gh release create $TAG_NAME \
+            --title "Release $TAG_NAME" \
+            --notes "$CHANGELOG_CONTENT" \
+            --verify-tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body_path: CHANGELOG.md
-          draft: false
-          prerelease: false
 
       - name: Publish to npm
-        run: pnpm publish
+        run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
