@@ -1,5 +1,7 @@
-import { IRI, DateTime, MarkdownText } from '../shared/common';
-import { JsonLdObject, JsonLdArray } from '../shared/jsonld';
+import { IRI, DateTime, MarkdownText, JsonLdObject, JsonLdArray  } from '../shared';
+
+// Export all type guards
+export * from './guards';
 
 /**
  * IdentityObject interface for Open Badges 2.0

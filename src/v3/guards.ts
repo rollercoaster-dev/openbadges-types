@@ -1,0 +1,222 @@
+import { isJsonLdObject, hasJsonLdType, OB3Context, VCContext, hasJsonLdContext } from '../shared';
+import { 
+  VerifiableCredential,
+  Issuer,
+  CredentialSubject,
+  Achievement,
+  Proof,
+  Evidence,
+  Criteria,
+  Alignment,
+  ResultDescription,
+  Results,
+  CredentialStatus,
+  RefreshService,
+  TermsOfUse
+} from './index';
+
+/**
+ * Type guard to check if a value is an OB3 VerifiableCredential
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 VerifiableCredential, false otherwise
+ */
+export function isVerifiableCredential(value: unknown): value is VerifiableCredential {
+  if (!isJsonLdObject(value)) {
+    return false;
+  }
+  
+  // Check for required properties
+  if (!hasJsonLdType(value, 'VerifiableCredential')) {
+    return false;
+  }
+  
+  return !(!('id' in value) || !('issuer' in value) || !('issuanceDate' in value) ||
+      !('credentialSubject' in value));
+  
+
+}
+
+/**
+ * Type guard to check if a value is an OB3 Issuer
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 Issuer, false otherwise
+ */
+export function isIssuer(value: unknown): value is Issuer {
+  if (!isJsonLdObject(value)) {
+    return false;
+  }
+  
+  // Check for required properties
+  return 'id' in value;
+  
+
+}
+
+/**
+ * Type guard to check if a value is an OB3 CredentialSubject
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 CredentialSubject, false otherwise
+ */
+export function isCredentialSubject(value: unknown): value is CredentialSubject {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // Check for required properties
+  return 'achievement' in value;
+  
+
+}
+
+/**
+ * Type guard to check if a value is an OB3 Achievement
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 Achievement, false otherwise
+ */
+export function isAchievement(value: unknown): value is Achievement {
+  if (!isJsonLdObject(value)) {
+    return false;
+  }
+  
+  // Check for required properties
+  return 'name' in value;
+  
+
+}
+
+/**
+ * Type guard to check if a value is an OB3 Proof
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 Proof, false otherwise
+ */
+export function isProof(value: unknown): value is Proof {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // Check for required properties
+  return !(!('type' in value) || !('created' in value) ||
+      !('verificationMethod' in value) || !('proofPurpose' in value));
+  
+
+}
+
+/**
+ * Type guard to check if a value is an OB3 Evidence
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 Evidence, false otherwise
+ */
+export function isEvidence(value: unknown): value is Evidence {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // No specific required properties for Evidence
+  return true;
+}
+
+/**
+ * Type guard to check if a value is an OB3 Criteria
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 Criteria, false otherwise
+ */
+export function isCriteria(value: unknown): value is Criteria {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // No specific required properties for Criteria
+  return true;
+}
+
+/**
+ * Type guard to check if a value is an OB3 Alignment
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 Alignment, false otherwise
+ */
+export function isAlignment(value: unknown): value is Alignment {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // Check for required properties
+  return !(!('targetName' in value) || !('targetUrl' in value));
+  
+
+}
+
+/**
+ * Type guard to check if a value is an OB3 ResultDescription
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 ResultDescription, false otherwise
+ */
+export function isResultDescription(value: unknown): value is ResultDescription {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // No specific required properties for ResultDescription
+  return true;
+}
+
+/**
+ * Type guard to check if a value is an OB3 Results
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 Results, false otherwise
+ */
+export function isResults(value: unknown): value is Results {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // No specific required properties for Results
+  return true;
+}
+
+/**
+ * Type guard to check if a value is an OB3 CredentialStatus
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 CredentialStatus, false otherwise
+ */
+export function isCredentialStatus(value: unknown): value is CredentialStatus {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // Check for required properties
+  return !(!('id' in value) || !('type' in value));
+  
+
+}
+
+/**
+ * Type guard to check if a value is an OB3 RefreshService
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 RefreshService, false otherwise
+ */
+export function isRefreshService(value: unknown): value is RefreshService {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // Check for required properties
+  return !(!('id' in value) || !('type' in value));
+  
+
+}
+
+/**
+ * Type guard to check if a value is an OB3 TermsOfUse
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 TermsOfUse, false otherwise
+ */
+export function isTermsOfUse(value: unknown): value is TermsOfUse {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  
+  // Check for required properties
+  return 'type' in value;
+  
+
+}

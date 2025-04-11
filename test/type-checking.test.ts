@@ -12,46 +12,13 @@ import { createOB2Assertion, createOB3VerifiableCredential } from './helpers';
 describe('Type Checking Tests', () => {
   describe('OB2 Type Checking', () => {
     test('should enforce required properties on Assertion', () => {
-      // This should compile without errors
-      const validAssertion: OB2.Assertion = {
-        '@context': 'https://w3id.org/openbadges/v2',
-        id: 'https://example.org/assertions/123',
-        type: 'Assertion',
-        recipient: {
-          type: 'email',
-          identity: 'alice@example.org'
-        },
-        issuedOn: '2016-12-31T23:59:59+00:00',
-        verification: {
-          type: 'hosted'
-        },
-        badge: {
-          id: 'https://example.org/badges/5',
-          type: 'BadgeClass',
-          name: '3-D Printmaster',
-          description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.',
-          image: 'https://example.org/badges/5/image',
-          criteria: {
-            narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.'
-          },
-          issuer: {
-            id: 'https://example.org/issuer',
-            type: 'Profile',
-            name: 'Example Maker Society',
-            url: 'https://example.org',
-            email: 'contact@example.org',
-            verification: {
-              type: 'hosted',
-              allowedOrigins: 'example.org'
-            }
-          }
-        }
-      };
+      // Use the helper function to create a valid assertion
+      const validAssertion = createOB2Assertion();
 
       // TypeScript should catch this error during compilation
       // @ts-expect-error - Missing required properties
       const invalidAssertion: OB2.Assertion = {
-        id: 'https://example.org/assertions/123',
+        id: Shared.createIRI('https://example.org/assertions/123'),
         type: 'Assertion'
         // Missing recipient, issuedOn, verification, badge
       };
@@ -68,7 +35,7 @@ describe('Type Checking Tests', () => {
       // TypeScript should catch this error during compilation
       // @ts-expect-error - Missing required properties
       const invalidCredential: OB3.VerifiableCredential = {
-        id: 'https://example.org/credentials/3732',
+        id: Shared.createIRI('https://example.org/credentials/3732'),
         type: ['VerifiableCredential']
         // Missing @context, issuer, issuanceDate, credentialSubject
       };
@@ -80,8 +47,8 @@ describe('Type Checking Tests', () => {
   describe('Shared Type Checking', () => {
     test('should enforce correct types for shared types', () => {
       // These should compile without errors
-      const validIRI: Shared.IRI = 'https://example.org/badges/5';
-      const validDateTime: Shared.DateTime = '2023-06-15T12:00:00Z';
+      const validIRI: Shared.IRI = Shared.createIRI('https://example.org/badges/5');
+      const validDateTime: Shared.DateTime = Shared.createDateTime('2023-06-15T12:00:00Z');
       const validMultiLanguageString: Shared.MultiLanguageString = {
         'en': 'Hello',
         'es': 'Hola'

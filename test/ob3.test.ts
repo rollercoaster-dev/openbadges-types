@@ -1,4 +1,4 @@
-import { OB3 } from '../src';
+import { OB3, Shared } from '../src';
 import { createOB3VerifiableCredential, createOB3Achievement } from './helpers';
 
 describe('Open Badges 3.0 Types', () => {
@@ -22,8 +22,8 @@ describe('Open Badges 3.0 Types', () => {
         ...validCredential,
         proof: {
           type: 'Ed25519Signature2020',
-          created: '2023-06-15T12:05:00Z',
-          verificationMethod: 'https://example.org/issuers/123#keys-1',
+          created: Shared.createDateTime('2023-06-15T12:05:00Z'),
+          verificationMethod: Shared.createIRI('https://example.org/issuers/123#keys-1'),
           proofPurpose: 'assertionMethod',
           proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh'
         }
@@ -38,7 +38,7 @@ describe('Open Badges 3.0 Types', () => {
       // Test with multiple achievements
       const credentialWithMultipleAchievements = createOB3VerifiableCredential({
         credentialSubject: {
-          id: 'did:example:ebfeb1f712ebc6f1c276e12ec21',
+          id: Shared.createIRI('did:example:ebfeb1f712ebc6f1c276e12ec21'),
           achievement: [
             createOB3Achievement({ name: '3-D Printmaster' }),
             createOB3Achievement({ name: 'Safety Expert' })
