@@ -1,0 +1,37 @@
+{
+  "name": "openbadges-types",
+  "version": "1.0.0",
+  "description": "TypeScript type definitions for Open Badges 2.0 and 3.0 specifications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rollercoaster-dev/openbadges-types.git"
+  },
+  "keywords": [
+    "open-badges",
+    "badges",
+    "typescript",
+    "types",
+    "verifiable-credentials"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rollercoaster-dev/openbadges-types/issues"
+  },
+  "homepage": "https://github.com/rollercoaster-dev/openbadges-types#readme",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.0.0"
+  }
+}
