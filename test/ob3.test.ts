@@ -1,99 +1,71 @@
 import { OB3 } from '../src';
+import { createOB3VerifiableCredential, createOB3Achievement } from './helpers';
 
-// Test Open Badges 3.0 VerifiableCredential
-const validCredential: OB3.VerifiableCredential = {
-  '@context': [
-    'https://www.w3.org/2018/credentials/v1',
-    'https://purl.imsglobal.org/spec/ob/v3p0/context.json'
-  ],
-  id: 'https://example.org/credentials/3732',
-  type: ['VerifiableCredential'],
-  issuer: {
-    id: 'https://example.org/issuers/123',
-    type: ['Profile'],
-    name: 'Example Maker Society',
-    url: 'https://example.org',
-    email: 'contact@example.org'
-  },
-  issuanceDate: '2023-06-15T12:00:00Z',
-  credentialSubject: {
-    id: 'did:example:ebfeb1f712ebc6f1c276e12ec21',
-    achievement: {
-      type: ['Achievement'],
-      name: '3-D Printmaster',
-      description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.',
-      criteria: {
-        narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.'
-      }
-    }
-  }
-};
+describe('Open Badges 3.0 Types', () => {
+  // Test data
+  const validCredential = createOB3VerifiableCredential();
 
-// Validate that the credential matches the specification
-console.log('Open Badges 3.0 VerifiableCredential validation:');
-console.log('- Has context:', '@context' in validCredential);
-console.log('- Has id:', 'id' in validCredential);
-console.log('- Has type:', 'type' in validCredential);
-console.log('- Has issuer:', 'issuer' in validCredential);
-console.log('- Has issuanceDate:', 'issuanceDate' in validCredential);
-console.log('- Has credentialSubject:', 'credentialSubject' in validCredential);
+  describe('VerifiableCredential', () => {
+    test('should have all required properties', () => {
+      // Validate that the credential matches the specification
+      expect(validCredential).toHaveProperty('@context');
+      expect(validCredential).toHaveProperty('id');
+      expect(validCredential).toHaveProperty('type');
+      expect(validCredential).toHaveProperty('issuer');
+      expect(validCredential).toHaveProperty('issuanceDate');
+      expect(validCredential).toHaveProperty('credentialSubject');
+    });
 
-// Test with proof
-const credentialWithProof: OB3.VerifiableCredential = {
-  ...validCredential,
-  proof: {
-    type: 'Ed25519Signature2020',
-    created: '2023-06-15T12:05:00Z',
-    verificationMethod: 'https://example.org/issuers/123#keys-1',
-    proofPurpose: 'assertionMethod',
-    proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh'
-  }
-};
+    test('should support proof property', () => {
+      // Test with proof
+      const credentialWithProof: OB3.VerifiableCredential = {
+        ...validCredential,
+        proof: {
+          type: 'Ed25519Signature2020',
+          created: '2023-06-15T12:05:00Z',
+          verificationMethod: 'https://example.org/issuers/123#keys-1',
+          proofPurpose: 'assertionMethod',
+          proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh'
+        }
+      };
 
-console.log('\nCredential with proof:');
-console.log('- Has proof:', 'proof' in credentialWithProof);
-console.log('- Proof type:', credentialWithProof.proof?.type);
+      expect(credentialWithProof).toHaveProperty('proof');
+      expect(credentialWithProof.proof).toHaveProperty('type');
+      expect(credentialWithProof.proof?.type).toBe('Ed25519Signature2020');
+    });
 
-// Test with multiple achievements
-const credentialWithMultipleAchievements: OB3.VerifiableCredential = {
-  ...validCredential,
-  credentialSubject: {
-    ...validCredential.credentialSubject,
-    achievement: [
-      {
-        type: ['Achievement'],
-        name: '3-D Printmaster',
-        description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.'
-      },
-      {
-        type: ['Achievement'],
-        name: 'Safety Expert',
-        description: 'This badge is awarded for demonstrating exceptional safety knowledge.'
-      }
-    ]
-  }
-};
+    test('should support multiple achievements as an array', () => {
+      // Test with multiple achievements
+      const credentialWithMultipleAchievements = createOB3VerifiableCredential({
+        credentialSubject: {
+          id: 'did:example:ebfeb1f712ebc6f1c276e12ec21',
+          achievement: [
+            createOB3Achievement({ name: '3-D Printmaster' }),
+            createOB3Achievement({ name: 'Safety Expert' })
+          ]
+        }
+      });
 
-console.log('\nCredential with multiple achievements:');
-console.log('- Achievement is array:', Array.isArray(credentialWithMultipleAchievements.credentialSubject.achievement));
-console.log('- Achievement count:', Array.isArray(credentialWithMultipleAchievements.credentialSubject.achievement) 
-  ? credentialWithMultipleAchievements.credentialSubject.achievement.length 
-  : 0);
+      expect(Array.isArray(credentialWithMultipleAchievements.credentialSubject.achievement)).toBe(true);
+      expect(credentialWithMultipleAchievements.credentialSubject.achievement).toHaveLength(2);
+    });
 
-// Test with evidence
-const credentialWithEvidence: OB3.VerifiableCredential = {
-  ...validCredential,
-  evidence: [
-    {
-      id: 'https://example.org/evidence/123',
-      type: ['Evidence'],
-      narrative: 'Alice completed all required tasks with distinction.'
-    }
-  ]
-};
+    test('should support evidence property', () => {
+      // Test with evidence
+      const credentialWithEvidence: OB3.VerifiableCredential = {
+        ...validCredential,
+        evidence: [
+          {
+            id: 'https://example.org/evidence/123',
+            type: ['Evidence'],
+            narrative: 'Alice completed all required tasks with distinction.'
+          }
+        ]
+      };
 
-console.log('\nCredential with evidence:');
-console.log('- Has evidence:', 'evidence' in credentialWithEvidence);
-console.log('- Evidence count:', Array.isArray(credentialWithEvidence.evidence) ? credentialWithEvidence.evidence.length : 0);
-
-console.log('\nOpen Badges 3.0 types validation completed successfully!');
+      expect(credentialWithEvidence).toHaveProperty('evidence');
+      expect(Array.isArray(credentialWithEvidence.evidence)).toBe(true);
+      expect(credentialWithEvidence.evidence).toHaveLength(1);
+    });
+  });
+});

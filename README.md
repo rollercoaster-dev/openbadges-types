@@ -199,6 +199,32 @@ function processBadge<T extends OpenBadgesVersion>(
 - `JsonLdObject`: Base interface for JSON-LD objects
 - `JsonLdArray`: Helper type for JSON-LD arrays
 
+## Development
+
+### Testing
+
+This package uses Jest for testing. The tests verify that the type definitions correctly match the OpenBadges 2.0 and 3.0 specifications.
+
+To run the tests:
+
+```bash
+npm test
+```
+
+To run the tests with coverage:
+
+```bash
+npm run test:coverage
+```
+
+### Building
+
+To build the package:
+
+```bash
+npm run build
+```
+
 ## Version Compatibility
 
 This package supports:
