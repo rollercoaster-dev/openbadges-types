@@ -121,6 +121,17 @@ When adding new types:
 2. Export them from the corresponding `index.ts` file
 3. Add tests for the new types
 4. Update documentation if necessary
+5. **Avoid using `any` type** - Use more specific types or `unknown` instead
+
+### Type Safety Guidelines
+
+- **Avoid `any`**: The `any` type defeats TypeScript's type checking and should be avoided in new code
+- **Use `unknown` instead**: When the type is truly not known, use `unknown` instead of `any`
+- **Use type guards**: Create type guards to narrow down `unknown` types to more specific types
+- **Use generics**: When appropriate, use generics to maintain type safety while allowing flexibility
+- **Use union types**: When a value can be one of several types, use union types instead of `any`
+
+Existing uses of `any` in the codebase are being gradually refactored. New code should not introduce new `any` types.
 
 ## Pull Request Process
 

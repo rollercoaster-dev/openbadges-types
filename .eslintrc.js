@@ -20,14 +20,18 @@ module.exports = {
   rules: {
     // TypeScript specific rules
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/no-unused-vars': ['error', { 
+    // Warn about existing any types but error on new ones
+    '@typescript-eslint/no-explicit-any': ['error', {
+      'ignoreRestArgs': true,
+      'fixToUnknown': false
+    }],
+    '@typescript-eslint/no-unused-vars': ['error', {
       'argsIgnorePattern': '^_',
-      'varsIgnorePattern': '^_' 
+      'varsIgnorePattern': '^_'
     }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/ban-ts-comment': 'warn',
-    
+
     // General rules
     'no-console': 'warn',
     'no-debugger': 'warn',
@@ -36,7 +40,7 @@ module.exports = {
     'prefer-const': 'error',
     'quotes': ['error', 'single', { 'avoidEscape': true }],
     'semi': ['error', 'always'],
-    
+
     // Prettier rules
     'prettier/prettier': 'error',
   },
