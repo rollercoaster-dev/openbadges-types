@@ -6,8 +6,8 @@ This document provides guidelines and instructions for contributors to the OpenB
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm (v6 or higher)
+- Node.js (v18.12.0 or higher)
+- pnpm (v10 or higher)
 
 ### Setup
 
@@ -19,7 +19,7 @@ This document provides guidelines and instructions for contributors to the OpenB
 
 2. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 
 ## Development Workflow
@@ -29,13 +29,13 @@ This document provides guidelines and instructions for contributors to the OpenB
 To build the package:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 For development with automatic rebuilding:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ### Code Style and Linting
@@ -45,25 +45,25 @@ This project uses ESLint for linting and Prettier for code formatting.
 To check for linting issues:
 
 ```bash
-npm run lint
+pnpm lint
 ```
 
 To automatically fix linting issues:
 
 ```bash
-npm run lint:fix
+pnpm lint:fix
 ```
 
 To format code with Prettier:
 
 ```bash
-npm run format
+pnpm format
 ```
 
 To check if files are properly formatted:
 
 ```bash
-npm run format:check
+pnpm format:check
 ```
 
 ### Testing
@@ -71,19 +71,19 @@ npm run format:check
 To run tests:
 
 ```bash
-npm test
+pnpm test
 ```
 
 To run tests in watch mode:
 
 ```bash
-npm run test:watch
+pnpm test:watch
 ```
 
 To run tests with coverage:
 
 ```bash
-npm run test:coverage
+pnpm test:coverage
 ```
 
 ### Validation
@@ -91,7 +91,7 @@ npm run test:coverage
 To validate the codebase (lint, format check, and test):
 
 ```bash
-npm run validate
+pnpm validate
 ```
 
 ## Project Structure
@@ -151,13 +151,13 @@ If you encounter TypeScript compilation errors:
 
 1. Check that your types are correctly defined
 2. Verify that all imports are correct
-3. Run `npm run clean:build` to ensure a clean build
+3. Run `pnpm clean:build` to ensure a clean build
 
 #### Linting Errors
 
 If you encounter linting errors:
 
-1. Run `npm run lint:fix` to automatically fix issues
+1. Run `pnpm lint:fix` to automatically fix issues
 2. For issues that can't be automatically fixed, manually address them according to the error messages
 
 #### Test Failures

@@ -29,6 +29,9 @@
     "release:alpha": "standard-version --prerelease alpha",
     "release:beta": "standard-version --prerelease beta"
   },
+  "engines": {
+    "node": ">=18.12.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rollercoaster-dev/openbadges-types.git"
