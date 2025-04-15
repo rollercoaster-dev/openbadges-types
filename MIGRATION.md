@@ -2,6 +2,8 @@
 
 This guide helps developers migrate from Open Badges 2.0 to Open Badges 3.0 using the `openbadges-types` package.
 
+> **Note:** In Open Badges 3.0, the `image` field for `Issuer`, `Profile`, and `Achievement` can be either a string IRI/URL or an object with `{ id, type: "Image" }`. The type `OB3ImageObject` enforces this structure for protocol compliance. Use `image?: IRI | OB3ImageObject` in your OB3 types.
+
 ## Table of Contents
 
 - [Overview of Changes](#overview-of-changes)
@@ -152,7 +154,7 @@ const assertion: OB2.Assertion = {
 #### Equivalent Open Badges 3.0 Verifiable Credential
 
 ```typescript
-import { OB3 } from 'openbadges-types';
+import { OB3, IRI, OB3ImageObject } from 'openbadges-types';
 
 const achievement: OB3.Achievement = {
   type: ['Achievement'],
@@ -161,7 +163,13 @@ const achievement: OB3.Achievement = {
   criteria: {
     narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.'
   },
+  // image can be a string IRI or an object
   image: 'https://example.org/badges/5/image'
+  // or
+  // image: {
+  //   id: 'https://example.org/badges/5/image',
+  //   type: 'Image'
+  // }
 };
 
 const credential: OB3.VerifiableCredential = {
@@ -176,7 +184,13 @@ const credential: OB3.VerifiableCredential = {
     type: ['Profile'],
     name: 'Example Maker Society',
     url: 'https://example.org',
-    email: 'contact@example.org'
+    email: 'contact@example.org',
+    // image can be a string IRI or an object
+    image: {
+      id: 'https://example.org/logo.png',
+      type: 'Image',
+      caption: 'Logo'
+    }
   },
   issuanceDate: '2016-12-31T23:59:59+00:00',
   credentialSubject: {
