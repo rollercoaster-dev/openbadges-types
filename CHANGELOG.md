@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/rollercoaster-dev/openbadges-types/compare/v1.0.1...v3.0.0) (2025-04-15)
+
+
+### Features
+
+* **protocol:** add OB3ImageObject and update image fields for OB3 compliance ([68fc659](https://github.com/rollercoaster-dev/openbadges-types/commit/68fc6590da3e01fba913518609a5c6dfb70769b4))
+* **tests:** add Jest configuration and update test helpers for OB3 compliance ([d8e75ce](https://github.com/rollercoaster-dev/openbadges-types/commit/d8e75ce6b976dbc9447f244bf649ada14a26eace))
+
+
+### Bug Fixes
+
+* **test:** support ESM by renaming jest.config.js to jest.config.cjs ([2cae6ce](https://github.com/rollercoaster-dev/openbadges-types/commit/2cae6ce97aac15e053a3af8410c56211e6f8368b))
+
+
+### Documentation
+
+* add MIT license file ([93715ba](https://github.com/rollercoaster-dev/openbadges-types/commit/93715baf3d512b67a5d818bc77ec3b49833f6b27))
+
 ## [2.0.0](https://github.com/rollercoaster-dev/openbadges-types/compare/v1.0.1...v2.0.0) (2025-04-15)
 
 
