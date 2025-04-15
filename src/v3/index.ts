@@ -1,4 +1,11 @@
-import { IRI, DateTime, MarkdownText, MultiLanguageString, JsonLdObject } from '../shared';
+import {
+  IRI,
+  DateTime,
+  MarkdownText,
+  MultiLanguageString,
+  JsonLdObject,
+  OB3ImageObject,
+} from '../shared';
 
 // Export all type guards
 export * from './guards';
@@ -29,11 +36,11 @@ export interface VerifiableCredential extends JsonLdObject {
  */
 export interface Issuer extends JsonLdObject {
   id: IRI;
-  type?: string | string[];
-  name?: string | MultiLanguageString;
+  type: string | string[];
+  name: string | MultiLanguageString;
   description?: string | MultiLanguageString;
-  url?: IRI;
-  image?: IRI;
+  url: IRI;
+  image?: IRI | OB3ImageObject;
   email?: string;
   telephone?: string;
   [key: string]: any;
@@ -57,12 +64,12 @@ export interface CredentialSubject {
  * Represents the achievement being recognized
  */
 export interface Achievement extends JsonLdObject {
-  id?: IRI;
+  id: IRI;
   type: string | string[];
   name: string | MultiLanguageString;
   description?: string | MultiLanguageString;
   criteria?: Criteria;
-  image?: IRI;
+  image?: IRI | OB3ImageObject;
   creator?: IRI | Issuer;
   alignments?: Alignment[];
   resultDescriptions?: ResultDescription[];

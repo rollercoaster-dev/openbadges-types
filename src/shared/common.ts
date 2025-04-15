@@ -88,3 +88,14 @@ export interface ImageObject {
   caption?: string | MultiLanguageString;
   author?: string;
 }
+
+/**
+ * Strict image object for Open Badges 3.0 Profile compliance
+ * Requires id and type: 'Image'
+ */
+export interface OB3ImageObject {
+  id: IRI;
+  type: 'Image';
+  caption?: string | MultiLanguageString;
+  author?: string;
+}

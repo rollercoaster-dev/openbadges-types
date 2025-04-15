@@ -47,6 +47,7 @@ export const createOB2Assertion = (overrides?: Partial<OB2.Assertion>): OB2.Asse
 export const createOB3Achievement = (overrides?: Partial<OB3.Achievement>): OB3.Achievement => {
   return {
     '@context': 'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
+    id: Shared.createIRI('https://example.org/achievements/1'),
     type: ['Achievement'],
     name: '3-D Printmaster',
     description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.',

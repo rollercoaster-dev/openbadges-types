@@ -14,8 +14,11 @@ export * as OB3 from './v3';
 export * from './validation';
 
 // Type to determine which Open Badges version to use
+
 export enum OpenBadgesVersion {
+  // eslint-disable-next-line no-unused-vars
   V2 = '2.0',
+  // eslint-disable-next-line no-unused-vars
   V3 = '3.0',
 }
 
