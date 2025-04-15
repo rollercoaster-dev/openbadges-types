@@ -1,4 +1,11 @@
-import { IRI, DateTime, MarkdownText, MultiLanguageString, JsonLdObject, OB3ImageObject } from '../shared';
+import {
+  IRI,
+  DateTime,
+  MarkdownText,
+  MultiLanguageString,
+  JsonLdObject,
+  OB3ImageObject,
+} from '../shared';
 
 // Export all type guards
 export * from './guards';

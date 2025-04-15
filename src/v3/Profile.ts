@@ -48,7 +48,7 @@ export interface Profile {
         | {
             [k: string]: unknown;
           }
-      )[]
+      )[],
     ];
     type: [string, ...string[]];
     /**
