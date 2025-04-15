@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/rollercoaster-dev/openbadges-types/compare/v1.0.1...v2.0.0) (2025-04-15)
+
+
+### Features
+
+* **protocol:** add OB3ImageObject and update image fields for OB3 compliance ([68fc659](https://github.com/rollercoaster-dev/openbadges-types/commit/68fc6590da3e01fba913518609a5c6dfb70769b4))
+* **tests:** add Jest configuration and update test helpers for OB3 compliance ([d8e75ce](https://github.com/rollercoaster-dev/openbadges-types/commit/d8e75ce6b976dbc9447f244bf649ada14a26eace))
+
+
+### Bug Fixes
+
+* **test:** support ESM by renaming jest.config.js to jest.config.cjs ([2cae6ce](https://github.com/rollercoaster-dev/openbadges-types/commit/2cae6ce97aac15e053a3af8410c56211e6f8368b))
+
+
+### Documentation
+
+* add MIT license file ([93715ba](https://github.com/rollercoaster-dev/openbadges-types/commit/93715baf3d512b67a5d818bc77ec3b49833f6b27))
+
+## [2.0.0] - 2024-06-10
+
+> **Note:** This is the first major version bump for protocol and type safety compliance.
+
+### 🚨 Breaking Changes
+- **OB3 Protocol Compliance:** The `image` field in OB3 `Issuer`, `Profile`, and `Achievement` types is now `IRI | OB3ImageObject` (was just `IRI`/`string`).
+- **Required Fields:** `id`, `type`, `name`, and `url` are now required in OB3 `Issuer` and `Achievement` types.
+- **TypeScript Consumers:** You must update your code to provide these required fields and use the new image object format where needed.
+- **ESLint/Config:** Migrated to ESLint v9+ flat config (`eslint.config.mjs`). If you contribute, use Node 18+ and ESLint 9+.
+
+### ✨ Added
+- `OB3ImageObject` type for strict Open Badges 3.0 image object compliance.
+- PR template for consistent contributions.
+
+### 📝 Changed
+- Updated documentation: protocol-compliance, migration guide, and examples.
+- All tests and helpers updated for stricter type safety.
+
+### 🛠 Migration Notes
+- If you see TypeScript errors about missing `id`, `type`, `name`, `url`, or about the `image` field, see the migration notes below.
+- Update your OB3 badge objects to use the new `image` field type.
+- See `MIGRATION.md` and `docs/protocol-compliance.md` for examples and details.
+
+---
+
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
 ### [1.0.1](https://github.com/rollercoaster-dev/openbadges-types/compare/v2.0.0...v1.0.1) (2025-04-11)
 
 
