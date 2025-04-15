@@ -52,9 +52,10 @@
   - [ ] Zod schemas implemented
   - [ ] Tests written and passing
   - [ ] Documentation drafted
+  - [x] OB2/OB3 schemas exported as constants in src/schemas.ts (enables validation/tooling)
 - **Context Resume Point:**
   Last working on: Mapping table completed and moved to docs/ob-mapping-table.md
-  Next planned action: Begin OB3 mapping or review OB2 mapping for gaps
+  Next planned action: Document schema exports in README and protocol compliance docs
   Current blockers: None yet
 
 ## 6. Next Actions & Blockers
@@ -68,4 +69,27 @@
 - **Friction Points:** [To be updated]
 - **Flow Moments:** [To be updated]
 - **Observations:** [To be updated]
-- **Celebration Notes:** 🎉 [To be updated] 
+- **Celebration Notes:** 🎉 [To be updated]
+
+## Roadmap: Next Steps for Verifiable OpenBadges Types
+
+1. **Comprehensive Sample Objects & Test Coverage**
+   - For every exported OB2/OB3 type (Assertion, BadgeClass, Profile, VerifiableCredential, Achievement, etc.), create valid and invalid sample objects in test/helpers.ts.
+   - Ensure each sample is type-checked by TypeScript.
+
+2. **Runtime Schema Validation for All Types**
+   - For each sample object, add a test that validates it against the corresponding OB2/OB3 schema using AJV (see validateWithSchema.ts).
+   - Cover both positive (should pass) and negative (should fail) cases.
+
+3. **Document & Review Acceptable Differences**
+   - If a sample passes type-checking but fails schema validation (or vice versa), document the difference in docs/ob-mapping-table.md.
+   - Decide if the difference is acceptable (e.g., extension fields) or needs to be fixed.
+
+4. **CI Integration**
+   - Add schema validation tests to your CI pipeline so that all PRs are checked for conformance.
+   - Fail the build if a required type or schema check fails.
+
+5. **Ongoing Spec Monitoring & Maintenance**
+   - Periodically review the OB2/OB3 specs for changes.
+   - Update types, schemas, and mapping table as needed.
+   - Encourage contributors to add new sample objects/tests for any new types or fields. 
