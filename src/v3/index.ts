@@ -47,6 +47,18 @@ export interface Issuer extends JsonLdObject {
 }
 
 /**
+ * IdentityObject interface for Open Badges 3.0
+ * Represents the identity of a badge recipient (hashed or plaintext)
+ * See OB3 context for full field list
+ */
+export interface IdentityObject {
+  identityHash: string;
+  identityType?: string;
+  hashed?: boolean;
+  salt?: string; // Required if hashed is true
+}
+
+/**
  * CredentialSubject interface for Open Badges 3.0
  * Represents the entity receiving the credential and their achievements
  */
@@ -56,6 +68,8 @@ export interface CredentialSubject {
   achievement: Achievement | Achievement[];
   name?: string | MultiLanguageString;
   email?: string;
+  role?: string; // Optional, per OB3 context
+  identifier?: IdentityObject[]; // Optional, per OB3 context
   [key: string]: any;
 }
 
@@ -132,18 +146,21 @@ export interface Alignment {
 /**
  * ResultDescription interface for Open Badges 3.0
  * Describes possible results for an achievement
+ * Extend as needed for additional OB3 spec fields
  */
 export interface ResultDescription {
   id?: IRI;
   type?: string | string[];
   name?: string | MultiLanguageString;
   description?: string | MultiLanguageString;
+  // Add more fields from OB3 spec as needed
   [key: string]: any;
 }
 
 /**
  * Results interface for Open Badges 3.0
  * Represents the results achieved by the recipient
+ * Extend as needed for additional OB3 spec fields
  */
 export interface Results {
   id?: IRI;
@@ -151,6 +168,7 @@ export interface Results {
   resultDescription?: IRI | ResultDescription;
   status?: string;
   value?: string | number;
+  // Add more fields from OB3 spec as needed
   [key: string]: any;
 }
 
