@@ -16,11 +16,15 @@ A comprehensive TypeScript types package for Open Badges 2.0 and 3.0 specificati
   - [Open Badges 3.0](#open-badges-30)
   - [Using Shared Types](#using-shared-types)
   - [Version-Specific Operations](#version-specific-operations)
+  - [Open Badges JSON-LD Context Schemas](#open-badges-json-ld-context-schemas)
 - [API Documentation](#api-documentation)
   - [Open Badges 2.0 Types](#open-badges-20-types)
   - [Open Badges 3.0 Types](#open-badges-30-types)
   - [Shared Types](#shared-types)
 - [Type Guards and Validation](#type-guards-and-validation)
+  - [Basic Type Guards](#basic-type-guards)
+  - [Composite Type Guards](#composite-type-guards)
+  - [Badge Normalization](#badge-normalization)
 - [Development](#development)
   - [Testing](#testing)
   - [Building](#building)
@@ -28,6 +32,7 @@ A comprehensive TypeScript types package for Open Badges 2.0 and 3.0 specificati
   - [Validation](#validation)
 - [Version Compatibility](#version-compatibility)
 - [Migration Guide](#migration-guide)
+- [Consuming Applications](#consuming-applications)
 - [License](#license)
 
 ## Overview
@@ -187,6 +192,18 @@ function processBadge<T extends OpenBadgesVersion>(
     return Array.isArray(achievement) ? achievement[0].name.toString() : achievement.name.toString();
   }
 }
+```
+
+### Open Badges JSON-LD Context Schemas
+
+You can import the official JSON-LD context objects for Open Badges 2.0 and 3.0 for use in validation or tooling:
+
+```typescript
+import { OB2_CONTEXT, OB3_CONTEXT } from 'openbadges-types';
+
+// OB2_CONTEXT and OB3_CONTEXT are the official JSON-LD context objects
+console.log(OB2_CONTEXT['@context']);
+console.log(OB3_CONTEXT['@context']);
 ```
 
 ## API Documentation
@@ -433,39 +450,75 @@ npm run validate
 
 ## Type Guards and Validation
 
-This package includes type guards to help validate and narrow types at runtime:
+This package includes type guards and runtime validation for both Open Badges 2.0 and 3.0 objects:
 
+### Basic Type Guards
+
+- **OB2 (Open Badges 2.0):**
+  - Uses custom, spec-aligned validation logic (see `src/validation.ts`).
+  - Covers all required fields, types, and edge cases for Assertion, BadgeClass, Profile, and supporting types.
+  - Comprehensive positive and negative test cases in `test/validation.test.ts` and `test/ob2-guards.test.ts`.
+- **OB3 (Open Badges 3.0):**
+  - Uses AJV for JSON Schema-based validation (see `src/validateWithSchema.ts`).
+  - Validates VerifiableCredential and all nested types against the official OB3 JSON-LD context.
+  - Comprehensive positive and negative test cases in `test/ob3-schema-validation.test.ts` and `test/ob3-guards.test.ts`.
+
+**Example:**
 ```typescript
-import { OB2, OB3, Shared } from 'openbadges-types';
+import { validateBadge } from 'openbadges-types';
 
-// Check if an object is a valid JSON-LD object
-if (Shared.isJsonLdObject(obj)) {
-  // obj is now typed as JsonLdObject
-  console.log(obj.type);
-}
-
-// Check if an object is a valid Open Badges 2.0 Assertion
-if (OB2.isAssertion(obj)) {
-  // obj is now typed as OB2.Assertion
-  console.log(obj.recipient);
-}
-
-// Check if an object is a valid Open Badges 3.0 VerifiableCredential
-if (OB3.isVerifiableCredential(obj)) {
-  // obj is now typed as OB3.VerifiableCredential
-  console.log(obj.credentialSubject);
-}
-
-// Check if a string is a valid IRI
-if (Shared.isIRI('https://example.org/badges/5')) {
-  // It's a valid IRI
-}
-
-// Check if a string is a valid DateTime
-if (Shared.isDateTime('2023-06-15T12:00:00Z')) {
-  // It's a valid DateTime
+const result = validateBadge(badgeObject);
+if (result.isValid) {
+  // Badge is valid OB2 or OB3
+  console.log('Version:', result.version);
+} else {
+  console.error('Validation errors:', result.errors);
 }
 ```
+
+### Composite Type Guards
+
+The package provides composite type guards that work with both OB2 and OB3 badges:
+
+```typescript
+import { CompositeGuards } from 'openbadges-types';
+
+// Check if an object is a valid badge (either OB2 or OB3)
+if (CompositeGuards.isBadge(badge)) {
+  // Get badge properties regardless of version
+  const name = CompositeGuards.getBadgeName(badge);
+  const description = CompositeGuards.getBadgeDescription(badge);
+  const issuerName = CompositeGuards.getBadgeIssuerName(badge);
+  const issuanceDate = CompositeGuards.getBadgeIssuanceDate(badge);
+
+  console.log(`Badge: ${name} issued by ${issuerName} on ${issuanceDate}`);
+  console.log(`Description: ${description}`);
+}
+```
+
+### Badge Normalization
+
+For applications that need to work with both OB2 and OB3 badges, the package provides utilities to normalize badges to a common format:
+
+```typescript
+import { BadgeNormalizer } from 'openbadges-types';
+
+// Normalize a badge to a common format
+const normalizedBadge = BadgeNormalizer.normalizeBadge(badgeObject);
+
+// Now you can access common properties regardless of badge version
+console.log(`Badge: ${normalizedBadge.name}`);
+console.log(`Issued by: ${normalizedBadge.issuerName}`);
+console.log(`Issued on: ${normalizedBadge.issuanceDate}`);
+
+// You can also filter, sort, and group badges
+const badges = BadgeNormalizer.normalizeBadges(badgeArray);
+const filteredBadges = BadgeNormalizer.filterBadgesBySearchTerm(badges, 'search term');
+const sortedBadges = BadgeNormalizer.sortBadges(badges, 'name', 'asc');
+const groupedBadges = BadgeNormalizer.groupBadges(badges, 'issuerName');
+```
+
+See the test files and [Consuming Applications](#consuming-applications) documentation for more usage examples and edge case coverage.
 
 ## Version Compatibility
 
@@ -477,6 +530,15 @@ This package supports:
 ## Migration Guide
 
 For detailed information about migrating from Open Badges 2.0 to 3.0, see our [Migration Guide](MIGRATION.md).
+
+## Consuming Applications
+
+For detailed examples of how to use this package in your applications, see our [Consuming Applications Guide](docs/consuming-applications.md). This guide includes:
+
+- Examples for using type guards in Vue components
+- Examples for using badge normalization in services
+- Patterns for filtering, sorting, and grouping badges
+- Best practices for working with both OB2 and OB3 badges
 
 ## License
 

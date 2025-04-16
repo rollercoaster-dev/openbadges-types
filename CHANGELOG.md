@@ -107,3 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for Open Badges 3.0 specification
 - Type guards and validation utilities
 - Comprehensive documentation
+- Composite type guards for working with both OB2 and OB3 badges
+- Badge normalization utilities for consuming applications
+- Filtering, sorting, and grouping utilities for badge collections
+- Documentation for using the package in consuming applications
