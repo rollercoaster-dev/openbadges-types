@@ -1,6 +1,14 @@
 // NOTE: If you see a TS/ESLint error about tsconfig not including this file, add 'test' to the 'include' array in tsconfig.json.
 import { validateOB3Credential } from '../src/validateWithSchema';
-import { createOB3VerifiableCredential, validOB3Achievement, invalidOB3Achievement, validOB3Issuer, invalidOB3Issuer, validOB3CredentialSubject, invalidOB3CredentialSubject } from './helpers';
+import {
+  createOB3VerifiableCredential,
+  validOB3Achievement,
+  invalidOB3Achievement,
+  validOB3Issuer,
+  invalidOB3Issuer,
+  validOB3CredentialSubject,
+  invalidOB3CredentialSubject,
+} from './helpers';
 
 test('OB3 VerifiableCredential matches OB3 schema', () => {
   const credential = createOB3VerifiableCredential();
@@ -41,7 +49,7 @@ test('OB3 VerifiableCredential with extra unexpected field fails validation', ()
 
 test('OB3 Achievement valid sample passes schema validation', () => {
   const credential = createOB3VerifiableCredential({
-    credentialSubject: { ...validOB3CredentialSubject, achievement: validOB3Achievement }
+    credentialSubject: { ...validOB3CredentialSubject, achievement: validOB3Achievement },
   });
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(true);
@@ -49,7 +57,7 @@ test('OB3 Achievement valid sample passes schema validation', () => {
 
 test('OB3 Achievement invalid sample fails schema validation', () => {
   const credential = createOB3VerifiableCredential({
-    credentialSubject: { ...validOB3CredentialSubject, achievement: invalidOB3Achievement as any }
+    credentialSubject: { ...validOB3CredentialSubject, achievement: invalidOB3Achievement as any },
   });
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(false);
@@ -74,14 +82,75 @@ test('OB3 Issuer invalid sample fails schema validation', () => {
 // CredentialSubject
 
 test('OB3 CredentialSubject valid sample passes schema validation', () => {
-  const credential = createOB3VerifiableCredential({ credentialSubject: validOB3CredentialSubject });
+  const credential = createOB3VerifiableCredential({
+    credentialSubject: validOB3CredentialSubject,
+  });
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(true);
 });
 
 test('OB3 CredentialSubject invalid sample fails schema validation', () => {
-  const credential = createOB3VerifiableCredential({ credentialSubject: invalidOB3CredentialSubject as any });
+  const credential = createOB3VerifiableCredential({
+    credentialSubject: invalidOB3CredentialSubject as any,
+  });
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(false);
   console.log('CredentialSubject invalid errors:', result.errors);
-}); 
+});
+
+test('OB3 E2E: real-world minimal valid credential', () => {
+  const credential = {
+    '@context': [
+      'https://www.w3.org/2018/credentials/v1',
+      'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
+    ],
+    id: 'https://example.org/credentials/1001',
+    type: ['VerifiableCredential'],
+    issuer: {
+      id: 'https://example.org/issuers/1',
+      type: ['Profile'],
+      name: 'Example Issuer',
+      url: 'https://example.org',
+    },
+    issuanceDate: '2024-01-01T00:00:00Z',
+    credentialSubject: {
+      id: 'did:example:123',
+      achievement: {
+        id: 'https://example.org/achievements/1',
+        type: ['Achievement'],
+        name: 'Test Achievement',
+      },
+    },
+  };
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(true);
+});
+
+test('OB3 E2E: real-world invalid credential (missing achievement name)', () => {
+  const credential = {
+    '@context': [
+      'https://www.w3.org/2018/credentials/v1',
+      'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
+    ],
+    id: 'https://example.org/credentials/1002',
+    type: ['VerifiableCredential'],
+    issuer: {
+      id: 'https://example.org/issuers/1',
+      type: ['Profile'],
+      name: 'Example Issuer',
+      url: 'https://example.org',
+    },
+    issuanceDate: '2024-01-01T00:00:00Z',
+    credentialSubject: {
+      id: 'did:example:123',
+      achievement: {
+        id: 'https://example.org/achievements/1',
+        type: ['Achievement'],
+        // name missing
+      },
+    },
+  };
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(false);
+  expect(result.errors.some((e: { message: string }) => e.message.includes('name'))).toBe(true);
+});

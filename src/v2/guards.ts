@@ -28,13 +28,39 @@ export function isAssertion(value: unknown): value is Assertion {
     return false;
   }
 
-  return !(
+  // Check for required fields
+  if (
     !('id' in value) ||
     !('recipient' in value) ||
     !('badge' in value) ||
     !('verification' in value) ||
     !('issuedOn' in value)
-  );
+  ) {
+    return false;
+  }
+
+  // issuedOn must be a string
+  if (typeof (value as any).issuedOn !== 'string') {
+    return false;
+  }
+
+  // recipient must be a valid IdentityObject
+  if (!isIdentityObject((value as any).recipient)) {
+    return false;
+  }
+
+  // badge must be a string (IRI) or valid BadgeClass
+  const badge = (value as any).badge;
+  if (!(typeof badge === 'string' || isBadgeClass(badge))) {
+    return false;
+  }
+
+  // verification must be a valid VerificationObject
+  if (!isVerificationObject((value as any).verification)) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
@@ -107,8 +133,15 @@ export function isIdentityObject(value: unknown): value is IdentityObject {
     return false;
   }
 
-  // Check for required properties
-  return !(!('type' in value) || !('identity' in value));
+  // Check for required properties and types
+  if (!('type' in value) || typeof (value as any).type !== 'string') {
+    return false;
+  }
+  if (!('identity' in value) || typeof (value as any).identity !== 'string') {
+    return false;
+  }
+
+  return true;
 }
 
 /**

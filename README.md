@@ -25,6 +25,7 @@ A comprehensive TypeScript types package for Open Badges 2.0 and 3.0 specificati
   - [Basic Type Guards](#basic-type-guards)
   - [Composite Type Guards](#composite-type-guards)
   - [Badge Normalization](#badge-normalization)
+  - [OB3 Validation Limitations](#ob3-validation-limitations)
 - [Development](#development)
   - [Testing](#testing)
   - [Building](#building)
@@ -79,7 +80,8 @@ const badgeClass: OB2.BadgeClass = {
   description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.',
   image: 'https://example.org/badges/5/image',
   criteria: {
-    narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.'
+    narrative:
+      'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.',
   },
   issuer: {
     id: 'https://example.org/issuer',
@@ -89,9 +91,9 @@ const badgeClass: OB2.BadgeClass = {
     email: 'contact@example.org',
     verification: {
       type: 'hosted',
-      allowedOrigins: 'example.org'
-    }
-  }
+      allowedOrigins: 'example.org',
+    },
+  },
 };
 
 // Create an Assertion
@@ -101,13 +103,13 @@ const assertion: OB2.Assertion = {
   type: 'Assertion',
   recipient: {
     type: 'email',
-    identity: 'alice@example.org'
+    identity: 'alice@example.org',
   },
   issuedOn: '2016-12-31T23:59:59+00:00',
   verification: {
-    type: 'hosted'
+    type: 'hosted',
   },
-  badge: badgeClass
+  badge: badgeClass,
 };
 ```
 
@@ -122,21 +124,22 @@ const achievement: OB3.Achievement = {
   name: '3-D Printmaster',
   description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.',
   criteria: {
-    narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.'
+    narrative:
+      'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.',
   },
   alignments: [
     {
       targetName: 'ISTE Standard 3',
-      targetUrl: 'https://example.org/standards/iste3'
-    }
-  ]
+      targetUrl: 'https://example.org/standards/iste3',
+    },
+  ],
 };
 
 // Create a Verifiable Credential
 const credential: OB3.VerifiableCredential = {
   '@context': [
     'https://www.w3.org/2018/credentials/v1',
-    'https://purl.imsglobal.org/spec/ob/v3p0/context.json'
+    'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
   ],
   id: 'https://example.org/credentials/3732',
   type: ['VerifiableCredential'],
@@ -145,20 +148,20 @@ const credential: OB3.VerifiableCredential = {
     type: ['Profile'],
     name: 'Example Maker Society',
     url: 'https://example.org',
-    email: 'contact@example.org'
+    email: 'contact@example.org',
   },
   issuanceDate: '2023-06-15T12:00:00Z',
   credentialSubject: {
     id: 'did:example:ebfeb1f712ebc6f1c276e12ec21',
-    achievement: achievement
+    achievement: achievement,
   },
   proof: {
     type: 'Ed25519Signature2020',
     created: '2023-06-15T12:05:00Z',
     verificationMethod: 'https://example.org/issuers/123#keys-1',
     proofPurpose: 'assertionMethod',
-    proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh'
-  }
+    proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh',
+  },
 };
 ```
 
@@ -178,10 +181,7 @@ const iri: Shared.IRI = 'https://example.org/badges/5';
 import { OpenBadgesVersion, VersionedBadge } from 'openbadges-types';
 
 // Function that works with either version
-function processBadge<T extends OpenBadgesVersion>(
-  badge: VersionedBadge<T>,
-  version: T
-): string {
+function processBadge<T extends OpenBadgesVersion>(badge: VersionedBadge<T>, version: T): string {
   if (version === OpenBadgesVersion.V2) {
     // badge is typed as OB2.Assertion
     return (badge as OB2.Assertion).badge.name;
@@ -189,7 +189,9 @@ function processBadge<T extends OpenBadgesVersion>(
     // badge is typed as OB3.VerifiableCredential
     const vc = badge as OB3.VerifiableCredential;
     const achievement = vc.credentialSubject.achievement;
-    return Array.isArray(achievement) ? achievement[0].name.toString() : achievement.name.toString();
+    return Array.isArray(achievement)
+      ? achievement[0].name.toString()
+      : achievement.name.toString();
   }
 }
 ```
@@ -213,6 +215,7 @@ console.log(OB3_CONTEXT['@context']);
 #### Core Types
 
 - `Assertion`: Represents an awarded badge to a specific recipient
+
   ```typescript
   interface Assertion extends JsonLdObject {
     '@context': string | string[] | Record<string, any>;
@@ -231,6 +234,7 @@ console.log(OB3_CONTEXT['@context']);
   ```
 
 - `BadgeClass`: Represents the type of achievement being awarded
+
   ```typescript
   interface BadgeClass extends JsonLdObject {
     '@context': string | string[] | Record<string, any>;
@@ -280,6 +284,7 @@ console.log(OB3_CONTEXT['@context']);
 #### Core Types
 
 - `VerifiableCredential`: Based on the W3C Verifiable Credentials Data Model
+
   ```typescript
   interface VerifiableCredential extends JsonLdObject {
     '@context': string | string[] | Record<string, any>;
@@ -299,6 +304,7 @@ console.log(OB3_CONTEXT['@context']);
   ```
 
 - `Achievement`: Represents the achievement being recognized
+
   ```typescript
   interface Achievement extends JsonLdObject {
     type: 'Achievement' | string | string[];
@@ -340,21 +346,25 @@ console.log(OB3_CONTEXT['@context']);
 ### Shared Types
 
 - `IRI`: URI/URL type (branded string type for type safety)
+
   ```typescript
   type IRI = string & { readonly __brand: unique symbol };
   ```
 
 - `DateTime`: ISO 8601 date format (branded string type for type safety)
+
   ```typescript
   type DateTime = string & { readonly __brand: unique symbol };
   ```
 
 - `JsonLdContext`: JSON-LD context type
+
   ```typescript
   type JsonLdContext = string | string[] | Record<string, any>;
   ```
 
 - `MultiLanguageString`: Internationalization support
+
   ```typescript
   interface MultiLanguageString {
     [language: string]: string;
@@ -362,16 +372,19 @@ console.log(OB3_CONTEXT['@context']);
   ```
 
 - `LanguageMap`: Record mapping language codes to strings
+
   ```typescript
   type LanguageMap = Record<string, string>;
   ```
 
 - `MarkdownText`: String that may contain Markdown
+
   ```typescript
   type MarkdownText = string;
   ```
 
 - `ImageObject`: Common image properties
+
   ```typescript
   interface ImageObject {
     id?: IRI;
@@ -382,6 +395,7 @@ console.log(OB3_CONTEXT['@context']);
   ```
 
 - `JsonLdObject`: Base interface for JSON-LD objects
+
   ```typescript
   interface JsonLdObject {
     '@context'?: string | string[] | Record<string, any>;
@@ -464,6 +478,7 @@ This package includes type guards and runtime validation for both Open Badges 2.
   - Comprehensive positive and negative test cases in `test/ob3-schema-validation.test.ts` and `test/ob3-guards.test.ts`.
 
 **Example:**
+
 ```typescript
 import { validateBadge } from 'openbadges-types';
 
@@ -519,6 +534,14 @@ const groupedBadges = BadgeNormalizer.groupBadges(badges, 'issuerName');
 ```
 
 See the test files and [Consuming Applications](#consuming-applications) documentation for more usage examples and edge case coverage.
+
+### OB3 Validation Limitations
+
+> **Note:** OB3 validation currently uses the official JSON-LD context (not a strict JSON Schema) and a combination of AJV and manual checks. This means:
+>
+> - Some edge cases or nuanced spec requirements may not be fully enforced.
+> - The validation logic is as strict as possible given the available context, but is not a full substitute for a formal JSON Schema.
+> - If/when an official OB3 JSON Schema is published, it is recommended to update the validation logic to use it for maximum conformance.
 
 ## Version Compatibility
 

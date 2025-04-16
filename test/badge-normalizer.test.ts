@@ -13,7 +13,9 @@ describe('Badge Normalizer', () => {
       expect(normalized.id).toBe(ob2Badge.id);
       expect(normalized.type).toBe('OB2');
       expect(normalized.name).toBe('3-D Printmaster');
-      expect(normalized.description).toBe('This badge is awarded for passing the 3-D printing knowledge and safety test.');
+      expect(normalized.description).toBe(
+        'This badge is awarded for passing the 3-D printing knowledge and safety test.'
+      );
       expect(normalized.imageUrl).toBe('https://example.org/badges/5/image');
       expect(normalized.issuerName).toBe('Example Maker Society');
       expect(normalized.issuanceDate).toBe('2016-12-31T23:59:59+00:00');
@@ -26,7 +28,9 @@ describe('Badge Normalizer', () => {
       expect(normalized.id).toBe(ob3Badge.id);
       expect(normalized.type).toBe('OB3');
       expect(normalized.name).toBe('3-D Printmaster');
-      expect(normalized.description).toBe('This badge is awarded for passing the 3-D printing knowledge and safety test.');
+      expect(normalized.description).toBe(
+        'This badge is awarded for passing the 3-D printing knowledge and safety test.'
+      );
       expect(normalized.issuerName).toBe('Example Maker Society');
       expect(normalized.issuanceDate).toBe('2023-06-15T12:00:00Z');
       expect(normalized.rawBadge).toBe(ob3Badge);
@@ -84,7 +88,11 @@ describe('Badge Normalizer', () => {
     test('should filter badges by search term', () => {
       const badges = [
         { ...BadgeNormalizer.normalizeBadge(ob2Badge), name: 'Test Badge 1', description: null },
-        { ...BadgeNormalizer.normalizeBadge(ob3Badge), name: 'Another Badge', description: 'This is a test description' },
+        {
+          ...BadgeNormalizer.normalizeBadge(ob3Badge),
+          name: 'Another Badge',
+          description: 'This is a test description',
+        },
       ];
 
       const filtered = BadgeNormalizer.filterBadgesBySearchTerm(badges, 'test');

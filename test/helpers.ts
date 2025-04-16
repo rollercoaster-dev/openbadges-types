@@ -25,7 +25,8 @@ export const createOB2Assertion = (overrides?: Partial<OB2.Assertion>): OB2.Asse
       description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.',
       image: Shared.createIRI('https://example.org/badges/5/image'),
       criteria: {
-        narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.',
+        narrative:
+          'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.',
       },
       issuer: {
         id: Shared.createIRI('https://example.org/issuer'),
@@ -52,9 +53,10 @@ export const createOB3Achievement = (overrides?: Partial<OB3.Achievement>): OB3.
     name: '3-D Printmaster',
     description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.',
     criteria: {
-      narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.'
+      narrative:
+        'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.',
     },
-    ...overrides
+    ...overrides,
   };
 };
 
@@ -66,15 +68,17 @@ export const createOB3Issuer = (overrides?: Partial<OB3.Issuer>): OB3.Issuer => 
     name: 'Example Maker Society',
     url: Shared.createIRI('https://example.org'),
     email: 'contact@example.org',
-    ...overrides
+    ...overrides,
   };
 };
 
-export const createOB3VerifiableCredential = (overrides?: Partial<OB3.VerifiableCredential>): OB3.VerifiableCredential => {
+export const createOB3VerifiableCredential = (
+  overrides?: Partial<OB3.VerifiableCredential>
+): OB3.VerifiableCredential => {
   return {
     '@context': [
       'https://www.w3.org/2018/credentials/v1',
-      'https://purl.imsglobal.org/spec/ob/v3p0/context.json'
+      'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
     ],
     id: Shared.createIRI('https://example.org/credentials/3732'),
     type: ['VerifiableCredential'],
@@ -82,9 +86,9 @@ export const createOB3VerifiableCredential = (overrides?: Partial<OB3.Verifiable
     issuanceDate: Shared.createDateTime('2023-06-15T12:00:00Z'),
     credentialSubject: {
       id: Shared.createIRI('did:example:ebfeb1f712ebc6f1c276e12ec21'),
-      achievement: createOB3Achievement()
+      achievement: createOB3Achievement(),
     },
-    ...overrides
+    ...overrides,
   };
 };
 

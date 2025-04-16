@@ -1,11 +1,13 @@
 # OpenBadges Type Conformance
 
 ## 1. Goal
+
 - **Objective:** Ensure all TypeScript types in the package are 100% accurate and conformant with Open Badges 2.0 and 3.0 specifications, serving as the source of truth for the app.
 - **Energy Level:** Medium 🔋
 - **Status:** 🟡 In Progress
 
 ## 2. Resources
+
 - **Existing Tools/Files:**
   - Current TypeScript type definitions
   - OB 2.0 and OB 3.0 official specs (JSON-LD context, documentation)
@@ -20,6 +22,7 @@
   - Test files
 
 ## 3. Ideas & Challenges
+
 - **Approaches:**
   - Automated type generation from spec
   - Manual field-by-field review
@@ -33,6 +36,7 @@
   - Alternatives: Separate packages for each version
 
 ## 4. Plan
+
 - **Quick Wins:**
   - [ ] Download OB 2.0/3.0 JSON-LD context and schema files (5 mins)
   - [ ] Set up mapping table template (5 mins)
@@ -44,6 +48,7 @@
   5. Document mapping and known limitations (30 mins) 🎯
 
 ## 5. Execution
+
 - **Progress Updates:**
   - [x] Downloaded OB 2.0/3.0 schemas
   - [x] Mapping table created (see docs/ob-mapping-table.md)
@@ -60,13 +65,15 @@
   Current blockers: None yet
 
 ## 6. Next Actions & Blockers
-- **Immediate Next Actions:** 
+
+- **Immediate Next Actions:**
   - [ ] Download OB 2.0/3.0 context/schema files (5 mins)
   - [ ] Set up mapping table (5 mins)
 - **Current Blockers:**
   - None yet
 
 ## 7. User Experience & Reflection
+
 - **Friction Points:** [To be updated]
 - **Flow Moments:** [To be updated]
 - **Observations:** [To be updated]
@@ -75,18 +82,22 @@
 ## Roadmap: Next Steps for Verifiable OpenBadges Types
 
 1. **Comprehensive Sample Objects & Test Coverage**
+
    - For every exported OB2/OB3 type (Assertion, BadgeClass, Profile, VerifiableCredential, Achievement, etc.), create valid and invalid sample objects in test/helpers.ts.
    - Ensure each sample is type-checked by TypeScript.
 
 2. **Runtime Schema Validation for All Types**
+
    - For each sample object, add a test that validates it against the corresponding OB2/OB3 schema using AJV (see validateWithSchema.ts).
    - Cover both positive (should pass) and negative (should fail) cases.
 
 3. **Document & Review Acceptable Differences**
+
    - If a sample passes type-checking but fails schema validation (or vice versa), document the difference in docs/ob-mapping-table.md.
    - Decide if the difference is acceptable (e.g., extension fields) or needs to be fixed.
 
 4. **CI Integration**
+
    - Add schema validation tests to your CI pipeline so that all PRs are checked for conformance.
    - Fail the build if a required type or schema check fails.
 
@@ -112,4 +123,4 @@
 - [x] OB2 sample objects and validation tests
   - OB2 type guard tests now use explicit valid/invalid samples for comprehensive coverage
 - [ ] CI integration for schema validation
-- [ ] Ongoing spec monitoring/documentation 
+- [ ] Ongoing spec monitoring/documentation

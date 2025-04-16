@@ -19,7 +19,7 @@ describe('Type Checking Tests', () => {
       // @ts-expect-error - Missing required properties
       const invalidAssertion: OB2.Assertion = {
         id: Shared.createIRI('https://example.org/assertions/123'),
-        type: 'Assertion'
+        type: 'Assertion',
         // Missing recipient, issuedOn, verification, badge
       };
 
@@ -36,7 +36,7 @@ describe('Type Checking Tests', () => {
       // @ts-expect-error - Missing required properties
       const invalidCredential: OB3.VerifiableCredential = {
         id: Shared.createIRI('https://example.org/credentials/3732'),
-        type: ['VerifiableCredential']
+        type: ['VerifiableCredential'],
         // Missing @context, issuer, issuanceDate, credentialSubject
       };
 
@@ -50,8 +50,8 @@ describe('Type Checking Tests', () => {
       const validIRI: Shared.IRI = Shared.createIRI('https://example.org/badges/5');
       const validDateTime: Shared.DateTime = Shared.createDateTime('2023-06-15T12:00:00Z');
       const validMultiLanguageString: Shared.MultiLanguageString = {
-        'en': 'Hello',
-        'es': 'Hola'
+        en: 'Hello',
+        es: 'Hola',
       };
 
       // TypeScript should catch these errors during compilation
@@ -61,7 +61,7 @@ describe('Type Checking Tests', () => {
       const invalidDateTime: Shared.DateTime = new Date();
       // This would cause a TypeScript error if we didn't use the type assertion
       const invalidMultiLanguageString: Shared.MultiLanguageString = {
-        'en': (123 as unknown) as string
+        en: 123 as unknown as string,
       };
 
       expect(true).toBe(true); // Dummy assertion to satisfy Jest
