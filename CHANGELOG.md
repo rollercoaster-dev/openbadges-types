@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/rollercoaster-dev/openbadges-types/compare/v3.0.0...v3.0.1) (2025-04-16)
+
+
+### Features
+
+* add composite type guards and badge normalization utilities for consuming applications ([ee8cd10](https://github.com/rollercoaster-dev/openbadges-types/commit/ee8cd107263e38c33bb90ec25fe8e0e427caaa67))
+* expand OB2 sample objects, validation tests, and docs ([d96caa5](https://github.com/rollercoaster-dev/openbadges-types/commit/d96caa52b843ef25e876b1b141bf5a46716b5d40))
+* **types:** add Open Badges 2.0 and 3.0 context schemas, mapping table, and type definitions for IdentityObject and CredentialSubject ([ed36adf](https://github.com/rollercoaster-dev/openbadges-types/commit/ed36adfe557a0470dd9670c45aceab88f9541016))
+* **validation:** implement AJV schema validation for OB3 credentials and add corresponding tests ([61162d9](https://github.com/rollercoaster-dev/openbadges-types/commit/61162d93154afba0b1c6cc8b759731d5b052c0ad))
+
+
+### Bug Fixes
+
+* rename jest.config.js to jest.config.cjs for ESM compatibility; remove old file ([819417d](https://github.com/rollercoaster-dev/openbadges-types/commit/819417d30dba7c24c0f5a3d82038a770d50a0797))
+* resolve IRI/Evidence type errors in getBadgeEvidence and OB3 test ([a10d649](https://github.com/rollercoaster-dev/openbadges-types/commit/a10d649313217526e923ac849882d71424592fce))
+
 ## [3.0.0](https://github.com/rollercoaster-dev/openbadges-types/compare/v1.0.1...v3.0.0) (2025-04-15)
 
 
