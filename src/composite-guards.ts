@@ -287,7 +287,9 @@ export function getBadgeEvidence(badge: Badge): OB2.Evidence | OB3.Evidence | nu
     if (!badge.evidence) return null;
 
     if (Array.isArray(badge.evidence)) {
-      return badge.evidence[0];
+      // Filter out IRI values, return the first Evidence if present
+      const evidence = badge.evidence.find(e => typeof e !== 'string');
+      return evidence ?? null;
     } else if (typeof badge.evidence === 'string') {
       // This is a reference to evidence, would need to be fetched
       return null;
@@ -297,7 +299,9 @@ export function getBadgeEvidence(badge: Badge): OB2.Evidence | OB3.Evidence | nu
     if (!badge.evidence) return null;
 
     if (Array.isArray(badge.evidence)) {
-      return badge.evidence[0];
+      // Filter out IRI values, return the first Evidence if present
+      const evidence = badge.evidence.find(e => typeof e !== 'string');
+      return evidence ?? null;
     }
     return badge.evidence;
   }

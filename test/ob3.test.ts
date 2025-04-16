@@ -58,7 +58,7 @@ describe('Open Badges 3.0 Types', () => {
         ...validCredential,
         evidence: [
           {
-            id: 'https://example.org/evidence/123',
+            id: Shared.createIRI('https://example.org/evidence/123'),
             type: ['Evidence'],
             narrative: 'Alice completed all required tasks with distinction.',
           },
