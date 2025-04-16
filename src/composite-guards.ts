@@ -1,4 +1,4 @@
-import { OB2, OB3, Shared } from './index';
+import { OB2, OB3 } from './index';
 
 /**
  * Type representing either an OB2 Assertion or OB3 VerifiableCredential

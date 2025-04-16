@@ -6,7 +6,7 @@ const ajv = new Ajv({
   allErrors: true,
   strict: false,
   strictRequired: true, // Require all required properties
-  strictTypes: true,   // Strict type checking
+  strictTypes: true, // Strict type checking
 });
 
 const validateOB3 = ajv.compile(OB3_CONTEXT);
@@ -21,19 +21,24 @@ export function validateOB3Credential(data: unknown): { valid: boolean; errors?:
   if (typeof data !== 'object' || data === null) {
     return {
       valid: false,
-      errors: [{ message: 'Data must be an object' }]
+      errors: [{ message: 'Data must be an object' }],
     };
   }
 
   const credential = data as Record<string, any>;
 
   // Check for required fields
-  if (!credential.id || !credential.type || !credential.issuer ||
-      !credential.issuanceDate || !credential.credentialSubject ||
-      typeof credential.issuanceDate !== 'string') {
+  if (
+    !credential.id ||
+    !credential.type ||
+    !credential.issuer ||
+    !credential.issuanceDate ||
+    !credential.credentialSubject ||
+    typeof credential.issuanceDate !== 'string'
+  ) {
     return {
       valid: false,
-      errors: [{ message: 'Missing required fields in VerifiableCredential' }]
+      errors: [{ message: 'Missing required fields in VerifiableCredential' }],
     };
   }
 
@@ -41,7 +46,7 @@ export function validateOB3Credential(data: unknown): { valid: boolean; errors?:
   if (!credential.credentialSubject.achievement) {
     return {
       valid: false,
-      errors: [{ message: 'Missing required achievement in credentialSubject' }]
+      errors: [{ message: 'Missing required achievement in credentialSubject' }],
     };
   }
 
@@ -51,22 +56,21 @@ export function validateOB3Credential(data: unknown): { valid: boolean; errors?:
     if (achievement.length === 0 || !achievement[0].name) {
       return {
         valid: false,
-        errors: [{ message: 'Achievement must have a name' }]
+        errors: [{ message: 'Achievement must have a name' }],
       };
     }
   } else if (!achievement.name) {
     return {
       valid: false,
-      errors: [{ message: 'Achievement must have a name' }]
+      errors: [{ message: 'Achievement must have a name' }],
     };
   }
 
   // Check issuer
-  if (typeof credential.issuer === 'object' &&
-      (!credential.issuer.id || !credential.issuer.name)) {
+  if (typeof credential.issuer === 'object' && (!credential.issuer.id || !credential.issuer.name)) {
     return {
       valid: false,
-      errors: [{ message: 'Issuer must have id and name' }]
+      errors: [{ message: 'Issuer must have id and name' }],
     };
   }
 

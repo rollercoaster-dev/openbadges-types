@@ -12,11 +12,11 @@ export const createOB2Assertion = (overrides?: Partial<OB2.Assertion>): OB2.Asse
     type: 'Assertion',
     recipient: {
       type: 'email',
-      identity: 'alice@example.org'
+      identity: 'alice@example.org',
     },
     issuedOn: Shared.createDateTime('2016-12-31T23:59:59+00:00'),
     verification: {
-      type: 'hosted'
+      type: 'hosted',
     },
     badge: {
       id: Shared.createIRI('https://example.org/badges/5'),
@@ -25,7 +25,7 @@ export const createOB2Assertion = (overrides?: Partial<OB2.Assertion>): OB2.Asse
       description: 'This badge is awarded for passing the 3-D printing knowledge and safety test.',
       image: Shared.createIRI('https://example.org/badges/5/image'),
       criteria: {
-        narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.'
+        narrative: 'Students are tested on knowledge and safety, both through a paper test and a supervised performance evaluation on key skills.',
       },
       issuer: {
         id: Shared.createIRI('https://example.org/issuer'),
@@ -35,11 +35,11 @@ export const createOB2Assertion = (overrides?: Partial<OB2.Assertion>): OB2.Asse
         email: 'contact@example.org',
         verification: {
           type: 'hosted',
-          allowedOrigins: 'example.org'
-        }
-      }
+          allowedOrigins: 'example.org',
+        },
+      },
     },
-    ...overrides
+    ...overrides,
   };
 };
 
@@ -86,4 +86,81 @@ export const createOB3VerifiableCredential = (overrides?: Partial<OB3.Verifiable
     },
     ...overrides
   };
+};
+
+// OB3 Achievement sample objects
+export const validOB3Achievement = {
+  id: Shared.createIRI('https://example.org/achievements/1'),
+  type: ['Achievement'],
+  name: 'Sample Achievement',
+  description: 'A valid OB3 achievement',
+  criteria: { narrative: 'Do something great.' },
+};
+
+export const invalidOB3Achievement = {
+  // Missing required 'id' and 'name'
+  type: ['Achievement'],
+  description: 'Missing id and name',
+};
+
+// OB3 Issuer sample objects
+export const validOB3Issuer = {
+  id: Shared.createIRI('https://example.org/issuers/1'),
+  type: ['Profile'],
+  name: 'Sample Issuer',
+  url: Shared.createIRI('https://example.org'),
+};
+
+export const invalidOB3Issuer = {
+  // Missing required 'id' and 'name'
+  type: ['Profile'],
+  url: Shared.createIRI('https://example.org'),
+};
+
+// OB3 CredentialSubject sample objects
+export const validOB3CredentialSubject = {
+  id: Shared.createIRI('did:example:subject1'),
+  achievement: validOB3Achievement,
+};
+
+export const invalidOB3CredentialSubject = {
+  // Missing required 'achievement'
+  id: Shared.createIRI('did:example:subject1'),
+};
+
+// OB2 Assertion sample objects
+export const validOB2Assertion: OB2.Assertion = createOB2Assertion();
+export const invalidOB2Assertion: any = {
+  '@context': 'https://w3id.org/openbadges/v2',
+  type: 'Assertion',
+  // Missing required fields: id, recipient, issuedOn, verification, badge
+};
+
+// OB2 BadgeClass sample objects
+export const validOB2BadgeClass: OB2.BadgeClass = validOB2Assertion.badge as OB2.BadgeClass;
+export const invalidOB2BadgeClass: any = {
+  '@context': 'https://w3id.org/openbadges/v2',
+  type: 'BadgeClass',
+  // Missing required fields: id, name, description, criteria, issuer
+};
+
+// OB2 Profile sample objects
+export const validOB2Profile: OB2.Profile = validOB2BadgeClass.issuer as OB2.Profile;
+export const invalidOB2Profile: any = {
+  '@context': 'https://w3id.org/openbadges/v2',
+  type: 'Profile',
+  // Missing required fields: id, name, url
+};
+
+// OB2 IdentityObject sample objects
+export const validOB2IdentityObject: OB2.IdentityObject = validOB2Assertion.recipient;
+export const invalidOB2IdentityObject: any = {
+  type: 'email',
+  // Missing required field: identity
+};
+
+// OB2 VerificationObject sample objects
+export const validOB2VerificationObject: OB2.VerificationObject = validOB2Assertion.verification;
+export const invalidOB2VerificationObject: any = {
+  // Missing required field: type
 };

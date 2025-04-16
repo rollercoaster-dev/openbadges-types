@@ -1,4 +1,4 @@
-import { OB2, OB3, Shared } from './index';
+import { OB2 } from './index';
 import * as CompositeGuards from './composite-guards';
 
 /**
@@ -46,7 +46,8 @@ export function normalizeBadge(badge: unknown): NormalizedBadge {
   const badgeRecipientId = CompositeGuards.getBadgeRecipientIdentity(badge);
   const badgeCriteriaNarrative = CompositeGuards.getBadgeCriteriaNarrative(badge);
   const badgeEvidence = CompositeGuards.getBadgeEvidence(badge);
-  const badgeEvidenceId = badgeEvidence && 'id' in badgeEvidence && badgeEvidence.id ? String(badgeEvidence.id) : null;
+  const badgeEvidenceId =
+    badgeEvidence && 'id' in badgeEvidence && badgeEvidence.id ? String(badgeEvidence.id) : null;
 
   return {
     id: badgeId,
@@ -78,9 +79,8 @@ export function normalizeBadges(badges: unknown[]): NormalizedBadge[] {
     try {
       const normalizedBadge = normalizeBadge(badge);
       normalizedBadges.push(normalizedBadge);
-    } catch (error) {
-      // Skip invalid badges
-      console.warn('Skipping invalid badge:', error);
+    } catch {
+      // Skip invalid badges silently
     }
   }
 
@@ -108,15 +108,21 @@ export function sortBadges(
     if (bValue === null) return direction === 'asc' ? -1 : 1;
 
     if (typeof aValue === 'string' && typeof bValue === 'string') {
-      return direction === 'asc'
-        ? aValue.localeCompare(bValue)
-        : bValue.localeCompare(aValue);
+      return direction === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
     }
 
     if (typeof aValue === 'boolean' && typeof bValue === 'boolean') {
       return direction === 'asc'
-        ? (aValue === bValue ? 0 : aValue ? 1 : -1)
-        : (aValue === bValue ? 0 : aValue ? -1 : 1);
+        ? aValue === bValue
+          ? 0
+          : aValue
+            ? 1
+            : -1
+        : aValue === bValue
+          ? 0
+          : aValue
+            ? -1
+            : 1;
     }
 
     // Default comparison for other types
@@ -139,7 +145,7 @@ export function filterBadgesBySearchTerm(
   if (!searchTerm) return badges;
 
   const term = searchTerm.toLowerCase();
-  return badges.filter((badge) => {
+  return badges.filter(badge => {
     return (
       badge.name.toLowerCase().includes(term) ||
       (badge.description && badge.description.toLowerCase().includes(term)) ||
@@ -160,7 +166,7 @@ export function filterBadgesByType(
   type: 'OB2' | 'OB3' | 'all'
 ): NormalizedBadge[] {
   if (type === 'all') return badges;
-  return badges.filter((badge) => badge.type === type);
+  return badges.filter(badge => badge.type === type);
 }
 
 /**
@@ -173,7 +179,7 @@ export function filterBadgesByIssuer(
   badges: NormalizedBadge[],
   issuerId: string
 ): NormalizedBadge[] {
-  return badges.filter((badge) => badge.issuerId === issuerId);
+  return badges.filter(badge => badge.issuerId === issuerId);
 }
 
 /**
@@ -186,7 +192,7 @@ export function filterBadgesByRecipient(
   badges: NormalizedBadge[],
   recipientId: string
 ): NormalizedBadge[] {
-  return badges.filter((badge) => badge.recipientId === recipientId);
+  return badges.filter(badge => badge.recipientId === recipientId);
 }
 
 /**
@@ -199,7 +205,7 @@ export function filterBadgesByExpiration(
   badges: NormalizedBadge[],
   expired: boolean
 ): NormalizedBadge[] {
-  return badges.filter((badge) => badge.isExpired === expired);
+  return badges.filter(badge => badge.isExpired === expired);
 }
 
 /**
@@ -212,12 +218,15 @@ export function groupBadges<K extends keyof NormalizedBadge>(
   badges: NormalizedBadge[],
   field: K
 ): Record<string, NormalizedBadge[]> {
-  return badges.reduce((groups, badge) => {
-    const key = String(badge[field] || 'unknown');
-    if (!groups[key]) {
-      groups[key] = [];
-    }
-    groups[key].push(badge);
-    return groups;
-  }, {} as Record<string, NormalizedBadge[]>);
+  return badges.reduce(
+    (groups, badge) => {
+      const key = String(badge[field] || 'unknown');
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+      groups[key].push(badge);
+      return groups;
+    },
+    {} as Record<string, NormalizedBadge[]>
+  );
 }

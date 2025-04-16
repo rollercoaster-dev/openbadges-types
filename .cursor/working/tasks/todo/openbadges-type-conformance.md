@@ -53,6 +53,7 @@
   - [ ] Tests written and passing
   - [ ] Documentation drafted
   - [x] OB2/OB3 schemas exported as constants in src/schemas.ts (enables validation/tooling)
+  - [x] Documented schema exports in README
 - **Context Resume Point:**
   Last working on: Mapping table completed and moved to docs/ob-mapping-table.md
   Next planned action: Document schema exports in README and protocol compliance docs
@@ -92,4 +93,23 @@
 5. **Ongoing Spec Monitoring & Maintenance**
    - Periodically review the OB2/OB3 specs for changes.
    - Update types, schemas, and mapping table as needed.
-   - Encourage contributors to add new sample objects/tests for any new types or fields. 
+   - Encourage contributors to add new sample objects/tests for any new types or fields.
+
+## Progress Tracker
+
+- [x] OB2/OB3 schemas downloaded and exported
+- [x] Mapping table created and moved to docs
+- [x] OB3 runtime validation utility (AJV) implemented
+- [x] OB3 VerifiableCredential validation tests (valid/invalid/edge cases)
+- [x] pnpm locked as package manager, pre-commit linting enabled
+- [x] Draft PR created with roadmap and progress
+- [x] OB3 Achievement sample objects (valid/invalid)
+- [x] OB3 Issuer sample objects (valid/invalid)
+- [x] OB3 CredentialSubject sample objects (valid/invalid)
+- [x] OB3 Achievement validation tests
+- [x] OB3 Issuer validation tests
+- [x] OB3 CredentialSubject validation tests
+- [x] OB2 sample objects and validation tests
+  - OB2 type guard tests now use explicit valid/invalid samples for comprehensive coverage
+- [ ] CI integration for schema validation
+- [ ] Ongoing spec monitoring/documentation 

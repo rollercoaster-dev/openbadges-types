@@ -1,5 +1,6 @@
+// NOTE: If you see a TS/ESLint error about tsconfig not including this file, add 'test' to the 'include' array in tsconfig.json.
 import { validateOB3Credential } from '../src/validateWithSchema';
-import { createOB3VerifiableCredential } from './helpers';
+import { createOB3VerifiableCredential, validOB3Achievement, invalidOB3Achievement, validOB3Issuer, invalidOB3Issuer, validOB3CredentialSubject, invalidOB3CredentialSubject } from './helpers';
 
 test('OB3 VerifiableCredential matches OB3 schema', () => {
   const credential = createOB3VerifiableCredential();
@@ -28,12 +29,59 @@ test('OB3 VerifiableCredential with wrong type fails validation', () => {
 test('OB3 VerifiableCredential with extra unexpected field fails validation', () => {
   const credential = { ...createOB3VerifiableCredential(), unexpectedField: 'oops' };
   const result = validateOB3Credential(credential);
-  // Depending on schema, this may or may not fail. Log result for review.
   if (!result.valid) {
     console.log('Extra field errors:', result.errors);
   } else {
     console.log('Extra field accepted (schema allows extensions)');
   }
-  // Accept either, but log for review
   expect(typeof result.valid).toBe('boolean');
+});
+
+// Achievement
+
+test('OB3 Achievement valid sample passes schema validation', () => {
+  const credential = createOB3VerifiableCredential({
+    credentialSubject: { ...validOB3CredentialSubject, achievement: validOB3Achievement }
+  });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(true);
+});
+
+test('OB3 Achievement invalid sample fails schema validation', () => {
+  const credential = createOB3VerifiableCredential({
+    credentialSubject: { ...validOB3CredentialSubject, achievement: invalidOB3Achievement as any }
+  });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(false);
+  console.log('Achievement invalid errors:', result.errors);
+});
+
+// Issuer
+
+test('OB3 Issuer valid sample passes schema validation', () => {
+  const credential = createOB3VerifiableCredential({ issuer: validOB3Issuer });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(true);
+});
+
+test('OB3 Issuer invalid sample fails schema validation', () => {
+  const credential = createOB3VerifiableCredential({ issuer: invalidOB3Issuer as any });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(false);
+  console.log('Issuer invalid errors:', result.errors);
+});
+
+// CredentialSubject
+
+test('OB3 CredentialSubject valid sample passes schema validation', () => {
+  const credential = createOB3VerifiableCredential({ credentialSubject: validOB3CredentialSubject });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(true);
+});
+
+test('OB3 CredentialSubject invalid sample fails schema validation', () => {
+  const credential = createOB3VerifiableCredential({ credentialSubject: invalidOB3CredentialSubject as any });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(false);
+  console.log('CredentialSubject invalid errors:', result.errors);
 }); 
