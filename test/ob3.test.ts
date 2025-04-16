@@ -25,8 +25,8 @@ describe('Open Badges 3.0 Types', () => {
           created: Shared.createDateTime('2023-06-15T12:05:00Z'),
           verificationMethod: Shared.createIRI('https://example.org/issuers/123#keys-1'),
           proofPurpose: 'assertionMethod',
-          proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh'
-        }
+          proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh',
+        },
       };
 
       expect(credentialWithProof).toHaveProperty('proof');
@@ -41,12 +41,14 @@ describe('Open Badges 3.0 Types', () => {
           id: Shared.createIRI('did:example:ebfeb1f712ebc6f1c276e12ec21'),
           achievement: [
             createOB3Achievement({ name: '3-D Printmaster' }),
-            createOB3Achievement({ name: 'Safety Expert' })
-          ]
-        }
+            createOB3Achievement({ name: 'Safety Expert' }),
+          ],
+        },
       });
 
-      expect(Array.isArray(credentialWithMultipleAchievements.credentialSubject.achievement)).toBe(true);
+      expect(Array.isArray(credentialWithMultipleAchievements.credentialSubject.achievement)).toBe(
+        true
+      );
       expect(credentialWithMultipleAchievements.credentialSubject.achievement).toHaveLength(2);
     });
 
@@ -56,11 +58,11 @@ describe('Open Badges 3.0 Types', () => {
         ...validCredential,
         evidence: [
           {
-            id: 'https://example.org/evidence/123',
+            id: Shared.createIRI('https://example.org/evidence/123'),
             type: ['Evidence'],
-            narrative: 'Alice completed all required tasks with distinction.'
-          }
-        ]
+            narrative: 'Alice completed all required tasks with distinction.',
+          },
+        ],
       };
 
       expect(credentialWithEvidence).toHaveProperty('evidence');

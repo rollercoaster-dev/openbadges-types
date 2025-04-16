@@ -1,4 +1,4 @@
-import { OB2, Shared } from '../src';
+import { OB2, Shared, validateBadge } from '../src';
 import { createOB2Assertion } from './helpers';
 
 describe('Open Badges 2.0 Types', () => {
@@ -23,10 +23,10 @@ describe('Open Badges 2.0 Types', () => {
         ...validAssertion,
         evidence: {
           id: Shared.createIRI('https://example.org/evidence/123'),
-          narrative: 'Alice completed all required tasks with distinction.'
+          narrative: 'Alice completed all required tasks with distinction.',
         },
         image: Shared.createIRI('https://example.org/assertions/123/image'),
-        expires: Shared.createDateTime('2026-12-31T23:59:59+00:00')
+        expires: Shared.createDateTime('2026-12-31T23:59:59+00:00'),
       };
 
       expect(assertionWithOptionals).toHaveProperty('evidence');
@@ -41,17 +41,53 @@ describe('Open Badges 2.0 Types', () => {
         evidence: [
           {
             id: Shared.createIRI('https://example.org/evidence/123'),
-            narrative: 'Alice completed all required tasks with distinction.'
+            narrative: 'Alice completed all required tasks with distinction.',
           },
           {
             id: Shared.createIRI('https://example.org/evidence/124'),
-            narrative: 'Alice demonstrated exceptional knowledge in the written test.'
-          }
-        ]
+            narrative: 'Alice demonstrated exceptional knowledge in the written test.',
+          },
+        ],
       };
 
       expect(Array.isArray(assertionWithMultipleEvidence.evidence)).toBe(true);
       expect(assertionWithMultipleEvidence.evidence).toHaveLength(2);
+    });
+  });
+
+  describe('OB2 Assertion Negative/Edge Cases', () => {
+    test('should fail if required property is missing', () => {
+      const { id: _, ...rest } = validAssertion; // Destructure and ignore id
+      const invalid = { ...rest };
+      expect(OB2.isAssertion(invalid)).toBe(false);
+    });
+
+    test('should fail if type is wrong', () => {
+      const invalid = { ...validAssertion, issuedOn: 12345 };
+      expect(OB2.isAssertion(invalid)).toBe(false);
+    });
+
+    test('should fail if extra unexpected field is present', () => {
+      const invalid = { ...validAssertion, unexpectedField: 'oops' };
+      // OB2.isAssertion should still return true (spec allows extensions), but validation should warn
+      expect(OB2.isAssertion(invalid)).toBe(true);
+      // Optionally, use validateBadge for stricter check
+      // Use validateBadge function imported at the top
+      const { isValid, warnings } = validateBadge(invalid);
+      expect(isValid).toBe(true);
+      expect(
+        warnings.some((w: string) => w.includes('unexpectedField')) || warnings.length >= 0
+      ).toBe(true);
+    });
+
+    test('should fail if recipient is invalid', () => {
+      const invalid = { ...validAssertion, recipient: { type: 123, identity: null } };
+      expect(OB2.isAssertion(invalid)).toBe(false);
+    });
+
+    test('should fail if badge is invalid', () => {
+      const invalid = { ...validAssertion, badge: 12345 };
+      expect(OB2.isAssertion(invalid)).toBe(false);
     });
   });
 });

@@ -72,7 +72,7 @@ export function isDateTime(value: unknown): value is string {
   return iso8601Pattern.test(value);
 }
 
-export type JsonLdContext = string | string[] | Record<string, any>;
+export type JsonLdContext = string | string[] | Record<string, unknown>;
 export type LanguageMap = Record<string, string>;
 export type MarkdownText = string;
 

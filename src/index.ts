@@ -13,12 +13,15 @@ export * as OB3 from './v3';
 // Export validation utilities
 export * from './validation';
 
+// Export composite badge utilities
+export * as CompositeGuards from './composite-guards';
+export * as BadgeNormalizer from './badge-normalizer';
+
 // Type to determine which Open Badges version to use
 
 export enum OpenBadgesVersion {
-  // eslint-disable-next-line no-unused-vars
   V2 = '2.0',
-  // eslint-disable-next-line no-unused-vars
+
   V3 = '3.0',
 }
 

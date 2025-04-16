@@ -15,7 +15,7 @@ export * from './guards';
  * Based on the W3C Verifiable Credentials Data Model v2.0
  */
 export interface VerifiableCredential extends JsonLdObject {
-  '@context': string | string[] | Record<string, any>;
+  '@context': string | string[] | Record<string, unknown>;
   id: IRI;
   type: 'VerifiableCredential' | string | string[];
   issuer: IRI | Issuer;
@@ -27,7 +27,7 @@ export interface VerifiableCredential extends JsonLdObject {
   refreshService?: RefreshService;
   termsOfUse?: TermsOfUse | TermsOfUse[];
   evidence?: Evidence | Evidence[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -43,7 +43,19 @@ export interface Issuer extends JsonLdObject {
   image?: IRI | OB3ImageObject;
   email?: string;
   telephone?: string;
-  [key: string]: any;
+  [key: string]: unknown;
+}
+
+/**
+ * IdentityObject interface for Open Badges 3.0
+ * Represents the identity of a badge recipient (hashed or plaintext)
+ * See OB3 context for full field list
+ */
+export interface IdentityObject {
+  identityHash: string;
+  identityType?: string;
+  hashed?: boolean;
+  salt?: string; // Required if hashed is true
 }
 
 /**
@@ -56,7 +68,9 @@ export interface CredentialSubject {
   achievement: Achievement | Achievement[];
   name?: string | MultiLanguageString;
   email?: string;
-  [key: string]: any;
+  role?: string; // Optional, per OB3 context
+  identifier?: IdentityObject[]; // Optional, per OB3 context
+  [key: string]: unknown;
 }
 
 /**
@@ -73,7 +87,7 @@ export interface Achievement extends JsonLdObject {
   creator?: IRI | Issuer;
   alignments?: Alignment[];
   resultDescriptions?: ResultDescription[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -87,7 +101,7 @@ export interface Proof {
   proofPurpose: string;
   proofValue?: string;
   jws?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -102,7 +116,7 @@ export interface Evidence {
   description?: string | MultiLanguageString;
   genre?: string;
   audience?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -113,7 +127,7 @@ export interface Criteria {
   id?: IRI;
   type?: string | string[];
   narrative?: string | MarkdownText;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -126,24 +140,27 @@ export interface Alignment {
   targetDescription?: string;
   targetFramework?: string;
   targetCode?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
  * ResultDescription interface for Open Badges 3.0
  * Describes possible results for an achievement
+ * Extend as needed for additional OB3 spec fields
  */
 export interface ResultDescription {
   id?: IRI;
   type?: string | string[];
   name?: string | MultiLanguageString;
   description?: string | MultiLanguageString;
-  [key: string]: any;
+  // Add more fields from OB3 spec as needed
+  [key: string]: unknown;
 }
 
 /**
  * Results interface for Open Badges 3.0
  * Represents the results achieved by the recipient
+ * Extend as needed for additional OB3 spec fields
  */
 export interface Results {
   id?: IRI;
@@ -151,7 +168,8 @@ export interface Results {
   resultDescription?: IRI | ResultDescription;
   status?: string;
   value?: string | number;
-  [key: string]: any;
+  // Add more fields from OB3 spec as needed
+  [key: string]: unknown;
 }
 
 /**
@@ -163,7 +181,7 @@ export interface CredentialStatus {
   type: string;
   statusPurpose?: string;
   statusList?: IRI;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -173,7 +191,7 @@ export interface CredentialStatus {
 export interface RefreshService {
   id: IRI;
   type: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -183,5 +201,5 @@ export interface RefreshService {
 export interface TermsOfUse {
   id?: IRI;
   type: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }

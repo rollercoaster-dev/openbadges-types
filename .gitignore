@@ -25,3 +25,6 @@ lib/
 # Test coverage
 coverage/
 .nyc_output/
+
+package-lock.json
+yarn.lock

@@ -11,15 +11,19 @@ describe('OB3 Type Guards', () => {
       // Invalid credentials
       expect(OB3.isVerifiableCredential(null)).toBe(false);
       expect(OB3.isVerifiableCredential({})).toBe(false);
-      expect(OB3.isVerifiableCredential({
-        '@context': 'https://www.w3.org/2018/credentials/v1',
-        'type': 'Achievement' // Wrong type
-      })).toBe(false);
-      expect(OB3.isVerifiableCredential({
-        '@context': 'https://www.w3.org/2018/credentials/v1',
-        'type': 'VerifiableCredential',
-        // Missing required properties
-      })).toBe(false);
+      expect(
+        OB3.isVerifiableCredential({
+          '@context': 'https://www.w3.org/2018/credentials/v1',
+          type: 'Achievement', // Wrong type
+        })
+      ).toBe(false);
+      expect(
+        OB3.isVerifiableCredential({
+          '@context': 'https://www.w3.org/2018/credentials/v1',
+          type: 'VerifiableCredential',
+          // Missing required properties
+        })
+      ).toBe(false);
     });
   });
 
@@ -32,11 +36,13 @@ describe('OB3 Type Guards', () => {
       // Invalid issuers
       expect(OB3.isIssuer(null)).toBe(false);
       expect(OB3.isIssuer({})).toBe(false);
-      expect(OB3.isIssuer({
-        '@context': 'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
-        'type': 'Profile',
-        // Missing id property
-      })).toBe(false);
+      expect(
+        OB3.isIssuer({
+          '@context': 'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
+          type: 'Profile',
+          // Missing id property
+        })
+      ).toBe(false);
     });
   });
 
@@ -49,10 +55,12 @@ describe('OB3 Type Guards', () => {
       // Invalid credential subjects
       expect(OB3.isCredentialSubject(null)).toBe(false);
       expect(OB3.isCredentialSubject({})).toBe(false);
-      expect(OB3.isCredentialSubject({
-        'id': 'did:example:123',
-        // Missing achievement property
-      })).toBe(false);
+      expect(
+        OB3.isCredentialSubject({
+          id: 'did:example:123',
+          // Missing achievement property
+        })
+      ).toBe(false);
     });
   });
 
@@ -65,11 +73,13 @@ describe('OB3 Type Guards', () => {
       // Invalid achievements
       expect(OB3.isAchievement(null)).toBe(false);
       expect(OB3.isAchievement({})).toBe(false);
-      expect(OB3.isAchievement({
-        '@context': 'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
-        'type': 'Achievement',
-        // Missing name property
-      })).toBe(false);
+      expect(
+        OB3.isAchievement({
+          '@context': 'https://purl.imsglobal.org/spec/ob/v3p0/context.json',
+          type: 'Achievement',
+          // Missing name property
+        })
+      ).toBe(false);
     });
   });
 
@@ -80,7 +90,7 @@ describe('OB3 Type Guards', () => {
         created: Shared.createDateTime('2023-06-15T12:05:00Z'),
         verificationMethod: Shared.createIRI('https://example.org/issuers/123#keys-1'),
         proofPurpose: 'assertionMethod',
-        proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh'
+        proofValue: 'z58DAdFfa9SkqZMVPxAQpic6FPCsJWa6SpsfDqwmUbHEVnWxeh',
       };
 
       expect(OB3.isProof(validProof)).toBe(true);
@@ -88,10 +98,12 @@ describe('OB3 Type Guards', () => {
       // Invalid proofs
       expect(OB3.isProof(null)).toBe(false);
       expect(OB3.isProof({})).toBe(false);
-      expect(OB3.isProof({
-        type: 'Ed25519Signature2020',
-        // Missing required properties
-      })).toBe(false);
+      expect(
+        OB3.isProof({
+          type: 'Ed25519Signature2020',
+          // Missing required properties
+        })
+      ).toBe(false);
     });
   });
 

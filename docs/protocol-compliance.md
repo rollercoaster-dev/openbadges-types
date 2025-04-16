@@ -45,14 +45,32 @@ Our implementation supports both verification methods specified in the Open Badg
 - **HostedBadge**: For badge assertions that are hosted at a stable URL
 - **SignedBadge**: For badge assertions that are cryptographically signed
 
+## Validation
+
+Our implementation validates OB2 and OB3 objects at runtime:
+
+- **OB2 (Open Badges 2.0):**
+  - Uses custom, spec-aligned validation logic (see `src/validation.ts`).
+  - Covers all required fields, types, and edge cases for Assertion, BadgeClass, Profile, and supporting types.
+  - Comprehensive positive and negative test cases in `test/validation.test.ts` and `test/ob2-guards.test.ts`.
+- **OB3 (Open Badges 3.0):**
+  - Uses AJV for JSON Schema-based validation (see `src/validateWithSchema.ts`).
+  - Validates VerifiableCredential and all nested types against the official OB3 JSON-LD context.
+  - Comprehensive positive and negative test cases in `test/ob3-schema-validation.test.ts` and `test/ob3-guards.test.ts`.
+
+See the test suite for evidence of conformance and edge case coverage.
+
 ## Type Guards
 
-We've implemented comprehensive type guards that validate objects according to the Open Badges specification:
+We've implemented comprehensive type guards and runtime validation that validate objects according to the Open Badges specification:
 
 - **isJsonLdObject**: Validates that an object is a valid JSON-LD object with both `@context` and `type` properties
 - **isAssertion**: Validates that an object is a valid Assertion according to the specification
 - **isBadgeClass**: Validates that an object is a valid BadgeClass according to the specification
 - **isProfile**: Validates that an object is a valid Profile according to the specification
+- **validateBadge**: Validates OB2 and OB3 objects at runtime, returning detailed errors and version detection
+
+See the test files for usage examples and edge case coverage.
 
 ## Example: OB3-compliant image field
 
