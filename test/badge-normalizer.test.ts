@@ -1,4 +1,4 @@
-import { BadgeNormalizer, OB2, OB3, Shared } from '../src';
+import { BadgeNormalizer } from '../src';
 import { createOB2Assertion, createOB3VerifiableCredential } from './helpers';
 
 describe('Badge Normalizer', () => {

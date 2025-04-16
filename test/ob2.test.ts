@@ -1,4 +1,4 @@
-import { OB2, Shared } from '../src';
+import { OB2, Shared, validateBadge } from '../src';
 import { createOB2Assertion } from './helpers';
 
 describe('Open Badges 2.0 Types', () => {
@@ -57,15 +57,13 @@ describe('Open Badges 2.0 Types', () => {
 
   describe('OB2 Assertion Negative/Edge Cases', () => {
     test('should fail if required property is missing', () => {
-      const { id, ...rest } = validAssertion;
-      // @ts-ignore
+      const { id: _, ...rest } = validAssertion; // Destructure and ignore id
       const invalid = { ...rest };
       expect(OB2.isAssertion(invalid)).toBe(false);
     });
 
     test('should fail if type is wrong', () => {
       const invalid = { ...validAssertion, issuedOn: 12345 };
-      // @ts-ignore
       expect(OB2.isAssertion(invalid)).toBe(false);
     });
 
@@ -74,7 +72,8 @@ describe('Open Badges 2.0 Types', () => {
       // OB2.isAssertion should still return true (spec allows extensions), but validation should warn
       expect(OB2.isAssertion(invalid)).toBe(true);
       // Optionally, use validateBadge for stricter check
-      const { isValid, warnings } = require('../src/validation').validateBadge(invalid);
+      // Use validateBadge function imported at the top
+      const { isValid, warnings } = validateBadge(invalid);
       expect(isValid).toBe(true);
       expect(
         warnings.some((w: string) => w.includes('unexpectedField')) || warnings.length >= 0
@@ -83,13 +82,11 @@ describe('Open Badges 2.0 Types', () => {
 
     test('should fail if recipient is invalid', () => {
       const invalid = { ...validAssertion, recipient: { type: 123, identity: null } };
-      // @ts-ignore
       expect(OB2.isAssertion(invalid)).toBe(false);
     });
 
     test('should fail if badge is invalid', () => {
       const invalid = { ...validAssertion, badge: 12345 };
-      // @ts-ignore
       expect(OB2.isAssertion(invalid)).toBe(false);
     });
   });

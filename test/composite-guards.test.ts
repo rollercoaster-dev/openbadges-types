@@ -1,4 +1,4 @@
-import { CompositeGuards, OB2, OB3, Shared } from '../src';
+import { CompositeGuards } from '../src';
 import { createOB2Assertion, createOB3VerifiableCredential } from './helpers';
 
 describe('Composite Type Guards', () => {

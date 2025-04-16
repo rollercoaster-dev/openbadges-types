@@ -2,10 +2,10 @@
  * JSON-LD related types for Open Badges
  */
 export interface JsonLdObject {
-  '@context'?: string | string[] | Record<string, any>;
+  '@context'?: string | string[] | Record<string, unknown>;
   type?: string | string[];
   id?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Type for JSON-LD context specifically for Open Badges 2.0

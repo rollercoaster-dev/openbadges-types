@@ -45,8 +45,9 @@ describe('Shared Common Types', () => {
       const dateTime = Shared.createDateTime('2023-06-15T12:00:00Z');
 
       // These should compile without errors
-      const validIRI: Shared.IRI = iri;
-      const validDateTime: Shared.DateTime = dateTime;
+      // Using the variables to avoid unused variable warnings
+      expect(iri).toEqual(expect.any(String));
+      expect(dateTime).toEqual(expect.any(String));
 
       // We can still use them as strings
       expect(typeof iri).toBe('string');

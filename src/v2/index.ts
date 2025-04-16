@@ -38,7 +38,7 @@ export interface Evidence {
   description?: string;
   genre?: string;
   audience?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -79,7 +79,7 @@ export interface Criteria {
  * Represents the type of achievement being awarded
  */
 export interface BadgeClass extends JsonLdObject {
-  '@context'?: string | string[] | Record<string, any>;
+  '@context'?: string | string[] | Record<string, unknown>;
   id: IRI;
   type: 'BadgeClass' | string | string[];
   name: string;
@@ -89,7 +89,7 @@ export interface BadgeClass extends JsonLdObject {
   issuer: IRI | Profile;
   alignment?: AlignmentObject | AlignmentObject[];
   tags?: string[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -97,7 +97,7 @@ export interface BadgeClass extends JsonLdObject {
  * Represents an issuer of badges
  */
 export interface Profile extends JsonLdObject {
-  '@context'?: string | string[] | Record<string, any>;
+  '@context'?: string | string[] | Record<string, unknown>;
   id: IRI;
   type: 'Profile' | 'Issuer' | string | string[];
   name: string;
@@ -107,7 +107,7 @@ export interface Profile extends JsonLdObject {
   image?: IRI | Image;
   telephone?: string;
   verification?: VerificationObject;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -115,7 +115,7 @@ export interface Profile extends JsonLdObject {
  * Represents an awarded badge to a specific recipient
  */
 export interface Assertion extends JsonLdObject {
-  '@context'?: string | string[] | Record<string, any>;
+  '@context'?: string | string[] | Record<string, unknown>;
   id: IRI;
   type: 'Assertion' | string | string[];
   recipient: IdentityObject;
@@ -128,7 +128,7 @@ export interface Assertion extends JsonLdObject {
   expires?: DateTime;
   revoked?: boolean;
   revocationReason?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -136,7 +136,7 @@ export interface Assertion extends JsonLdObject {
  * Contains a list of revoked assertions
  */
 export interface RevocationList extends JsonLdObject {
-  '@context'?: string | string[] | Record<string, any>;
+  '@context'?: string | string[] | Record<string, unknown>;
   id: IRI;
   type: 'RevocationList' | string | string[];
   revokedAssertions: string[];
@@ -147,7 +147,7 @@ export interface RevocationList extends JsonLdObject {
  * Represents a cryptographic key used for verification
  */
 export interface CryptographicKey extends JsonLdObject {
-  '@context'?: string | string[] | Record<string, any>;
+  '@context'?: string | string[] | Record<string, unknown>;
   id: IRI;
   type: 'CryptographicKey' | string | string[];
   owner: IRI;
@@ -159,5 +159,5 @@ export interface CryptographicKey extends JsonLdObject {
  * Represents an extension to the Open Badges specification
  */
 export interface Extension {
-  [key: string]: any;
+  [key: string]: unknown;
 }

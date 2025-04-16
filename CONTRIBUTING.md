@@ -48,6 +48,7 @@ This project adheres to a Code of Conduct that all contributors are expected to 
 ## Development Workflow
 
 1. Create a new branch for your feature or bugfix:
+
    ```bash
    git checkout -b feature/your-feature-name
    # or
@@ -57,6 +58,7 @@ This project adheres to a Code of Conduct that all contributors are expected to 
 2. Make your changes, following the [coding standards](#coding-standards)
 
 3. Run tests to ensure your changes don't break existing functionality:
+
    ```bash
    npm test
    # or
@@ -64,6 +66,7 @@ This project adheres to a Code of Conduct that all contributors are expected to 
    ```
 
 4. Run linting to ensure your code follows the style guidelines:
+
    ```bash
    npm run lint
    # or
@@ -71,6 +74,7 @@ This project adheres to a Code of Conduct that all contributors are expected to 
    ```
 
 5. Commit your changes with a descriptive commit message:
+
    ```bash
    git commit -m "feat: add support for new feature"
    # or
@@ -78,6 +82,7 @@ This project adheres to a Code of Conduct that all contributors are expected to 
    ```
 
 6. Push your branch to your fork:
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -151,6 +156,9 @@ The release process is handled by the maintainers:
 2. Maintainers will update the version according to semantic versioning
 3. Maintainers will create a new release on GitHub
 4. The CI/CD pipeline will publish the new version to npm
+
+**For a detailed, step-by-step release and changelog workflow, see:**
+[.github/RELEASE_CHECKLIST.md](.github/RELEASE_CHECKLIST.md)
 
 ## Adding New Types
 

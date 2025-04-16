@@ -40,23 +40,26 @@ export function isAssertion(value: unknown): value is Assertion {
   }
 
   // issuedOn must be a string
-  if (typeof (value as any).issuedOn !== 'string') {
+  if (!('issuedOn' in value) || typeof value.issuedOn !== 'string') {
     return false;
   }
 
   // recipient must be a valid IdentityObject
-  if (!isIdentityObject((value as any).recipient)) {
+  if (!('recipient' in value) || !isIdentityObject(value.recipient)) {
     return false;
   }
 
   // badge must be a string (IRI) or valid BadgeClass
-  const badge = (value as any).badge;
+  if (!('badge' in value)) {
+    return false;
+  }
+  const badge = value.badge;
   if (!(typeof badge === 'string' || isBadgeClass(badge))) {
     return false;
   }
 
   // verification must be a valid VerificationObject
-  if (!isVerificationObject((value as any).verification)) {
+  if (!('verification' in value) || !isVerificationObject(value.verification)) {
     return false;
   }
 
@@ -134,10 +137,10 @@ export function isIdentityObject(value: unknown): value is IdentityObject {
   }
 
   // Check for required properties and types
-  if (!('type' in value) || typeof (value as any).type !== 'string') {
+  if (!('type' in value) || typeof value.type !== 'string') {
     return false;
   }
-  if (!('identity' in value) || typeof (value as any).identity !== 'string') {
+  if (!('identity' in value) || typeof value.identity !== 'string') {
     return false;
   }
 

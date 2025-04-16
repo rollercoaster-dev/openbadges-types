@@ -1,4 +1,4 @@
-import { validateBadge, Shared } from '../src';
+import { validateBadge } from '../src';
 import { createOB2Assertion, createOB3VerifiableCredential } from './helpers';
 
 describe('Badge Validation', () => {

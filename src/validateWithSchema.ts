@@ -16,7 +16,15 @@ const validateOB3 = ajv.compile(OB3_CONTEXT);
  * @param data The credential to validate
  * @returns An object with validation results
  */
-export function validateOB3Credential(data: unknown): { valid: boolean; errors?: any } {
+export interface ValidationError {
+  message: string;
+  [key: string]: unknown;
+}
+
+export function validateOB3Credential(data: unknown): {
+  valid: boolean;
+  errors?: ValidationError[];
+} {
   // Check for required fields manually since AJV might be too permissive
   if (typeof data !== 'object' || data === null) {
     return {
@@ -25,7 +33,7 @@ export function validateOB3Credential(data: unknown): { valid: boolean; errors?:
     };
   }
 
-  const credential = data as Record<string, any>;
+  const credential = data as Record<string, unknown>;
 
   // Check for required fields
   if (
@@ -43,7 +51,8 @@ export function validateOB3Credential(data: unknown): { valid: boolean; errors?:
   }
 
   // Check credential subject
-  if (!credential.credentialSubject.achievement) {
+  const credentialSubject = credential.credentialSubject as Record<string, unknown> | undefined;
+  if (!credentialSubject || !credentialSubject.achievement) {
     return {
       valid: false,
       errors: [{ message: 'Missing required achievement in credentialSubject' }],
@@ -51,15 +60,15 @@ export function validateOB3Credential(data: unknown): { valid: boolean; errors?:
   }
 
   // Check achievement
-  const achievement = credential.credentialSubject.achievement;
+  const achievement = credentialSubject.achievement;
   if (Array.isArray(achievement)) {
-    if (achievement.length === 0 || !achievement[0].name) {
+    if (achievement.length === 0 || !(achievement[0] as Record<string, unknown>).name) {
       return {
         valid: false,
         errors: [{ message: 'Achievement must have a name' }],
       };
     }
-  } else if (!achievement.name) {
+  } else if (!(achievement as Record<string, unknown>).name) {
     return {
       valid: false,
       errors: [{ message: 'Achievement must have a name' }],
@@ -67,14 +76,24 @@ export function validateOB3Credential(data: unknown): { valid: boolean; errors?:
   }
 
   // Check issuer
-  if (typeof credential.issuer === 'object' && (!credential.issuer.id || !credential.issuer.name)) {
-    return {
-      valid: false,
-      errors: [{ message: 'Issuer must have id and name' }],
-    };
+  if (typeof credential.issuer === 'object' && credential.issuer !== null) {
+    const issuer = credential.issuer as Record<string, unknown>;
+    if (!issuer.id || !issuer.name) {
+      return {
+        valid: false,
+        errors: [{ message: 'Issuer must have id and name' }],
+      };
+    }
   }
 
   // Run AJV validation
   const valid = validateOB3(data);
-  return { valid, errors: validateOB3.errors };
+  // Convert AJV errors to our ValidationError format
+  const errors = validateOB3.errors
+    ? validateOB3.errors.map(err => ({
+        message: err.message || 'Unknown validation error',
+        ...err,
+      }))
+    : undefined;
+  return { valid, errors };
 }

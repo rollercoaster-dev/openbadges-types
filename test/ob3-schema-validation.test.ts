@@ -1,5 +1,6 @@
 // NOTE: If you see a TS/ESLint error about tsconfig not including this file, add 'test' to the 'include' array in tsconfig.json.
 import { validateOB3Credential } from '../src/validateWithSchema';
+import { OB3 } from '../src';
 import {
   createOB3VerifiableCredential,
   validOB3Achievement,
@@ -21,7 +22,7 @@ test('OB3 VerifiableCredential matches OB3 schema', () => {
 
 test('OB3 VerifiableCredential missing required field fails validation', () => {
   const credential = { ...createOB3VerifiableCredential() };
-  (credential as any).issuer = undefined;
+  delete (credential as Record<string, unknown>).issuer;
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(false);
   console.log('Missing field errors:', result.errors);
@@ -57,7 +58,10 @@ test('OB3 Achievement valid sample passes schema validation', () => {
 
 test('OB3 Achievement invalid sample fails schema validation', () => {
   const credential = createOB3VerifiableCredential({
-    credentialSubject: { ...validOB3CredentialSubject, achievement: invalidOB3Achievement as any },
+    credentialSubject: {
+      ...validOB3CredentialSubject,
+      achievement: invalidOB3Achievement as unknown as OB3.Achievement,
+    },
   });
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(false);
@@ -73,7 +77,9 @@ test('OB3 Issuer valid sample passes schema validation', () => {
 });
 
 test('OB3 Issuer invalid sample fails schema validation', () => {
-  const credential = createOB3VerifiableCredential({ issuer: invalidOB3Issuer as any });
+  const credential = createOB3VerifiableCredential({
+    issuer: invalidOB3Issuer as unknown as OB3.Issuer,
+  });
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(false);
   console.log('Issuer invalid errors:', result.errors);
@@ -91,7 +97,7 @@ test('OB3 CredentialSubject valid sample passes schema validation', () => {
 
 test('OB3 CredentialSubject invalid sample fails schema validation', () => {
   const credential = createOB3VerifiableCredential({
-    credentialSubject: invalidOB3CredentialSubject as any,
+    credentialSubject: invalidOB3CredentialSubject as unknown as OB3.CredentialSubject,
   });
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(false);
@@ -152,5 +158,5 @@ test('OB3 E2E: real-world invalid credential (missing achievement name)', () => 
   };
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(false);
-  expect(result.errors.some((e: { message: string }) => e.message.includes('name'))).toBe(true);
+  expect(result.errors?.some(e => e.message.includes('name'))).toBe(true);
 });

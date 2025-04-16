@@ -134,7 +134,7 @@ export const invalidOB3CredentialSubject = {
 
 // OB2 Assertion sample objects
 export const validOB2Assertion: OB2.Assertion = createOB2Assertion();
-export const invalidOB2Assertion: any = {
+export const invalidOB2Assertion = {
   '@context': 'https://w3id.org/openbadges/v2',
   type: 'Assertion',
   // Missing required fields: id, recipient, issuedOn, verification, badge
@@ -142,7 +142,7 @@ export const invalidOB2Assertion: any = {
 
 // OB2 BadgeClass sample objects
 export const validOB2BadgeClass: OB2.BadgeClass = validOB2Assertion.badge as OB2.BadgeClass;
-export const invalidOB2BadgeClass: any = {
+export const invalidOB2BadgeClass = {
   '@context': 'https://w3id.org/openbadges/v2',
   type: 'BadgeClass',
   // Missing required fields: id, name, description, criteria, issuer
@@ -150,7 +150,7 @@ export const invalidOB2BadgeClass: any = {
 
 // OB2 Profile sample objects
 export const validOB2Profile: OB2.Profile = validOB2BadgeClass.issuer as OB2.Profile;
-export const invalidOB2Profile: any = {
+export const invalidOB2Profile = {
   '@context': 'https://w3id.org/openbadges/v2',
   type: 'Profile',
   // Missing required fields: id, name, url
@@ -158,13 +158,13 @@ export const invalidOB2Profile: any = {
 
 // OB2 IdentityObject sample objects
 export const validOB2IdentityObject: OB2.IdentityObject = validOB2Assertion.recipient;
-export const invalidOB2IdentityObject: any = {
+export const invalidOB2IdentityObject = {
   type: 'email',
   // Missing required field: identity
 };
 
 // OB2 VerificationObject sample objects
 export const validOB2VerificationObject: OB2.VerificationObject = validOB2Assertion.verification;
-export const invalidOB2VerificationObject: any = {
+export const invalidOB2VerificationObject = {
   // Missing required field: type
 };
