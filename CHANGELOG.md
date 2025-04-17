@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/rollercoaster-dev/openbadges-types/compare/v3.0.2...v3.1.0) (2025-04-17)
+
+
+### Features
+
+* enhance type guards and add direct exports ([f61585f](https://github.com/rollercoaster-dev/openbadges-types/commit/f61585fad4ac70cc68ef89ff47dc4cf80ebfd71f))
+* enhance type guards and add direct exports ([e94f575](https://github.com/rollercoaster-dev/openbadges-types/commit/e94f575b6c10d763744f1e367df353c5e7079cd1))
+
 ### [3.0.1](https://github.com/rollercoaster-dev/openbadges-types/compare/v3.0.0...v3.0.1) (2025-04-16)
 
 
