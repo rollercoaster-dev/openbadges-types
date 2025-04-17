@@ -1,6 +1,7 @@
 {
   "name": "openbadges-types",
   "version": "3.0.1",
+  "type": "module",
   "description": "TypeScript type definitions for Open Badges 2.0 and 3.0 specifications",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
