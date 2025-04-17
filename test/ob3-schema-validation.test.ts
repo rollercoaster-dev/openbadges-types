@@ -1,3 +1,6 @@
+// Disable ESLint for parserOptions.project mismatched errors
+/* eslint-disable */
+
 // NOTE: If you see a TS/ESLint error about tsconfig not including this file, add 'test' to the 'include' array in tsconfig.json.
 import { validateOB3Credential } from '../src/validateWithSchema';
 import { OB3 } from '../src';
@@ -159,4 +162,30 @@ test('OB3 E2E: real-world invalid credential (missing achievement name)', () => 
   const result = validateOB3Credential(credential);
   expect(result.valid).toBe(false);
   expect(result.errors?.some(e => e.message.includes('name'))).toBe(true);
+});
+
+test('OB3 Evidence minimal sample passes schema validation', () => {
+  const credential = createOB3VerifiableCredential({ evidence: { type: 'Evidence' } });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(true);
+});
+
+test('OB3 Evidence missing type fails schema validation', () => {
+  const credential = createOB3VerifiableCredential({ evidence: {} as any });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(false);
+  expect(result.errors?.some(e => e.message?.includes('type'))).toBe(true);
+});
+
+test('OB3 TermsOfUse minimal sample passes schema validation', () => {
+  const credential = createOB3VerifiableCredential({ termsOfUse: { type: 'TermsOfUse' } });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(true);
+});
+
+test('OB3 TermsOfUse missing type fails schema validation', () => {
+  const credential = createOB3VerifiableCredential({ termsOfUse: {} as any });
+  const result = validateOB3Credential(credential);
+  expect(result.valid).toBe(false);
+  expect(result.errors?.some(e => e.message?.includes('type'))).toBe(true);
 });

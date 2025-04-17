@@ -54,8 +54,11 @@ Our implementation validates OB2 and OB3 objects at runtime:
   - Covers all required fields, types, and edge cases for Assertion, BadgeClass, Profile, and supporting types.
   - Comprehensive positive and negative test cases in `test/validation.test.ts` and `test/ob2-guards.test.ts`.
 - **OB3 (Open Badges 3.0):**
-  - Uses AJV for JSON Schema-based validation (see `src/validateWithSchema.ts`).
-  - Validates VerifiableCredential and all nested types against the official OB3 JSON-LD context.
+  - Uses AJV for formal JSON Schema–based validation (see `src/validateWithSchema.ts`).
+  - Validates `VerifiableCredential` against a combined schema:
+    - W3C Verifiable Credential JSON Schema (`https://www.w3.org/2022/credentials/v2/verifiable-credential-schema.json`)
+    - Open Badges 3.0 extension schema (`schemas/ob3-schema.json`)
+  - Covers nested fields and unions: `credentialSchema`, `evidence`, `termsOfUse`, `proof`, arrays vs single items
   - Comprehensive positive and negative test cases in `test/ob3-schema-validation.test.ts` and `test/ob3-guards.test.ts`.
 
 See the test suite for evidence of conformance and edge case coverage.
@@ -85,8 +88,8 @@ const issuerWithImage: OB3.Issuer = {
   image: {
     id: createIRI('https://example.org/logo.png'),
     type: 'Image',
-    caption: 'Logo'
-  }
+    caption: 'Logo',
+  },
 };
 ```
 

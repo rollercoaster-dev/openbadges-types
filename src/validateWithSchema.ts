@@ -1,5 +1,6 @@
 import Ajv from 'ajv';
-import { OB3_CONTEXT } from './schemas';
+import vcCredentialSchema from '../schemas/vc-credential-schema.json';
+import ob3Schema from '../schemas/ob3-schema.json';
 
 // Create a more strict AJV instance for validation
 const ajv = new Ajv({
@@ -7,9 +8,19 @@ const ajv = new Ajv({
   strict: false,
   strictRequired: true, // Require all required properties
   strictTypes: true, // Strict type checking
+  validateSchema: false, // Allow draft-2020-12 schemas without meta schema validation
 });
 
-const validateOB3 = ajv.compile(OB3_CONTEXT);
+// Remove the $schema meta to avoid Ajv meta-schema resolution errors
+if (typeof vcCredentialSchema === 'object' && vcCredentialSchema !== null) {
+  delete (vcCredentialSchema as Record<string, unknown>)['$schema'];
+}
+// Register the VC credential schema so AJV can resolve the W3C $ref
+ajv.addSchema(vcCredentialSchema);
+// Register the OB3 schema so AJV knows its definitions
+ajv.addSchema(ob3Schema);
+// Compile OB3 schema by reference to its $id (so definitions resolve properly)
+const validateOB3 = ajv.compile({ $ref: ob3Schema.$id });
 
 /**
  * Validates an Open Badges 3.0 credential against the schema
