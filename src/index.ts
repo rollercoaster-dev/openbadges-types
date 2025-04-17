@@ -1,21 +1,14 @@
 // Main entry point for the Open Badges Types package
-// Exports all types from v2, v3, and shared modules
+// Exports all types and runtime helpers/guards from v2, v3, and shared modules
 
-// Export shared types
-export * as Shared from './shared';
+import * as Shared from './shared/index';
+import * as OB2 from './v2/index';
+import * as OB3 from './v3/index';
+import * as CompositeGuards from './composite-guards';
+import * as BadgeNormalizer from './badge-normalizer';
 
-// Export Open Badges 2.0 types
-export * as OB2 from './v2';
-
-// Export Open Badges 3.0 types
-export * as OB3 from './v3';
-
-// Export validation utilities
+export { Shared, OB2, OB3, CompositeGuards, BadgeNormalizer };
 export * from './validation';
-
-// Export composite badge utilities
-export * as CompositeGuards from './composite-guards';
-export * as BadgeNormalizer from './badge-normalizer';
 
 // Type to determine which Open Badges version to use
 
@@ -26,8 +19,8 @@ export enum OpenBadgesVersion {
 }
 
 // Import types directly to avoid circular references
-import { Assertion as OB2Assertion } from './v2';
-import { VerifiableCredential as OB3VerifiableCredential } from './v3';
+import { Assertion as OB2Assertion } from './v2/index';
+import { VerifiableCredential as OB3VerifiableCredential } from './v3/index';
 
 // Helper type for version-specific badge operations
 export type VersionedBadge<T extends OpenBadgesVersion> = T extends OpenBadgesVersion.V2
