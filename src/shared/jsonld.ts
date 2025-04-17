@@ -44,6 +44,10 @@ export function isJsonLdArray<T>(
   value: unknown,
   itemGuard?: (item: unknown) => item is T
 ): value is JsonLdArray<T> {
+  if (value === null || value === undefined) {
+    return false;
+  }
+
   if (Array.isArray(value)) {
     return itemGuard ? value.every(item => itemGuard(item)) : true;
   }

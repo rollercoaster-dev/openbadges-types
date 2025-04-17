@@ -10,6 +10,7 @@ import * as BadgeNormalizer from './badge-normalizer';
 export { Shared, OB2, OB3, CompositeGuards, BadgeNormalizer };
 export * from './validation';
 export * from './type-guards';
+export * from './utils';
 
 // Type to determine which Open Badges version to use
 
