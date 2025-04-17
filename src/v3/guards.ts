@@ -1,4 +1,4 @@
-import { isJsonLdObject, hasJsonLdType } from '../shared';
+import { isJsonLdObject, hasJsonLdType, hasJsonLdContext, VCContext, OB3Context } from '../shared';
 import {
   VerifiableCredential,
   Issuer,
@@ -13,6 +13,7 @@ import {
   CredentialStatus,
   RefreshService,
   TermsOfUse,
+  IdentityObject,
 } from './index';
 
 /**
@@ -27,6 +28,14 @@ export function isVerifiableCredential(value: unknown): value is VerifiableCrede
 
   // Check for required properties
   if (!hasJsonLdType(value, 'VerifiableCredential')) {
+    return false;
+  }
+
+  // Check for required contexts
+  // VC should have both the VC context and the OB3 context
+  const hasVCContext = hasJsonLdContext(value, VCContext);
+  const hasOB3Context = hasJsonLdContext(value, OB3Context);
+  if (!hasVCContext || !hasOB3Context) {
     return false;
   }
 
@@ -49,7 +58,41 @@ export function isIssuer(value: unknown): value is Issuer {
   }
 
   // Check for required properties
-  return 'id' in value;
+  if (!('id' in value) || !('name' in value)) {
+    return false;
+  }
+
+  // Check for Profile type
+  if (!hasJsonLdType(value, 'Profile')) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Type guard to check if a value is an OB3 IdentityObject
+ * @param value The value to check
+ * @returns True if the value is a valid OB3 IdentityObject, false otherwise
+ */
+export function isIdentityObject(value: unknown): value is IdentityObject {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  // Check for required properties
+  if (!('identityHash' in value) || typeof value.identityHash !== 'string') {
+    return false;
+  }
+
+  // If hashed is true, salt is required
+  if ('hashed' in value && value.hashed === true) {
+    if (!('salt' in value) || typeof value.salt !== 'string') {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 /**
@@ -76,8 +119,17 @@ export function isAchievement(value: unknown): value is Achievement {
     return false;
   }
 
+  // Check for Achievement type
+  if (!hasJsonLdType(value, 'Achievement')) {
+    return false;
+  }
+
   // Check for required properties
-  return 'name' in value;
+  if (!('id' in value) || !('name' in value)) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
@@ -109,7 +161,19 @@ export function isEvidence(value: unknown): value is Evidence {
     return false;
   }
 
-  // No specific required properties for Evidence
+  // Check for type if present
+  if ('type' in value) {
+    const type = value.type;
+    if (Array.isArray(type)) {
+      // If it's an array, at least one element should be 'Evidence'
+      if (!type.includes('Evidence')) {
+        return false;
+      }
+    } else if (typeof type === 'string' && type !== 'Evidence') {
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -123,7 +187,24 @@ export function isCriteria(value: unknown): value is Criteria {
     return false;
   }
 
-  // No specific required properties for Criteria
+  // Check for type if present
+  if ('type' in value) {
+    const type = value.type;
+    if (Array.isArray(type)) {
+      // If it's an array, at least one element should be 'Criteria'
+      if (!type.includes('Criteria')) {
+        return false;
+      }
+    } else if (typeof type === 'string' && type !== 'Criteria') {
+      return false;
+    }
+  }
+
+  // Check for narrative if present
+  if ('narrative' in value && typeof value.narrative !== 'string') {
+    return false;
+  }
+
   return true;
 }
 
