@@ -15,7 +15,7 @@ import {
   filterBadgesBySearchTerm,
   sortBadges,
   groupBadges,
-  validateBadge
+  validateBadge,
 } from '../src';
 
 import { createOB2Assertion, createOB3VerifiableCredential } from './helpers';
@@ -49,10 +49,12 @@ describe('Utility Functions', () => {
 
   describe('JSON-LD Utilities', () => {
     test('isJsonLdObject should correctly identify JSON-LD objects', () => {
-      expect(isJsonLdObject({
-        '@context': 'https://w3id.org/openbadges/v2',
-        type: 'Assertion'
-      })).toBe(true);
+      expect(
+        isJsonLdObject({
+          '@context': 'https://w3id.org/openbadges/v2',
+          type: 'Assertion',
+        })
+      ).toBe(true);
       expect(isJsonLdObject({})).toBe(false);
       expect(isJsonLdObject(null)).toBe(false);
     });
@@ -66,7 +68,7 @@ describe('Utility Functions', () => {
     test('hasJsonLdType should correctly check for JSON-LD types', () => {
       const ob2Badge = createOB2Assertion();
       const ob3Badge = createOB3VerifiableCredential();
-      
+
       expect(hasJsonLdType(ob2Badge, 'Assertion')).toBe(true);
       expect(hasJsonLdType(ob3Badge, 'VerifiableCredential')).toBe(true);
       expect(hasJsonLdType(ob2Badge, 'BadgeClass')).toBe(false);
@@ -75,7 +77,7 @@ describe('Utility Functions', () => {
     test('hasJsonLdContext should correctly check for JSON-LD contexts', () => {
       const ob2Badge = createOB2Assertion();
       const ob3Badge = createOB3VerifiableCredential();
-      
+
       expect(hasJsonLdContext(ob2Badge, OB2Context)).toBe(true);
       expect(hasJsonLdContext(ob3Badge, VCContext)).toBe(true);
       expect(hasJsonLdContext(ob3Badge, OB3Context)).toBe(true);
@@ -87,7 +89,7 @@ describe('Utility Functions', () => {
     test('normalizeBadge should normalize a badge to a common format', () => {
       const ob2Badge = createOB2Assertion();
       const normalizedBadge = normalizeBadge(ob2Badge);
-      
+
       expect(normalizedBadge).toHaveProperty('id');
       expect(normalizedBadge).toHaveProperty('type', 'OB2');
       expect(normalizedBadge).toHaveProperty('name');
@@ -99,7 +101,7 @@ describe('Utility Functions', () => {
       const ob2Badge = createOB2Assertion();
       const ob3Badge = createOB3VerifiableCredential();
       const normalizedBadges = normalizeBadges([ob2Badge, ob3Badge]);
-      
+
       expect(normalizedBadges).toHaveLength(2);
       expect(normalizedBadges[0]).toHaveProperty('type', 'OB2');
       expect(normalizedBadges[1]).toHaveProperty('type', 'OB3');
@@ -109,7 +111,7 @@ describe('Utility Functions', () => {
       const ob2Badge = createOB2Assertion();
       const ob3Badge = createOB3VerifiableCredential();
       const normalizedBadges = normalizeBadges([ob2Badge, ob3Badge]);
-      
+
       // This test assumes that one of the badges contains the term "Example"
       const filteredBadges = filterBadgesBySearchTerm(normalizedBadges, 'Example');
       expect(filteredBadges.length).toBeGreaterThan(0);
@@ -119,7 +121,7 @@ describe('Utility Functions', () => {
       const ob2Badge = createOB2Assertion();
       const ob3Badge = createOB3VerifiableCredential();
       const normalizedBadges = normalizeBadges([ob2Badge, ob3Badge]);
-      
+
       const sortedBadges = sortBadges(normalizedBadges, 'type', 'asc');
       expect(sortedBadges[0]).toHaveProperty('type', 'OB2');
       expect(sortedBadges[1]).toHaveProperty('type', 'OB3');
@@ -129,7 +131,7 @@ describe('Utility Functions', () => {
       const ob2Badge = createOB2Assertion();
       const ob3Badge = createOB3VerifiableCredential();
       const normalizedBadges = normalizeBadges([ob2Badge, ob3Badge]);
-      
+
       const groupedBadges = groupBadges(normalizedBadges, 'type');
       expect(groupedBadges).toHaveProperty('OB2');
       expect(groupedBadges).toHaveProperty('OB3');
@@ -142,7 +144,7 @@ describe('Utility Functions', () => {
     test('validateBadge should validate a badge', () => {
       const ob2Badge = createOB2Assertion();
       const result = validateBadge(ob2Badge);
-      
+
       expect(result).toHaveProperty('isValid', true);
       expect(result).toHaveProperty('version', 'OB2');
       expect(result).toHaveProperty('errors');

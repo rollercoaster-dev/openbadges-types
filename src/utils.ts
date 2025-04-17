@@ -5,23 +5,23 @@
 
 // Import utility functions from shared modules
 import { createIRI, createDateTime, isIRI, isDateTime } from './shared/common';
-import { 
-  isJsonLdObject, 
-  isJsonLdArray, 
-  hasJsonLdType, 
+import {
+  isJsonLdObject,
+  isJsonLdArray,
+  hasJsonLdType,
   hasJsonLdContext,
   OB2Context,
   OB3Context,
-  VCContext
+  VCContext,
 } from './shared/jsonld';
 
 // Import badge normalization functions
-import { 
-  normalizeBadge, 
-  normalizeBadges, 
-  filterBadgesBySearchTerm, 
-  sortBadges, 
-  groupBadges 
+import {
+  normalizeBadge,
+  normalizeBadges,
+  filterBadgesBySearchTerm,
+  sortBadges,
+  groupBadges,
 } from './badge-normalizer';
 
 // Import validation functions
@@ -34,7 +34,7 @@ export {
   createDateTime,
   isIRI,
   isDateTime,
-  
+
   // JSON-LD utilities
   isJsonLdObject,
   isJsonLdArray,
@@ -43,14 +43,14 @@ export {
   OB2Context,
   OB3Context,
   VCContext,
-  
+
   // Badge normalization utilities
   normalizeBadge,
   normalizeBadges,
   filterBadgesBySearchTerm,
   sortBadges,
   groupBadges,
-  
+
   // Validation utilities
-  validateBadge
+  validateBadge,
 };
