@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/rollercoaster-dev/openbadges-types/compare/v3.1.0...v3.2.0) (2025-04-17)
+
+
+### Features
+
+* export utility functions for developers ([e9834aa](https://github.com/rollercoaster-dev/openbadges-types/commit/e9834aa3adfb2fdba0322101d41c10c56e8a5c6c))
+
 ## [3.1.0](https://github.com/rollercoaster-dev/openbadges-types/compare/v3.0.2...v3.1.0) (2025-04-17)
 
 
