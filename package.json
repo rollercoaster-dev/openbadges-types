@@ -4,11 +4,18 @@
   "type": "module",
   "description": "TypeScript type definitions for Open Badges 2.0 and 3.0 specifications",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": "./dist/index.js"
     }
   },
   "types": "dist/index.d.ts",
@@ -26,7 +33,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "validate": "pnpm lint && pnpm format:check && pnpm test",
+    "validate": "pnpm lint && pnpm format:check && pnpm test && pnpm validate:package",
+    "validate:package": "pnpm build && npx publint && npx @arethetypeswrong/cli . --pack",
     "prepare": "husky",
     "dev": "tsc --watch",
     "prepublishOnly": "pnpm validate && pnpm build",

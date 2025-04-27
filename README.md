@@ -414,6 +414,39 @@ console.log(OB3_CONTEXT['@context']);
 
 For detailed development instructions, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
+### Package Structure
+
+This package is built to support both CommonJS and ESM environments, with proper TypeScript type definitions for each format:
+
+```json
+{
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": "./dist/index.js"
+    }
+  }
+}
+```
+
+This structure ensures:
+
+- CommonJS consumers get the correct `.cjs` file with `.d.cts` type definitions
+- ESM consumers get the correct `.js` file with `.d.ts` type definitions
+- TypeScript can properly resolve types in both module formats
+
+The package is validated using:
+
+- `publint` - Validates package.json exports and entry points
+- `@arethetypeswrong/cli` - Checks for TypeScript type resolution issues
+
 ### Testing
 
 This package uses Jest for testing. The tests verify that the type definitions correctly match the OpenBadges 2.0 and 3.0 specifications.

@@ -12,6 +12,7 @@ This document provides guidelines and instructions for contributors to the OpenB
 ### Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/rollercoaster-dev/openbadges-types.git
    cd openbadges-types
@@ -93,6 +94,21 @@ To validate the codebase (lint, format check, and test):
 ```bash
 pnpm validate
 ```
+
+### Package Structure Validation
+
+To validate the package structure and ensure it's compatible with both CommonJS and ESM:
+
+```bash
+pnpm validate:package
+```
+
+This runs:
+
+1. `publint` - Validates package.json exports and entry points
+2. `@arethetypeswrong/cli` - Checks for TypeScript type resolution issues
+
+These tools are also integrated into the CI pipeline to ensure the package structure remains correct.
 
 ## Project Structure
 
@@ -185,6 +201,7 @@ This project follows the [Conventional Commits](https://www.conventionalcommits.
 ```
 
 Types include:
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation only changes
@@ -200,6 +217,7 @@ If you're a maintainer:
 
 1. Ensure all tests pass and the build is successful
 2. Run one of the following commands based on the type of release:
+
    ```bash
    # Automatic version bump based on commit messages
    npm run release
@@ -213,6 +231,7 @@ If you're a maintainer:
    npm run release:alpha  # Alpha release
    npm run release:beta   # Beta release
    ```
+
 3. Push the changes and tags to GitHub:
    ```bash
    git push --follow-tags origin main
