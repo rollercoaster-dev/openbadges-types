@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.2](https://github.com/rollercoaster-dev/openbadges-types/compare/v3.2.0...v3.2.2) (2025-04-27)
+
+
+### Bug Fixes
+
+* update package.json exports field for proper TypeScript type resolution ([911717d](https://github.com/rollercoaster-dev/openbadges-types/commit/911717d80ea288ba5232a6fa714747421a23457a))
+
 ## [3.2.0](https://github.com/rollercoaster-dev/openbadges-types/compare/v3.1.0...v3.2.0) (2025-04-17)
 
 
