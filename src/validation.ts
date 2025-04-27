@@ -1,4 +1,6 @@
-import { OB2, OB3, Shared } from './index';
+import * as OB2 from './v2/index';
+import * as OB3 from './v3/index';
+import * as Shared from './shared/index';
 
 /**
  * Result of a badge validation

@@ -6,8 +6,9 @@ import * as OB2 from './v2/index';
 import * as OB3 from './v3/index';
 import * as CompositeGuards from './composite-guards';
 import * as BadgeNormalizer from './badge-normalizer';
+import { Badge } from './composite-guards';
 
-export { Shared, OB2, OB3, CompositeGuards, BadgeNormalizer };
+export { Shared, OB2, OB3, CompositeGuards, BadgeNormalizer, Badge };
 export * from './validation';
 export * from './type-guards';
 export * from './utils';

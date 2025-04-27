@@ -1,4 +1,5 @@
-import { OB2, OB3 } from './index';
+import * as OB2 from './v2/index';
+import * as OB3 from './v3/index';
 
 /**
  * Type representing either an OB2 Assertion or OB3 VerifiableCredential
