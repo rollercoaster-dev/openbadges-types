@@ -24,3 +24,7 @@ coverage/
 
 package-lock.json
 yarn.lock
+
+# External specifications
+openbadges-specification/
+vc-data-model/
