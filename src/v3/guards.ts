@@ -65,10 +65,17 @@ export function isIssuer(value: unknown): value is Issuer {
   // If it has a type property, check if it's 'Profile'
   if ('type' in value) {
     const type = value.type;
+    // Ensure 'type' is either a string or an array of strings
     if (Array.isArray(type)) {
-      return type.includes('Profile');
+      if (type.every(item => typeof item === 'string')) {
+        return type.includes('Profile');
+      } else {
+        return false; // Invalid array contents
+      }
     } else if (typeof type === 'string') {
       return type === 'Profile';
+    } else {
+      return false; // Unexpected type
     }
   }
 
@@ -133,10 +140,17 @@ export function isAchievement(value: unknown): value is Achievement {
   // If it has a type property, check if it's 'Achievement'
   if ('type' in value) {
     const type = value.type;
+    // Ensure 'type' is either a string or an array of strings
     if (Array.isArray(type)) {
-      return type.includes('Achievement');
+      if (type.every(item => typeof item === 'string')) {
+        return type.includes('Achievement');
+      } else {
+        return false; // Invalid array contents
+      }
     } else if (typeof type === 'string') {
       return type === 'Achievement';
+    } else {
+      return false; // Unexpected type
     }
   }
 
