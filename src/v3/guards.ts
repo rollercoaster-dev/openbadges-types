@@ -53,20 +53,26 @@ export function isVerifiableCredential(value: unknown): value is VerifiableCrede
  * @returns True if the value is a valid OB3 Issuer, false otherwise
  */
 export function isIssuer(value: unknown): value is Issuer {
-  if (!isJsonLdObject(value)) {
+  if (typeof value !== 'object' || value === null) {
     return false;
   }
 
   // Check for required properties
-  if (!('id' in value) || !('name' in value)) {
+  if (!('id' in value) || !('name' in value) || !('url' in value)) {
     return false;
   }
 
-  // Check for Profile type
-  if (!hasJsonLdType(value, 'Profile')) {
-    return false;
+  // If it has a type property, check if it's 'Profile'
+  if ('type' in value) {
+    const type = value.type;
+    if (Array.isArray(type)) {
+      return type.includes('Profile');
+    } else if (typeof type === 'string') {
+      return type === 'Profile';
+    }
   }
 
+  // If no type property or type check failed, still consider it valid if it has the required fields
   return true;
 }
 
@@ -115,12 +121,7 @@ export function isCredentialSubject(value: unknown): value is CredentialSubject 
  * @returns True if the value is a valid OB3 Achievement, false otherwise
  */
 export function isAchievement(value: unknown): value is Achievement {
-  if (!isJsonLdObject(value)) {
-    return false;
-  }
-
-  // Check for Achievement type
-  if (!hasJsonLdType(value, 'Achievement')) {
+  if (typeof value !== 'object' || value === null) {
     return false;
   }
 
@@ -129,6 +130,17 @@ export function isAchievement(value: unknown): value is Achievement {
     return false;
   }
 
+  // If it has a type property, check if it's 'Achievement'
+  if ('type' in value) {
+    const type = value.type;
+    if (Array.isArray(type)) {
+      return type.includes('Achievement');
+    } else if (typeof type === 'string') {
+      return type === 'Achievement';
+    }
+  }
+
+  // If no type property or type check failed, still consider it valid if it has the required fields
   return true;
 }
 
